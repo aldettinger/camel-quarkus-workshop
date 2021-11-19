@@ -1,3 +1,6 @@
+# the part-1 folder as it will be created during the workshop
+/part-1-dev-mode
+
 # Compiled class file
 *.class
 
