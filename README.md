@@ -1,6 +1,7 @@
 # Camel Quarkus Workshop
 
 ## Prerequisites (20 minutes)
+ * Git >= 1.8.3.1
  * JDK 11 installed
  * Maven >= 3.8.1 installed with JAVA_HOME configured appropriately
  * Docker >= 1.13.1 installed
@@ -14,12 +15,17 @@ Maven home: /home/agallice/dev/maven/apache-maven-3.8.1
 Java version: 11.0.11, vendor: AdoptOpenJDK, runtime: /home/dev/.sdkman/candidates/java/11.0.11.hs-adpt
 Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "3.10.0-1160.45.1.el7.x86_64", arch: "amd64", family: "unix"
+
 [dev@camel-quarkus-workshop]$ java --version
 openjdk 11.0.11 2021-04-20
 OpenJDK Runtime Environment AdoptOpenJDK-11.0.11+9 (build 11.0.11+9)
 OpenJDK 64-Bit Server VM AdoptOpenJDK-11.0.11+9 (build 11.0.11+9, mixed mode)
+
 [dev@camel-quarkus-workshop]$ docker --version
 Docker version 1.13.1, build 7f2769b/1.13.1
+
+[dev@camel-quarkus-workshop]$ git --version
+git version 1.8.3.1
 ```
 
 Describing all the ways to have those prerequisites installed is beyond the scope of this workshop, still some useful links could be found below:
@@ -29,14 +35,14 @@ Describing all the ways to have those prerequisites installed is beyond the scop
  * [https://medium.com/@gayanper/sdkman-on-windows-661976238042](https://medium.com/@gayanper/sdkman-on-windows-661976238042)
  * [https://maven.apache.org/guides/getting-started/windows-prerequisites.html](https://maven.apache.org/guides/getting-started/windows-prerequisites.html)
 
-As a last step, let's clone the workshop github project locally in a folder of your choice, let's call this folder  ${CQ_WORKSHOP_DIRECTORY} :
+As a last step, let's clone the workshop github project locally in a folder of your choice, let's call this folder `${CQ_WORKSHOP_DIRECTORY}` :
 
 ```
 cd ${CQ_WORKSHOP_DIRECTORY}
 git clone git@github.com:aldettinger/camel-quarkus-workshop.git 
 ```
 
-Note that during the workshop, you'll have to replace ${CQ_WORKSHOP_DIRECTORY} by the folder you have choosen.
+Note that during the workshop, you'll have to replace `${CQ_WORKSHOP_DIRECTORY}` by the folder you have chosen.
 For instance, one can list the folder present in the workshop folder as below:
 
 ```
@@ -53,7 +59,7 @@ part-5-routes
 part-6-eips
 ```
 
-There is currently no folder starting with "part-1-" ! Well spotted, that's totally fine as we'll create it in the next section.
+There is currently no folder starting with `part-1-` ! Well spotted, that's totally fine as we'll create it in the next section.
 Setting up the requirements should be done now: Congratulations !
 
 ## Quarkus DEV mode (20 minutes)
@@ -368,14 +374,94 @@ Unix users could find the command `ps -e -o rss,comm,args | grep "part-3-native-
 A big congrats for having learn the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
 That's no big deal for the rest of the workshop as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
 
-## Camel Quarkus Routes (@TODO minutes)
+## Camel Quarkus Routes (15 minutes)
 
-Camel allow to consume messages from 300+ technologies and to produce them to 300+ technologies.
-Let's have a base project with some holes to be completed ?
-+ like 'extends RouteBuilder'
-+ another hole in XML, or in application.properties to load the XML ?
+When facing a typical integration challenge, one first needs to extract a **message** from a **source system**.
+The content of the **message** may need to be transformed and finally sent to a **target system**.
+With Camel, facing such a typical integration challenge is done by implementing a **route**.
 
-The route logic could be very simple. from(timer).setBody(...).log.
+So, let's reuse the *DEV terminal* and attempt to build a route, for instance as below:
+
+```
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-4-routes
+mvn quarkus:dev
+```
+
+Some start logs are shown, but nothing more seems to happen.
+From the logs, it should be able to locate the routes startup summary, like below:
+
+```
+INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup summary (total:0 started:0)
+
+```
+
+Indeed, no routes are currently running, that's expected as some TODO items needs to be completed in the code.
+
+Let's review the content of the `src/main/java/org/acme/MyRoutes.java` source file.
+In the `configure()` method, a route is defined as below:
+
+```
+public void configure() {
+  /*TODO-FROM-CAMEL-DOC*/("timer:myTimer")
+      .setBody(constant("Transformed message content"))
+      ./*TODO-FROM-CAMEL-DOC*/("log:myLogCategory");
+}
+```
+
+A Camel route is where the integration flow is defined.
+Let's find the documentation explaining this concept in order to replace the `/*TODO-FROM-CAMEL-DOC*/` sections in the code above.
+The route concept is not specific to Camel on Quarkus as it can also be used with Camel on Osgi, Camel on Spring Boot and so on.
+In such a case, we need to look at the [Apache Camel User Manual](https://camel.apache.org/manual/).
+Especially, let's review [the first paragraph in this page](https://camel.apache.org/manual/routes.html) in order to determine the two keywords needed to replace `/*TODO-FROM-CAMEL-DOC*/` in the code.
+
+But in the *DEV terminal*, there is now yet another issue:
+
+```
+method does not override or implement a method from a supertype
+```
+
+Indeed, it's not finished.
+Let's pay attention to the class declaration in the file `src/main/java/org/acme/MyRoutes.java`:
+
+```
+public class MyRoutes /*TODO-FROM-CAMEL-QUARKUS-DOC*/ {
+```
+
+We need to complete the class declaration.
+Indeed, Camel Quarkus needs a bit of information to detect that the `MyRoutes` class need to be bootstrapped.
+Such an information is specific to Camel Quarkus, so it will reside in the [Camel Quarkus documentation](https://camel.apache.org/camel-quarkus/next/index.html).
+Especially, please read the section explaining how to [define a route with the Java DSL](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_java_dsl).
+
+Once the class declaration has been completed, our route is now starting and a new log line is written each second as below:
+
+```
+INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup summary (total:1 started:1)
+...
+2021-11-26 15:34:06,915 INFO  [myLogCategory] (Camel (camel-2) thread #0 - timer://myTimer) Exchange[ExchangePattern: InOnly, BodyType: String, Body: Transformed message content]
+2021-11-26 15:34:07,915 INFO  [myLogCategory] (Camel (camel-2) thread #0 - timer://myTimer) Exchange[ExchangePattern: InOnly, BodyType: String, Body: Transformed message content]
+```
+
+So, that's it ? We have faced an integration challenge and implemented a route ?
+Sort of, it's just an example to start gently.
+Talking with Camel words, we have defined a route **consuming messages** from a **source system** (here it's a timer).
+The content of each message is then transformed and **produced** to a **target system** (here it's a logger).
+
+At this stage, it's time to stop the Camel Quarkus route in the *DEV terminal*, for instance by hitting `CTRL+C`:
+
+```
+2021-11-26 16:47:02,638 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Apache Camel 3.12.0 (camel-3) shutting down
+2021-11-26 16:47:02,639 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Routes shutdown summary (total:1 stopped:1)
+2021-11-26 16:47:02,640 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread)     Stopped route2 (timer://myTimer)
+2021-11-26 16:47:02,641 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Apache Camel 3.12.0 (camel-3) shutdown in 3ms (uptime:10s652ms)
+2021-11-26 16:47:02,642 INFO  [io.quarkus] (Shutdown thread) part-4-routes stopped in 0.005s
+```
+Notice the route shutdown summary. There was a single route running, and it's now stopped.
+
+We'll see more involved examples in the coming sections.
+But at this stage, let's simply remember the layout of a typical route and how to make Camel Quarkus bootstrap it.
+
+Of course, there are more bootstrap options possible.
+When you have time, we invite you to implement a route using the XML DSL helped with [this link](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_xml_dsl).
 
 ## Camel Quarkus Extensions (@TODO minutes)
 
