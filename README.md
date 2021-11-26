@@ -1,6 +1,6 @@
 # Camel Quarkus Workshop
 
-## Prerequisites
+## Prerequisites (20 minutes)
  * JDK 11 installed
  * Maven >= 3.8.1 installed with JAVA_HOME configured appropriately
  * Docker >= 1.13.1 installed
@@ -66,7 +66,7 @@ In the *DEV terminal*, type commands as below:
 
 ```
 cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
-mvn io.quarkus:quarkus-maven-plugin:2.4.2.Final:create
+mvn io.quarkus:quarkus-maven-plugin:2.5.0.Final:create
 ```
 
 We need to specify the artifactId, extensions and code start. For groupId and version, simple press enter as it was done below:
@@ -108,7 +108,7 @@ The next step is to configure our first camel route by creating the file `src/ma
 For instance, it can be done from the *USER terminal*, by typing the following commands:
 
 ```
-cd ${CQ_WORKSHOP_DIRECTORY}/part-1-dev-mode
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-1-dev-mode
 mkdir -p src/main/java/org/acme/
 touch src/main/java/org/acme/MyRoutes.java
 ```
@@ -135,7 +135,7 @@ public class MyRoutes extends RouteBuilder {
 }
 ```
 
-We'll explain a bit more the camel syntax later on.
+We'll explain a bit more the Camel syntax later on.
 But at this stage, it should be enough to know that we have just created a Camel application listening for incoming HTTP requests and answering with an hard-coded response.
 
 Let's test that with your favorite HTTP client. For instance, in the *USER terminal*, type the following command:
@@ -184,26 +184,24 @@ We should see logs stating that the Camel routes are stopping as below:
 ```
 
 That's it for our first contact with the Quarkus DEV mode.
-We have seen that it offer a continuous feedback loop to help with development.
+We have seen that it offers a continuous feedback loop to help with development.
 The DEV mode offers few more features. When you have time, we encourage you to take a look at:
  * [https://quarkus.io/guides/continuous-testing](https://quarkus.io/guides/continuous-testing)
  * [https://quarkus.io/guides/dev-services](https://quarkus.io/guides/dev-services)
 
-@TODO: Only 20 minutes ? Do we add continuous testing ?
-
-## Quarkus JVM mode (@TODO minutes)
+## Quarkus JVM mode (15 minutes)
 
 With the JVM mode, we enter into the core of the Quarkus philosophy.
-The bottom line being that the historical trade-offs used in the JVMs should change as we are now coding the cloud era.
+The bottom line being that the historical trade-offs used in the JVMs should change as we are now coding in the cloud era.
 For instance, in a world of containers, JVM are started and stopped more frequently.
-In this respect, it makes sense to do as much as possible during at build time.
+In this respect, it makes sense to perform as much tasks as possible once and for all at build time.
 
 @TODO: Let's integrate here the schema showing what Quarkus does at build time vs typical Java framework.
 
 Building a Camel Quarkus route in JVM mode is simple. In the *DEV terminal*, type commands as below:
 
 ```
-cd ${CQ_WORKSHOP_DIRECTORY}/part-2-jvm-mode
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-2-jvm-mode
 mvn clean package
 ```
 
@@ -223,7 +221,7 @@ app  lib  quarkus  quarkus-app-dependencies.txt  quarkus-run.jar
 
 Everything needed is here.
 In JVM mode, the application has actually been packaged as a **fast-jar**.
-Indeed, Quarkus has even designed its own packaging format in order to provide faster startup times. @TODO: a link explaining fast-jar woudl be good.
+Indeed, Quarkus has even designed its own packaging format in order to provide faster startup times. @TODO: a link explaining fast-jar would be good.
 so far so good, we can start our Camel route in JVM mode as shown below:
 
 ```
@@ -237,7 +235,7 @@ At this stage, we'll record the startup times. Please locate the two lines that 
 2021-11-19 13:39:23,332 INFO  [io.quarkus] (main) part-2-jvm-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.4.2.Final) started in 0.825s. Listening on: http://0.0.0.0:8080
 ```
 
-Pay attention to the camel start times and also to the Quarkus start time.
+Pay attention to the Camel start time and also to the Quarkus start time.
 You can compare them with your neighbors if you'd like :) But the important part is to remind them for the next section.
 
 Now let's  check that our Camel Quarkus route in JVM mode behaves the same way as in DEV mode.
@@ -260,17 +258,22 @@ Quarkus offers other significant improvements, for instance related to startup m
 When you have time, we encourage you to have a look at the RSS memory used on startup.
 Unix users could find the command `ps -e -o rss,comm,args | grep "quarkus-run.jar$"` useful.
 
+As a last step, we just need to stop our Camel Quarkus. For instance, by hitting CTRL+C.
+
 Well done for the JVM mode ! Let's tackle a more tricky part now. In next section, we'll try to compile our Camel Quarkus route as a native executable.
 
-## Quarkus native mode (@TODO minutes)
+## Break (5 minutes)
+Let's have a break as the next part is a bit tricky
+
+## Quarkus native mode (20 minutes)
 
 The Quarkus philosophy is to move as much tasks as possible at build time.
 In this respect, the native mode is going one step further in this direction.
 The native mode is based on a different kind of virtual machine, namely the [SubstrateVM](https://docs.oracle.com/en/graalvm/enterprise/20/docs/reference-manual/native-image/SubstrateVM/#:~:text=Substrate%20VM%20is%20an%20internal,JVM%20Compiler%20Interface%20(JVMCI).) from the [GraalVM project](https://www.graalvm.org/).
 
-In native mode, a lot more happen ahead of time. For instance, most Java static initializers could be expected to be executed once and for all at build time.
+In native mode, a lot more happen ahead of time. For instance, most Java static initializers could be expected to be executed once and for all during the build.
 Indeed, most Java static initializers are performing some tasks that are not runtime dependent.
-So, why should we wait the last minute to perform those tasks.
+So, why should we wait the last minute to perform those tasks ?
 
 Completing the setup to enable native compilation could be a bit tricky during a workshop.
 So, we'll have a try with [Creating a Linux executable without GraalVM installed](https://quarkus.io/guides/building-native-image#container-runtime).
@@ -278,12 +281,12 @@ So, we'll have a try with [Creating a Linux executable without GraalVM installed
 In the *DEV terminal*, let's trigger a native build by activating the `native` profile:
 
 ```
-cd ${CQ_WORKSHOP_DIRECTORY}/part-3-native-mode
-mvn clean package -Pnative -Dquarkus.native.container-build=true
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-3-native-mode
+mvn clean package -Dnative -Dquarkus.native.container-build=true
 ```
 
-That's taking time. Docker may trigger the download of few images but this should be done only once.
-Once the download has completed, we still have more time to wait as the native build is triggered and produces logs like below:
+That's taking time. Docker may trigger the download of few images but this should occur only once.
+When the download has completed, we still have more time to wait as the native build is triggered and produces logs like below:
 
 ```
 [part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]    classlist:   4,543.25 ms,  1.19 GB
@@ -306,7 +309,7 @@ Once the download has completed, we still have more time to wait as the native b
 ```
 
 It looks that there are really a lot of things happening at build time and it's taking long.
-This is one of the downside of the native mode: slow build, hard debugging, no just-in-compilation of Java code and few developments trick could be needed when using Java dynamic features like reflection.
+This is one of the downsides when using the native mode: slow build, hard debugging, no just-in-compilation of Java code and few developments trick could be needed when using Java dynamic features like reflection.
 
 Let's see what we have produced, for instance by typing the command below
 
@@ -321,7 +324,7 @@ It should show a native executable a bit like this one:
 ```
 
 The size of 57 MiB may seems big for a Java application but note that no JDK is needed to run this.
-Indeed, during the long native compilation phase, all necessary parts from the JDK and third party libraries have been selected and added to the native executable.
+Indeed, during the long native compilation phase, all necessary parts from the JDK and third party libraries have been embedded into the native executable.
 
 Now let's start our Camel Quarkus native route with the following command:
 
@@ -337,9 +340,9 @@ Like we did in JVM mode, we'll record the startup times. Please locate the two l
 ```
 
 Please pay attention at the Camel init/start time and also the Quarkus start time.
-Now you may think that the long native compilation may be worth the challenge in some situation where quick container starting is required.
+Now you may think that the long native compilation may be worth the challenge in some situation where a quick JVM start is required.
 
-Now let's  check that our Camel Quarkus route in native mode behaves the same way as in DEV and JVM mode.
+Next, let's  check that our Camel Quarkus route in native mode behaves the same way as in DEV and JVM mode.
 In the *USER terminal*, use you favorite HTTP client, for instance:
 
 ```
@@ -353,16 +356,17 @@ We should have the same answer as in part 1 and 2:
 Hello Camel Quarkus from the 3h workshop room !
 ```
 
-Reaching this point, we have scratched the surface of the JVM and native mode and should retain few lessons.
+Reaching this point, we have scratched the surface of the JVM and native mode?
+Let's retain few lessons.
 The application behaves the same in JVM and native mode but the performance profile is not the same.
-The native mode and JVM mode are both great but in distinct scenarios.
+The native mode and JVM mode are both great but adapted to distinct scenarios.
 
 There are still a lot of things to know about the native mode.
 When you have time, we encourage you to have a look at the RSS memory used on startup.
-Unix users could find the command `ps -e -o rss,comm,args | grep "quarkus-run.jar$"` useful.
+Unix users could find the command `ps -e -o rss,comm,args | grep "part-3-native-mode.*runner$"` useful.
 
-A big congrats for having learn the native mode ! It was a tricky part and maybe some were not able to build the native executable.
-From now on, we'll only use the DEV mode as it will be sufficient to show the Camel concepts.
+A big congrats for having learn the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
+That's no big deal for the rest of the workshop as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
 
 ## Camel Quarkus Routes (@TODO minutes)
 
@@ -386,5 +390,11 @@ At the end of the day, participants only change extensions. We could have DEV se
 Then we add some eips => from/eips/to ?
 
 ## TODO: more sections needed ? camel-bean ? some cdi tricks ?
++ Use mvnw instead of maven
++ Maybe a section with intergration tests
++ We need to know what really means by (build:0ms init:35ms start:7ms)
++ Ask a MAC user to terst the container build
++ Maybe container build is triggered automatically when native-image is not installed
++ 5 minutes pause each hours
 
 ## Satisfation form ? Reward/Goodies ?
