@@ -620,6 +620,8 @@ Then we add some eips => from/eips/to ?
 + We need to know what really means by (build:0ms init:35ms start:7ms)
 + Ask a MAC user to terst the container build
 + Maybe container build is triggered automatically when native-image is not installed
++ Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster
++ Complete pre-requisites with as most pre-download as possible docker images, maven deps...
 + 5 minutes pause each hours
 
 ## Satisfation form ? Reward/Goodies ?
