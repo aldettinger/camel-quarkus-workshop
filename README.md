@@ -64,7 +64,7 @@ part-6-eips
 There is currently no folder starting with `part-1-` ! Well spotted, that's totally fine as we'll create it in the next section.
 Setting up the requirements should be done now: Congratulations !
 
-## Quarkus DEV mode (20 minutes)
+## Part 1 - Quarkus DEV mode (20 minutes)
 
 In this section, we'll have our first contact with Quarkus. Indeed, Quarkus offers multiple modes DEV, JVM, native... for multiple purposes.
 The idea behind the DEV mode is to simplify developers life. Better than words, let's start the creation of a Camel Quarkus project.
@@ -197,7 +197,7 @@ The DEV mode offers few more features. When you have time, we encourage you to t
  * [https://quarkus.io/guides/continuous-testing](https://quarkus.io/guides/continuous-testing)
  * [https://quarkus.io/guides/dev-services](https://quarkus.io/guides/dev-services)
 
-## Quarkus JVM mode (15 minutes)
+## Part 2 - Quarkus JVM mode (15 minutes)
 
 With the JVM mode, we enter into the core of the Quarkus philosophy.
 The bottom line being that the historical trade-offs used in the JVMs should change as we are now coding in the cloud era.
@@ -271,9 +271,10 @@ As a last step, we just need to stop our Camel Quarkus. For instance, by hitting
 Well done for the JVM mode ! Let's tackle a more tricky part now. In next section, we'll try to compile our Camel Quarkus route as a native executable.
 
 ## Break (5 minutes)
+
 Let's have a break as the next part is a bit tricky
 
-## Quarkus native mode (20 minutes)
+## Part 3 - Quarkus native mode (20 minutes)
 
 The Quarkus philosophy is to move as much tasks as possible at build time.
 In this respect, the native mode is going one step further in this direction.
@@ -376,7 +377,7 @@ Unix users could find the command `ps -e -o rss,comm,args | grep "part-3-native-
 A big congrats for having learn the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
 That's no big deal for the rest of the workshop as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
 
-## Camel Quarkus Routes (15 minutes)
+## Part 4 - Camel Quarkus Routes (15 minutes)
 
 When facing a typical integration challenge, one first needs to extract a **message** from a **source system**.
 The content of the **message** may need to be transformed and finally sent to a **target system**.
@@ -465,7 +466,7 @@ But at this stage, let's simply remember the layout of a typical route and how t
 Of course, there are more bootstrap options possible.
 When you have time, we invite you to implement a route using the XML DSL helped with [this link](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_xml_dsl).
 
-## Camel Quarkus Extensions (30 minutes)
+## Part 5 - Camel Quarkus Extensions (30 minutes)
 
 In the previous section, we have seen that a Camel route offers primitives to consume and produce messages.
 Actually, when facing integration challenges, those messages need to be consumed from/to a lot of disparate technologies.
@@ -608,20 +609,142 @@ When you have time, we encourage you to read the pages below:
 ## Break (5 minutes)
 That's a lot of content. Let's have a break before the final part.
 
-50 MINUTES LEFT
+## Part 6 - Camel Quarkus Enterprise Integration Patterns (25 minutes)
 
-## Camel Quarkus Enterprise Integration Patterns (@TODO minutes)
+Being able to consume/produce messages from/to a lot of technologies is not always sufficient.
+In order to face any integration challenges, one would need to have a sort of recipe book describing common integration patterns and how to apply them.
+This is exactly the purpose of the [Enterprise Integration Patterns](https://www.enterpriseintegrationpatterns.com/) book.
+And the good news is that Camel provide some [implementations of those Enterprise Integration Patterns](https://camel.apache.org/components/3.13.x/eips/enterprise-integration-patterns.html).
+From now on, let's call them EIPs.
 
-Then we add some eips => from/eips/to ?
+### Let's review the exercise layout
+
+Let's navigate to the part 6 folder.
+For instance, in the *DEV terminal*, type as below:
+
+```
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-6-eips
+mvn clean quarkus:dev
+```
+
+The application starts and we see some logs as below:
+
+```
+2021-12-16 14:39:35,019 INFO  [route2] (Camel (camel-1) thread #0 - timer://produceEventsSteadily) Received event with headers[id=1, importance=2] AND body[20]
+2021-12-16 14:39:36,014 INFO  [route2] (Camel (camel-1) thread #0 - timer://produceEventsSteadily) Received event with headers[id=3, importance=3] AND body[30]
+2021-12-16 14:39:37,014 INFO  [route2] (Camel (camel-1) thread #0 - timer://produceEventsSteadily) Received event with headers[id=2, importance=1] AND body[10]
+```
+
+Indeed, for the purpose of this exercise, the application is producing 3 consecutive events each 3 seconds.
+Please note that those events have a header named `id`, another header named `importance` and finally a body.
+Both the headers and the body have an integer value.
+In Camel, there are more than just headers and body, but describing all those attributes is not in scope for this exercise.
+At this stage, let's just keep in mind that when data flows through a Camel route, we have an exchange, containing a message, that can contain a body and some headers.
+
+Those events are actually flowing through a route described in the `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` file that look as below:
+
+```
+from("direct:events-source")/*@TODO: Use some eips here*/.to("direct:events-sink");
+```
+
+You may notice the `@TODO` section, this is where we will use some EIPs.
+
+### Let's avoid receiving uninteresting messages
+
+First exercise, please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` in order to avoid receiving messages with importance `2` or `3`.
+
+Don't know where to start in order to write such a route, let's answer few questions:
+ + Where in the Camel documentation could I find the list of Camel EIP implementations ?
+ + Amongst those EIPs, which one can be used to avoid receiving uninteresting messages ?
+ + In the EIP specific documentation, is there an example of how to filter based on a message header ?
+ + In our events, what header name and integer value would we like to filter ?
+
+At the end of the day, one should be able to create such a route with a simple line of code in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java`.
+When the route is correctly setup, the application will print logs only for events with importance `3` as below:
+
+```
+2021-12-16 16:13:03,501 INFO  [route5] (Camel (camel-2) thread #1 - timer://produceEventsSteadily) Received event with headers[id=3, importance=3] AND body[30]
+2021-12-16 16:13:06,501 INFO  [route5] (Camel (camel-2) thread #1 - timer://produceEventsSteadily) Received event with headers[id=6, importance=3] AND body[30]
+2021-12-16 16:13:09,502 INFO  [route5] (Camel (camel-2) thread #1 - timer://produceEventsSteadily) Received event with headers[id=9, importance=3] AND body[30]
+```
+
+Well done, we have been able to filter messages using a single line of code.
+
+### Let's put events back into the correct order
+
+Now the owner of the destination system changed its mind.
+The expected output is no more to filter events according to importance.
+Instead, inside a group of 3 events fired at the same moment, we would like those events to arrive in the correct order based on the header named `id`.
+
+Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` in order to receive events according to the `id` ascending order.
+
+Don't know where to start in order to write such a route, let's answer few questions:
+ + What Camel EIP can be used to put messages back into the correct order ?
+ + Is there an example to change the order according to the value of the message body ?
+ + How could this example be adapted to change the order according to the value of a header ?
+ + In our events, what is the name of the header that define the correct message ordering ?
+
+At the end of the day, one should be able to create such a route with a simple line of code in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java`.
+When the route is correctly setup, the application will print 3 log lines at a time. And inside those 3 log lines, `id` is always growing as below:
+
+```
+2021-12-16 16:24:07,846 INFO  [route2] (Camel (camel-1) thread #0 - Batch Sender) Received event with headers[id=1, importance=2] AND body[20]
+2021-12-16 16:24:07,847 INFO  [route2] (Camel (camel-1) thread #0 - Batch Sender) Received event with headers[id=2, importance=1] AND body[10]
+2021-12-16 16:24:07,848 INFO  [route2] (Camel (camel-1) thread #0 - Batch Sender) Received event with headers[id=3, importance=3] AND body[30]
+```
+
+Nice to see those group of 3 events treated in the correct order.
+
+### Let's group and sum events
+
+Finally, in our never stopping world, the context has changed and there is yet another expectation.
+Now, independent of events having being fired at the same time or not, we would like to group sequences of 3 messages having the same importance.
+And then compute the sum of the 3 corresponding bodies.
+
+Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` to group messages by importance and sum the bodies.
+
+Don't know where to start in order to write such a route, let's answer few questions:
+ + What Camel EIP can be used to combine individual messages to processed them as a whole ?
+ + What do we need to write after the `from` statement in order to use this eip ?
+ + What is the correlation expression ? Do we correlate on header or body ?
+ + How do we define an aggregation strategy ? What interface should we implement ?
+ + What would be the value of the `oldExchange` parameter when aggregating the first exchange ?
+ + What completion criteria should we use to delimit our group of messages ? completionTimeout ? completionSize ?
+
+At the end, it should take up a ten of line of codes.
+An output as below should be produced:
+
+```
+2021-12-16 16:38:58,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=7, importance=2] AND body[60]
+2021-12-16 16:38:59,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=9, importance=3] AND body[90]
+2021-12-16 16:39:00,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=8, importance=1] AND body[30]
+2021-12-16 16:39:07,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=16, importance=2] AND body[60]
+2021-12-16 16:39:08,528 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=18, importance=3] AND body[90]
+2021-12-16 16:39:09,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=17, importance=1] AND body[30]
+```
+
+Looking at the first log, we see a message with importance = 2 and body = 60 which is an aggregate of 3 events with importance = 2 and body = 20.
+
+Well done ! So far, we have seen how some easy integration challenges can be implemented quickly with the help of Camel EIP implementations.
+And by taping into lower level details, Camel is even able to handle more complex cases.
+
+Of course there are a lot more EIPs implemented in Camel.
+When you have time, we invite you to take a look at:
+ + [The content based router EIP](https://camel.apache.org/components/3.13.x/eips/choice-eip.html)
+ + [The dynamic router EIP](https://camel.apache.org/components/3.13.x/eips/dynamicRouter-eip.html)
+ + [The kamelet EIP](https://camel.apache.org/components/3.13.x/eips/kamelet-eip.html)
+
+## Part 7 - Camel Quarkus and the Kamelets ? (25 minutes)
+@TODO: 25 MINUTES LEFT at this level
 
 ## TODO: more sections needed ? camel-bean ? some cdi tricks ?
 + Use mvnw instead of maven
-+ Maybe a section with intergration tests
 + We need to know what really means by (build:0ms init:35ms start:7ms)
-+ Ask a MAC user to terst the container build
++ Ask a MAC user to test the container build
 + Maybe container build is triggered automatically when native-image is not installed
 + Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster
 + Complete pre-requisites with as most pre-download as possible docker images, maven deps...
-+ 5 minutes pause each hours
++ Camel version hard-coded in some links like (https://camel.apache.org/components/3.13.x/eips/kamelet-eip.html) do we keep that ? Could we do better ?
++ Upgrade to latest camel-quarkus version ?
 
 ## Satisfation form ? Reward/Goodies ?
