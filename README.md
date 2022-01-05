@@ -2,18 +2,19 @@
 
 ## Prerequisites (20 minutes)
 
- * Git >= 1.8.3.1
- * A Java IDE or at least a text editor
+ * Git >= 1.8.3.1 advised
+ * A Java IDE like eclipse or at least a text editor like vim
  * JDK 11 installed
- * Maven >= 3.8.1 installed with JAVA_HOME configured appropriately
- * Docker >= 1.13.1 installed
+ * Maven >= 3.8.1 advised, with JAVA_HOME configured appropriately
+ * A favorite HTTP client like curl
+ * Docker >= 1.13.1 installed (No big deal if not possible as it's needed only in part-3)
 
  Let's check that those prerequisites are installed, for instance like below:
 
 ```
 [dev@camel-quarkus-workshop]$ mvn --version
 Apache Maven 3.8.1 (05c21c65bdfed0f71a2f2ada8b84da59348c4c5d)
-Maven home: /home/agallice/dev/maven/apache-maven-3.8.1
+Maven home: /home/user/dev/maven/apache-maven-3.8.1
 Java version: 11.0.11, vendor: AdoptOpenJDK, runtime: /home/dev/.sdkman/candidates/java/11.0.11.hs-adpt
 Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "3.10.0-1160.45.1.el7.x86_64", arch: "amd64", family: "unix"
@@ -41,7 +42,7 @@ As a last step, let's clone the workshop github project locally in a folder of y
 
 ```
 cd ${CQ_WORKSHOP_DIRECTORY}
-git clone git@github.com:aldettinger/camel-quarkus-workshop.git 
+git clone https://github.com/aldettinger/camel-quarkus-workshop.git
 ```
 
 Note that during the workshop, you'll have to replace `${CQ_WORKSHOP_DIRECTORY}` by the folder you have chosen.
@@ -74,7 +75,7 @@ In the *DEV terminal*, type commands as below:
 
 ```
 cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
-mvn io.quarkus:quarkus-maven-plugin:2.5.0.Final:create
+mvn io.quarkus:quarkus-maven-plugin:2.6.1.Final:create
 ```
 
 We need to specify the artifactId, extensions and code start. For groupId and version, simple press enter as it was done below:
@@ -91,7 +92,7 @@ Let's start the project, for instance:
 
 ```
 cd part-1-dev-mode
-mvn quarkus:dev
+mvn clean quarkus:dev
 ```
 
 Quarkus has just started in DEV mode and print interesting logs like the Camel version, the Quarkus version, start time and so on:
@@ -100,13 +101,14 @@ Quarkus has just started in DEV mode and print interesting logs like the Camel v
  --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
  -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
 --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-2021-11-19 10:04:46,708 INFO  [org.apa.cam.qua.cor.CamelBootstrapRecorder] (Quarkus Main Thread) Bootstrap runtime: org.apache.camel.quarkus.main.CamelMainRuntime
+2022-01-05 14:33:05,889 INFO  [org.apa.cam.qua.cor.CamelBootstrapRecorder] (Quarkus Main Thread) Bootstrap runtime: org.apache.camel.quarkus.main.CamelMainRuntime
 
-2021-11-19 10:04:46,747 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup summary (total:0 started:0)
-2021-11-19 10:04:46,747 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Apache Camel 3.12.0 (camel-1) started in 11ms (build:0ms init:9ms start:2ms)
-2021-11-19 10:04:46,841 INFO  [io.quarkus] (Quarkus Main Thread) part-1-dev-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.4.2.Final) started in 1.955s. Listening on: http://localhost:8080
-2021-11-19 10:04:46,842 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
-2021-11-19 10:04:46,843 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [camel-attachments, camel-core, camel-platform-http, cdi, smallrye-context-propagation, vertx]
+2022-01-05 14:33:05,977 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup (total:1 started:1)
+2022-01-05 14:33:05,978 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread)     Started route1 (platform-http:///cq-http-endpoint)
+2022-01-05 14:33:05,978 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Apache Camel 3.14.0 (camel-1) started in 36ms (build:0ms init:30ms start:6ms)
+2022-01-05 14:33:06,034 INFO  [io.quarkus] (Quarkus Main Thread) part-1-dev-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.6.1.Final) started in 1.481s. Listening on: http://localhost:8080
+2022-01-05 14:33:06,035 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2022-01-05 14:33:06,035 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [camel-attachments, camel-core, camel-platform-http, cdi, smallrye-context-propagation, vertx]
 
 ```
 
@@ -158,7 +160,7 @@ We should see the HTTP response as below:
 Hello Camel Quarkus in DEV mode !
 ```
 
-Now let's update the hard-coded response to `Hello Camel Quarkus from the 3h workshop room !`:
+Now, in `src/main/java/org/acme/MyRoutes.java` let's update the hard-coded response to `Hello Camel Quarkus from the 3h workshop room !`:
 
 ```
 from("platform-http:/cq-http-endpoint").setBody(constant("Hello Camel Quarkus from the 3h workshop room !"));
@@ -180,15 +182,8 @@ Now, let's stop the quarkus DEV mode by pressing `q` or `CTRL+C` in the *DEV ter
 We should see logs stating that the Camel routes are stopping as below:
 
 ```
-2021-11-19 13:06:22,338 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes shutdown summary (total:1 stopped:1)
-2021-11-19 13:06:22,338 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread)     Stopped route1 (platform-http:///cq-http-endpoint)
-...
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  6.668 s
-[INFO] Finished at: 2021-11-19T13:06:22+01:00
-[INFO] ------------------------------------------------------------------------
+2022-01-05 14:34:34,412 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Routes stopped (total:1 stopped:1)
+2022-01-05 14:34:34,412 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread)     Stopped route2 (platform-http:///cq-http-endpoint)
 ```
 
 That's it for our first contact with the Quarkus DEV mode.
@@ -229,7 +224,7 @@ app  lib  quarkus  quarkus-app-dependencies.txt  quarkus-run.jar
 
 Everything needed is here.
 In JVM mode, the application has actually been packaged as a **fast-jar**.
-Indeed, Quarkus has even designed its own packaging format in order to provide faster startup times. @TODO: a link explaining fast-jar would be good.
+Indeed, Quarkus has even designed its own packaging format in order to [provide faster startup times](https://www.youtube.com/watch?v=ogbMLeU1ogk).
 so far so good, we can start our Camel route in JVM mode as shown below:
 
 ```
@@ -239,8 +234,8 @@ java -jar target/quarkus-app/quarkus-run.jar
 At this stage, we'll record the startup times. Please locate the two lines that looks like below:
 
 ```
-2021-11-19 13:39:23,254 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.12.0 (camel-1) started in 42ms (build:0ms init:35ms start:7ms)
-2021-11-19 13:39:23,332 INFO  [io.quarkus] (main) part-2-jvm-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.4.2.Final) started in 0.825s. Listening on: http://0.0.0.0:8080
+2022-01-05 14:44:54,366 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.14.0 (camel-1) started in 52ms (build:0ms init:42ms start:10ms)
+2022-01-05 14:44:54,460 INFO  [io.quarkus] (main) part-2-jvm-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.6.1.Final) started in 0.855s. Listening on: http://0.0.0.0:8080
 ```
 
 Pay attention to the Camel start time and also to the Quarkus start time.
@@ -298,27 +293,27 @@ That's taking time. Docker may trigger the download of few images but this shoul
 When the download has completed, we still have more time to wait as the native build is triggered and produces logs like below:
 
 ```
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]    classlist:   4,543.25 ms,  1.19 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]        (cap):     703.18 ms,  1.19 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]        setup:   3,220.96 ms,  1.19 GB
-15:57:42,350 INFO  [org.jbo.threads] JBoss Threads version 3.4.2.Final
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]     (clinit):     869.01 ms,  4.96 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]   (typeflow):  36,279.52 ms,  4.96 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]    (objects):  33,069.17 ms,  4.96 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]   (features):   1,246.40 ms,  4.96 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]     analysis:  73,793.24 ms,  4.96 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]     universe:   3,843.29 ms,  4.96 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]      (parse):   3,443.30 ms,  4.96 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]     (inline):   5,169.39 ms,  5.11 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]    (compile):  56,585.98 ms,  5.03 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]      compile:  68,176.68 ms,  5.03 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]        image:   7,373.91 ms,  5.51 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]        write:   1,232.55 ms,  4.43 GB
-[part-2-jvm-mode-1.0.0-SNAPSHOT-runner:26]      [total]: 163,172.47 ms,  4.43 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]    classlist:   4,075.68 ms,  1.19 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]        (cap):     787.70 ms,  1.19 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]        setup:   2,916.63 ms,  1.19 GB
+13:53:48,976 INFO  [org.jbo.threads] JBoss Threads version 3.4.2.Final
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]     (clinit):     735.50 ms,  4.19 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]   (typeflow):   4,298.46 ms,  4.19 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]    (objects):  32,772.76 ms,  4.19 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]   (features):   5,024.62 ms,  4.19 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]     analysis:  44,810.36 ms,  4.19 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]     universe:   2,212.09 ms,  4.19 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]      (parse):   8,634.28 ms,  5.17 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]     (inline):   5,664.15 ms,  5.43 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]    (compile):  37,225.29 ms,  6.89 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]      compile:  54,948.06 ms,  6.89 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]        image:   4,534.56 ms,  6.89 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]        write:     772.79 ms,  6.89 GB
+[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]      [total]: 115,210.07 ms,  6.89 GB
 ```
 
 It looks that there are really a lot of things happening at build time and it's taking long.
-This is one of the downsides when using the native mode: slow build, hard debugging, no just-in-compilation of Java code and few developments trick could be needed when using Java dynamic features like reflection.
+This is one of the downsides when using the native mode: slow builds, hard debugging, no just-in-compilation of Java code and few developments trick could be needed when using Java dynamic features like reflection.
 
 Let's see what we have produced, for instance by typing the command below
 
@@ -329,10 +324,10 @@ ls -al target/*runner
 It should show a native executable a bit like this one:
 
 ```
--rwxr-xr-x. 1 devuser devuser 60137560 Nov 19 18:59 target/part-3-native-mode-1.0.0-SNAPSHOT-runner
+-rwxr-xr-x. 1 user user 56251784 Jan  5 14:55 target/part-3-native-mode-1.0.0-SNAPSHOT-runner
 ```
 
-The size of 57 MiB may seems big for a Java application but note that no JDK is needed to run this.
+The size of 54 MiB may seems big for a Java application but note that no JDK is needed to run this.
 Indeed, during the long native compilation phase, all necessary parts from the JDK and third party libraries have been embedded into the native executable.
 
 Now let's start our Camel Quarkus native route with the following command:
@@ -344,8 +339,8 @@ target/*runner
 Like we did in JVM mode, we'll record the startup times. Please locate the two lines that looks like below:
 
 ```
-2021-11-19 17:08:31,169 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.12.0 (camel-1) started in 1ms (build:0ms init:1ms start:0ms)
-2021-11-19 17:08:31,173 INFO  [io.quarkus] (main) part-3-native-mode 1.0.0-SNAPSHOT native (powered by Quarkus 2.4.2.Final) started in 0.021s. Listening on: http://0.0.0.0:8080
+2022-01-05 14:58:17,729 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.14.0 (camel-1) started in 1ms (build:0ms init:1ms start:0ms)
+2022-01-05 14:58:17,734 INFO  [io.quarkus] (main) part-3-native-mode 1.0.0-SNAPSHOT native (powered by Quarkus 2.6.1.Final) started in 0.026s. Listening on: http://0.0.0.0:8080
 ```
 
 Please pay attention at the Camel init/start time and also the Quarkus start time.
@@ -365,7 +360,7 @@ We should have the same answer as in part 1 and 2:
 Hello Camel Quarkus from the 3h workshop room !
 ```
 
-Reaching this point, we have scratched the surface of the JVM and native mode?
+Reaching this point, we have scratched the surface of the JVM and native mode.
 Let's retain few lessons.
 The application behaves the same in JVM and native mode but the performance profile is not the same.
 The native mode and JVM mode are both great but adapted to distinct scenarios.
@@ -374,8 +369,8 @@ There are still a lot of things to know about the native mode.
 When you have time, we encourage you to have a look at the RSS memory used on startup.
 Unix users could find the command `ps -e -o rss,comm,args | grep "part-3-native-mode.*runner$"` useful.
 
-A big congrats for having learn the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
-That's no big deal for the rest of the workshop as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
+A big congrats for having learned the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
+That's no big deal as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
 
 ## Part 4 - Camel Quarkus Routes (15 minutes)
 
@@ -387,18 +382,18 @@ So, let's reuse the *DEV terminal* and attempt to build a route, for instance as
 
 ```
 cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-4-routes
-mvn quarkus:dev
+mvn clean quarkus:dev
 ```
 
-Some start logs are shown, but nothing more seems to happen.
-From the logs, it should be able to locate the routes startup summary, like below:
+Some ERROR logs like below are shown:
 
 ```
-INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup summary (total:0 started:0)
-
+[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[13,18] <identifier> expected
+[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[13,17] not a statement
+[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[13,42] ';' expected
 ```
 
-Indeed, no routes are currently running, that's expected as some TODO items needs to be completed in the code.
+Indeed, the current route definition is not complete, that's expected as some TODO items needs to be completed in the code.
 
 Let's review the content of the `src/main/java/org/acme/MyRoutes.java` source file.
 In the `configure()` method, a route is defined as below:
@@ -413,14 +408,25 @@ public void configure() {
 
 A Camel route is where the integration flow is defined.
 Let's find the documentation explaining this concept in order to replace the `/*TODO-FROM-CAMEL-DOC*/` sections in the code above.
-The route concept is not specific to Camel on Quarkus as it can also be used with Camel on Osgi, Camel on Spring Boot and so on.
+The route concept is not specific to Camel on Quarkus as it can also be used with Camel on OGSi, Camel on Spring Boot and so on.
 In such a case, we need to look at the [Apache Camel User Manual](https://camel.apache.org/manual/).
 Especially, let's review [the first paragraph in this page](https://camel.apache.org/manual/routes.html) in order to determine the two keywords needed to replace `/*TODO-FROM-CAMEL-DOC*/` in the code.
+
+Let's run `mvn clean quarkus:dev` again from the *DEV terminal*, for instance:
+
+```
+mvn clean quarkus:dev
+```
 
 But in the *DEV terminal*, there is now yet another issue:
 
 ```
-method does not override or implement a method from a supertype
+[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[11,9] cannot find symbol
+[ERROR]   symbol:   method from(java.lang.String)
+[ERROR]   location: class org.acme.MyRoutes
+[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[12,26] cannot find symbol
+[ERROR]   symbol:   method constant(java.lang.String)
+[ERROR]   location: class org.acme.MyRoutes
 ```
 
 Indeed, it's not finished.
@@ -435,13 +441,14 @@ Indeed, Camel Quarkus needs a bit of information to detect that the `MyRoutes` c
 Such an information is specific to Camel Quarkus, so it will reside in the [Camel Quarkus documentation](https://camel.apache.org/camel-quarkus/next/index.html).
 Especially, please read the section explaining how to [define a route with the Java DSL](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_java_dsl).
 
-Once the class declaration has been completed, our route is now starting and a new log line is written each second as below:
+Once the class declaration has been completed, `mvn clean quarkus:dev` should now start the route. A new log line is written each second as below:
 
 ```
-INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup summary (total:1 started:1)
+2022-01-05 16:12:54,889 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup (total:1 started:1)
 ...
-2021-11-26 15:34:06,915 INFO  [myLogCategory] (Camel (camel-2) thread #0 - timer://myTimer) Exchange[ExchangePattern: InOnly, BodyType: String, Body: Transformed message content]
-2021-11-26 15:34:07,915 INFO  [myLogCategory] (Camel (camel-2) thread #0 - timer://myTimer) Exchange[ExchangePattern: InOnly, BodyType: String, Body: Transformed message content]
+2022-01-05 16:12:55,897 INFO  [myLogCategory] (Camel (camel-1) thread #1 - timer://myTimer) Exchange[ExchangePattern: InOnly, BodyType: String, Body: Transformed message content]
+2022-01-05 16:12:56,887 INFO  [myLogCategory] (Camel (camel-1) thread #1 - timer://myTimer) Exchange[ExchangePattern: InOnly, BodyType: String, Body: Transformed message content]
+2022-01-05 16:12:57,888 INFO  [myLogCategory] (Camel (camel-1) thread #1 - timer://myTimer) Exchange[ExchangePattern: InOnly, BodyType: String, Body: Transformed message content]
 ```
 
 So, that's it ? We have faced an integration challenge and implemented a route ?
@@ -452,12 +459,12 @@ The content of each message is then transformed and **produced** to a **target s
 At this stage, it's time to stop the Camel Quarkus route in the *DEV terminal*, for instance by hitting `CTRL+C`:
 
 ```
-2021-11-26 16:47:02,638 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Apache Camel 3.12.0 (camel-3) shutting down
-2021-11-26 16:47:02,639 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Routes shutdown summary (total:1 stopped:1)
-2021-11-26 16:47:02,640 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread)     Stopped route2 (timer://myTimer)
-2021-11-26 16:47:02,641 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Apache Camel 3.12.0 (camel-3) shutdown in 3ms (uptime:10s652ms)
-2021-11-26 16:47:02,642 INFO  [io.quarkus] (Shutdown thread) part-4-routes stopped in 0.005s
+2022-01-05 16:12:58,723 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Apache Camel 3.14.0 (camel-1) shutting down
+...
+2022-01-05 16:12:58,740 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Routes stopped (total:1 stopped:1)
+2022-01-05 16:12:58,742 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread)     Stopped route1 (timer://myTimer)
 ```
+
 Notice the route shutdown summary. There was a single route running, and it's now stopped.
 
 We'll see more involved examples in the coming sections.
@@ -473,19 +480,19 @@ Actually, when facing integration challenges, those messages need to be consumed
 Lucky us, Camel offers connectivity with more than 300 technologies via **components**.
 Some components are only able to produce or consume messages, while other components might do both.
 
-Camel components can be used in routes that could be deployed in multiple favors like an OSGI bundle, a Spring Boot uber jar or even a Quarkus fast-jar.
+Camel components can be used in routes that could be deployed in multiple favors like an OSGi bundle, a Spring Boot uber jar or even a Quarkus fast-jar.
 In order to be usable in Camel Quarkus, a Camel component needs to be wrapped in what we call a Quarkus **extension**.
 There are currently around 200 Camel Quarkus extensions working both in JVM mode and native mode.
 In addition, there are also about 100 Camel Quarkus extensions available but in JVM mode only.
 
 ### Let's review the documentations layout
 
-In order to start with Camel Quarkus extensions, please have a look at the [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/2.5.x/reference/index.html).
+In order to start with Camel Quarkus extensions, please have a look at the [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/latest/reference/index.html).
 Now, you should be able to answer questions beneath:
  * How many extensions are able to interact with a Kudu data store ?
  * Was is possible to trade bitcoins with Camel Quarkus version 1.5.0 in JVM mode ? And in native mode ?
 
-The [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/2.5.x/reference/index.html) gives a good overview.
+The [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/latest/reference/index.html) gives a good overview.
 From there, you can navigate to the documentation of a specific Camel Quarkus extension.
 And from the documentation of a specific Camel Quarkus extension, you should be able to access the documentation of the underlying Camel component.
 Now that the documentation layout is a bit clearer, you should be able to answer questions below:
@@ -547,7 +554,7 @@ In the next section, we'll learn how to tune endpoint options.
 The Camel Quarkus extensions could be tuned in a lot of fashion.
 There is always a good default value but often you would need to tune that.
 For instance, one way is to tune endpoint options using query parameters.
-Endpoint options are merely lower level tuning explained in the [Camel documentation](https://camel.apache.org/components/3.13.x/file-component.html#_configuring_endpoint_options).
+Endpoint options are merely lower level tuning explained in the [Camel documentation](https://camel.apache.org/components/latest/file-component.html#_configuring_endpoint_options).
 
 As an exercise, please amend the route in order to read file messages from a new folder named `target/in-orders-recursive`.
 D'oh! No logs are produced meaning that the destination system is not receiving anything.
@@ -572,7 +579,7 @@ Target system received a message via the Camel Quarkus FILE extension
 Sometimes, setting a query parameter in a lot of from and to statements is a bit cumbersome.
 It is a sign that we need something else, like a way to set an option at Camel component level.
 Such options would then apply each time the Camel component is used in any routes of our application.
-The Camel documentation gives more information, for instance [here](https://camel.apache.org/components/3.13.x/file-component.html#_configuring_component_options).
+The Camel documentation gives more information, for instance [here](https://camel.apache.org/components/latest/file-component.html#_configuring_component_options).
 
 This is exactly what happen in the next exercise.
 And guess what, the target system changed its interface again.
@@ -587,7 +594,7 @@ Don't know where to start, questions below might help:
  + What Camel Quarkus extension do we need to send messages to an Apache ActiveMQ server ?
  + What is the URI format ?
  + Could we set the ActiveMQ broker URL in the Camel endpoint URI ?
- + Do we have a component option that would allow to override the default broker URL ? What is the default value ?
+ + Do we have a component option that would allow to override the default broker URL ? What is the default TCP port used ?
  + How do we actually tune a Camel component in Camel Quarkus ? Maybe a documentation paragraph was mentioned ?
 
 At the end of day, you should end up with messages as below:
@@ -603,8 +610,8 @@ Common default values are provided off the shelf for component and endpoint opti
 Anyway, we have touched some ways to tune at different level when needed.
 Of course, a lot of things happen under the hood to have a fully functional Camel Quarkus extension.
 When you have time, we encourage you to read the pages below:
- + [Create a new extension](https://camel.apache.org/camel-quarkus/2.5.x/contributor-guide/create-new-extension.html)
- + [Promote a JVM extension to native](https://camel.apache.org/camel-quarkus/2.5.x/contributor-guide/promote-jvm-to-native.html)
+ + [Create a new extension](https://camel.apache.org/camel-quarkus/latest/contributor-guide/create-new-extension.html)
+ + [Promote a JVM extension to native](https://camel.apache.org/camel-quarkus/latest/contributor-guide/promote-jvm-to-native.html)
 
 ## Break (5 minutes)
 That's a lot of content. Let's have a break before the final part.
@@ -614,8 +621,8 @@ That's a lot of content. Let's have a break before the final part.
 Being able to consume/produce messages from/to a lot of technologies is not always sufficient.
 In order to face any integration challenges, one would need to have a sort of recipe book describing common integration patterns and how to apply them.
 This is exactly the purpose of the [Enterprise Integration Patterns](https://www.enterpriseintegrationpatterns.com/) book.
-And the good news is that Camel provide some [implementations of those Enterprise Integration Patterns](https://camel.apache.org/components/3.13.x/eips/enterprise-integration-patterns.html).
-From now on, let's call them EIPs.
+And the good news is that Camel provide some [implementations of those Enterprise Integration Patterns](https://camel.apache.org/components/latest/eips/enterprise-integration-patterns.html).
+From now on, let's call them **EIPs**.
 
 ### Let's review the exercise layout
 
@@ -635,7 +642,7 @@ The application starts and we see some logs as below:
 2021-12-16 14:39:37,014 INFO  [route2] (Camel (camel-1) thread #0 - timer://produceEventsSteadily) Received event with headers[id=2, importance=1] AND body[10]
 ```
 
-Indeed, for the purpose of this exercise, the application is producing 3 consecutive events each 3 seconds.
+Indeed, for the purpose of this exercise, the application is producing a group 3 consecutive events each 3 seconds.
 Please note that those events have a header named `id`, another header named `importance` and finally a body.
 Both the headers and the body have an integer value.
 In Camel, there are more than just headers and body, but describing all those attributes is not in scope for this exercise.
@@ -660,12 +667,12 @@ Don't know where to start in order to write such a route, let's answer few quest
  + In our events, what header name and integer value would we like to filter ?
 
 At the end of the day, one should be able to create such a route with a simple line of code in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java`.
-When the route is correctly setup, the application will print logs only for events with importance `3` as below:
+When the route is correctly setup, the application will print logs only for events with importance `1` as below:
 
 ```
-2021-12-16 16:13:03,501 INFO  [route5] (Camel (camel-2) thread #1 - timer://produceEventsSteadily) Received event with headers[id=3, importance=3] AND body[30]
-2021-12-16 16:13:06,501 INFO  [route5] (Camel (camel-2) thread #1 - timer://produceEventsSteadily) Received event with headers[id=6, importance=3] AND body[30]
-2021-12-16 16:13:09,502 INFO  [route5] (Camel (camel-2) thread #1 - timer://produceEventsSteadily) Received event with headers[id=9, importance=3] AND body[30]
+2022-01-05 17:29:03,530 INFO  [route5] (Camel (camel-2) thread #2 - timer://produceEventsSteadily) Received event with headers[id=2, importance=1] AND body[10]
+2022-01-05 17:29:06,529 INFO  [route5] (Camel (camel-2) thread #2 - timer://produceEventsSteadily) Received event with headers[id=5, importance=1] AND body[10]
+2022-01-05 17:29:09,530 INFO  [route5] (Camel (camel-2) thread #2 - timer://produceEventsSteadily) Received event with headers[id=8, importance=1] AND body[10]
 ```
 
 Well done, we have been able to filter messages using a single line of code.
@@ -693,7 +700,7 @@ When the route is correctly setup, the application will print 3 log lines at a t
 2021-12-16 16:24:07,848 INFO  [route2] (Camel (camel-1) thread #0 - Batch Sender) Received event with headers[id=3, importance=3] AND body[30]
 ```
 
-Nice to see those group of 3 events treated in the correct order.
+Nice to see those groups of 3 events treated in the correct order.
 
 ### Let's group and sum events
 
@@ -706,21 +713,21 @@ Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes
 Don't know where to start in order to write such a route, let's answer few questions:
  + What Camel EIP can be used to combine individual messages to processed them as a whole ?
  + What do we need to write after the `from` statement in order to use this eip ?
- + What is the correlation expression ? Do we correlate on header or body ?
+ + What is the correlation key/expression ? Do we correlate on header or body ?
  + How do we define an aggregation strategy ? What interface should we implement ?
  + What would be the value of the `oldExchange` parameter when aggregating the first exchange ?
  + What completion criteria should we use to delimit our group of messages ? completionTimeout ? completionSize ?
 
 At the end, it should take up a ten of line of codes.
-An output as below should be produced:
+Three lines should be output each 9 seconds as below:
 
 ```
-2021-12-16 16:38:58,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=7, importance=2] AND body[60]
-2021-12-16 16:38:59,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=9, importance=3] AND body[90]
-2021-12-16 16:39:00,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=8, importance=1] AND body[30]
-2021-12-16 16:39:07,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=16, importance=2] AND body[60]
-2021-12-16 16:39:08,528 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=18, importance=3] AND body[90]
-2021-12-16 16:39:09,527 INFO  [route8] (Camel (camel-3) thread #6 - Aggregator) Received event with headers[id=17, importance=1] AND body[30]
+2022-01-05 17:46:08,340 INFO  [route23] (Camel (camel-8) thread #10 - Aggregator) Received event with headers[id=1, importance=2] AND body[60]
+2022-01-05 17:46:08,342 INFO  [route23] (Camel (camel-8) thread #10 - Aggregator) Received event with headers[id=3, importance=3] AND body[90]
+2022-01-05 17:46:08,343 INFO  [route23] (Camel (camel-8) thread #10 - Aggregator) Received event with headers[id=2, importance=1] AND body[30]
+2022-01-05 17:46:17,336 INFO  [route23] (Camel (camel-8) thread #10 - Aggregator) Received event with headers[id=10, importance=2] AND body[60]
+2022-01-05 17:46:17,337 INFO  [route23] (Camel (camel-8) thread #10 - Aggregator) Received event with headers[id=12, importance=3] AND body[90]
+2022-01-05 17:46:17,337 INFO  [route23] (Camel (camel-8) thread #10 - Aggregator) Received event with headers[id=11, importance=1] AND body[30]
 ```
 
 Looking at the first log, we see a message with importance = 2 and body = 60 which is an aggregate of 3 events with importance = 2 and body = 20.
@@ -730,21 +737,26 @@ And by taping into lower level details, Camel is even able to handle more comple
 
 Of course there are a lot more EIPs implemented in Camel.
 When you have time, we invite you to take a look at:
- + [The content based router EIP](https://camel.apache.org/components/3.13.x/eips/choice-eip.html)
- + [The dynamic router EIP](https://camel.apache.org/components/3.13.x/eips/dynamicRouter-eip.html)
- + [The kamelet EIP](https://camel.apache.org/components/3.13.x/eips/kamelet-eip.html)
+ + [The content based router EIP](https://camel.apache.org/components/latest/eips/choice-eip.html)
+ + [The dynamic router EIP](https://camel.apache.org/components/latest/eips/dynamicRouter-eip.html)
+ + [The kamelet EIP](https://camel.apache.org/components/latest/eips/kamelet-eip.html)
 
 ## Part 7 - Camel Quarkus and the Kamelets ? (25 minutes)
 @TODO: 25 MINUTES LEFT at this level
 
 ## TODO: more sections needed ? camel-bean ? some cdi tricks ?
-+ Use mvnw instead of maven
++ Use mvnw instead of maven (we don't have mvnw to generate that first project at this stage)
 + We need to know what really means by (build:0ms init:35ms start:7ms)
 + Ask a MAC user to test the container build
-+ Maybe container build is triggered automatically when native-image is not installed
-+ Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster
++ Maybe container build is triggered automatically when native-image is not installed (when using mvnw?)
++ Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster (depends on part 7)
 + Complete pre-requisites with as most pre-download as possible docker images, maven deps...
-+ Camel version hard-coded in some links like (https://camel.apache.org/components/3.13.x/eips/kamelet-eip.html) do we keep that ? Could we do better ?
-+ Upgrade to latest camel-quarkus version ?
++ Add maven download section in pre-requisites. commnands below pulls a lot of dependencies:
+  mvn io.quarkus:quarkus-maven-plugin:2.6.1.Final:create
+  mvn clean quarkus:dev in part-1
+  mvn clean package in part-2
+  mvn clean package -Dnative -Dquarkus.native.container-build=true in part-3
+  Actually, each parts download a lot
+  camel-quarkus-http deps are needed, but we know that only after users declare in pom.mxl in part-5
 
 ## Satisfation form ? Reward/Goodies ?
