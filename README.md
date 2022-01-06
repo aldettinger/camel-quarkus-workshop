@@ -1,13 +1,39 @@
 # Camel Quarkus Workshop
 
-## Prerequisites (20 minutes)
+This repository contains several assignments that will help you getting started with Integration with [Apache Camel](https://camel.apache.org/) & [Quarkus](https://quarkus.io/).
+
+The workshop in divided into these different sections :
+
+* [Prerequisites for the workshop](#prerequisites-for-the-workshop)
+* [Part 1 - Quarkus DEV mode](#part-1---quarkus-dev-mode)
+* [Part 2 - Quarkus JVM mode](#part-2---quarkus-jvm-mode)
+* [Part 3 - Quarkus native mode](#part-3---quarkus-native-mode)
+* [Part 4 - Camel Quarkus Routes](#part-4---camel-quarkus-routes)
+* [Part 5 - Camel Quarkus Extensions](#part-5---camel-quarkus-extensions)
+* [Part 6 - Camel Quarkus Enterprise Integration Patterns](#part-6---camel-quarkus-enterprise-integration-patterns)
+* [Part 7 - Camel Quarkus and Kafka](#part-7---camel-quarkus-and-kafka)
+* [Bonus A - Camel Quarkus and Kamelets](#bonus-a---camel-quarkus-and-the-kamelets)
+* [Bonus B - Deploying Camel Quarkus apps into the Cloud](#bonus-b---deploying-to-the-cloud)
+
+---
+**🚀NOTE**
+
+If you happen to be already familiar with Quarkus, you could jump from [Prerequisites for the workshop](#prerequisites-for-the-workshop) to [Part 4 - Camel Quarkus Routes](#part-4---camel-quarkus-routes) and deep dive directly into Apache Camel! 
+
+---
+
+
+## Prerequisites for the workshop
+(Estimate time : 20 minutes)
+
+Make sure you have the following prerequisites installed on your machine:
 
  * Git >= 1.8.3.1 advised
- * A Java IDE like eclipse or at least a text editor like vim
+ * A Java IDE like Eclipse or at least a text editor like Vim
  * JDK 11 installed
  * Maven >= 3.8.1 advised, with JAVA_HOME configured appropriately
  * A favorite HTTP client like curl
- * Docker >= 1.13.1 installed (No big deal if not possible as it's needed only in part-3)
+ * Docker >= 1.13.1 installed (No big deal if not possible as it's needed only in part-3, and ideally for part-7)
 
  Let's check that those prerequisites are installed, for instance like below:
 
@@ -65,7 +91,8 @@ part-6-eips
 There is currently no folder starting with `part-1-` ! Well spotted, that's totally fine as we'll create it in the next section.
 Setting up the requirements should be done now: Congratulations !
 
-## Part 1 - Quarkus DEV mode (20 minutes)
+## Part 1 - Quarkus DEV mode
+Estimate time : 20 minutes
 
 In this section, we'll have our first contact with Quarkus. Indeed, Quarkus offers multiple modes DEV, JVM, native... for multiple purposes.
 The idea behind the DEV mode is to simplify developers life. Better than words, let's start the creation of a Camel Quarkus project.
@@ -192,7 +219,8 @@ The DEV mode offers few more features. When you have time, we encourage you to t
  * [https://quarkus.io/guides/continuous-testing](https://quarkus.io/guides/continuous-testing)
  * [https://quarkus.io/guides/dev-services](https://quarkus.io/guides/dev-services)
 
-## Part 2 - Quarkus JVM mode (15 minutes)
+## Part 2 - Quarkus JVM mode
+Estimate time : 15 minutes
 
 With the JVM mode, we enter into the core of the Quarkus philosophy.
 The bottom line being that the historical trade-offs used in the JVMs should change as we are now coding in the cloud era.
@@ -269,7 +297,8 @@ Well done for the JVM mode ! Let's tackle a more tricky part now. In next sectio
 
 Let's have a break as the next part is a bit tricky
 
-## Part 3 - Quarkus native mode (20 minutes)
+## Part 3 - Quarkus native mode
+Estimate time : 20 minutes
 
 The Quarkus philosophy is to move as much tasks as possible at build time.
 In this respect, the native mode is going one step further in this direction.
@@ -372,7 +401,8 @@ Unix users could find the command `ps -e -o rss,comm,args | grep "part-3-native-
 A big congrats for having learned the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
 That's no big deal as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
 
-## Part 4 - Camel Quarkus Routes (15 minutes)
+## Part 4 - Camel Quarkus Routes
+Estimate time : 15 minutes
 
 When facing a typical integration challenge, one first needs to extract a **message** from a **source system**.
 The content of the **message** may need to be transformed and finally sent to a **target system**.
@@ -473,7 +503,8 @@ But at this stage, let's simply remember the layout of a typical route and how t
 Of course, there are more bootstrap options possible.
 When you have time, we invite you to implement a route using the XML DSL helped with [this link](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_xml_dsl).
 
-## Part 5 - Camel Quarkus Extensions (30 minutes)
+## Part 5 - Camel Quarkus Extensions
+Estimate time : 30 minutes
 
 In the previous section, we have seen that a Camel route offers primitives to consume and produce messages.
 Actually, when facing integration challenges, those messages need to be consumed from/to a lot of disparate technologies.
@@ -616,7 +647,8 @@ When you have time, we encourage you to read the pages below:
 ## Break (5 minutes)
 That's a lot of content. Let's have a break before the final part.
 
-## Part 6 - Camel Quarkus Enterprise Integration Patterns (25 minutes)
+## Part 6 - Camel Quarkus Enterprise Integration Patterns
+Estimate time : 25 minutes
 
 Being able to consume/produce messages from/to a lot of technologies is not always sufficient.
 In order to face any integration challenges, one would need to have a sort of recipe book describing common integration patterns and how to apply them.
@@ -741,8 +773,15 @@ When you have time, we invite you to take a look at:
  + [The dynamic router EIP](https://camel.apache.org/components/latest/eips/dynamicRouter-eip.html)
  + [The kamelet EIP](https://camel.apache.org/components/latest/eips/kamelet-eip.html)
 
-## Part 7 - Camel Quarkus and the Kamelets ? (25 minutes)
+## Part 7 - Camel Quarkus and Kafka
+Estimate time : 25 minutes
 @TODO: 25 MINUTES LEFT at this level
+
+## Bonus A - Camel Quarkus and the Kamelets
+@TODO
+
+## Bonus B - Deploying to the cloud
+@TODO
 
 ## TODO: more sections needed ? camel-bean ? some cdi tricks ?
 + Use mvnw instead of maven (we don't have mvnw to generate that first project at this stage)
