@@ -30,16 +30,30 @@ If you happen to be already familiar with Quarkus, you could jump from [Prerequi
 
 Make sure you have the following prerequisites installed on your machine:
 
+Please find below the list of tools needed for this workshop.
+It is strongly advised to install as much as possible prior to the workshop.
+
  * Git >= 1.8.3.1 advised
  * A Java IDE like Eclipse or at least a text editor like Vim
  * JDK 11 installed
- * Maven >= 3.8.1 advised, with JAVA_HOME configured appropriately
+ * Maven >= 3.6.3 advised, possibly with JAVA_HOME configured appropriately
  * A favorite HTTP client like curl
- * Docker >= 1.13.1 installed (No big deal if not possible as it's needed only in part-3, and ideally for part-7)
+ * Docker >= 1.13.1 installed (if docker is missing, that's no big deal, you may only miss part-3 and part-7)
 
- Let's check that those prerequisites are installed, for instance like below:
+Let's check whether some prerequisites are already installed on your machine, for instance like below:
 
 ```
+[dev@camel-quarkus-workshop]$ git --version
+git version 1.8.3.1
+
+[dev@camel-quarkus-workshop]$ vim --version
+VIM - Vi IMproved 8.1 (2018 May 18, compiled Nov 08 2021 14:21:34)
+
+[dev@camel-quarkus-workshop]$ java --version
+openjdk 11.0.11 2021-04-20
+OpenJDK Runtime Environment AdoptOpenJDK-11.0.11+9 (build 11.0.11+9)
+OpenJDK 64-Bit Server VM AdoptOpenJDK-11.0.11+9 (build 11.0.11+9, mixed mode)
+
 [dev@camel-quarkus-workshop]$ mvn --version
 Apache Maven 3.8.1 (05c21c65bdfed0f71a2f2ada8b84da59348c4c5d)
 Maven home: /home/user/dev/maven/apache-maven-3.8.1
@@ -47,16 +61,11 @@ Java version: 11.0.11, vendor: AdoptOpenJDK, runtime: /home/dev/.sdkman/candidat
 Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "3.10.0-1160.45.1.el7.x86_64", arch: "amd64", family: "unix"
 
-[dev@camel-quarkus-workshop]$ java --version
-openjdk 11.0.11 2021-04-20
-OpenJDK Runtime Environment AdoptOpenJDK-11.0.11+9 (build 11.0.11+9)
-OpenJDK 64-Bit Server VM AdoptOpenJDK-11.0.11+9 (build 11.0.11+9, mixed mode)
+[dev@camel-quarkus-workshop]$ curl --version
+curl 7.68.0 (x86_64-pc-linux-gnu) libcurl/7.68.0 OpenSSL/1.1.1f zlib/1.2.11 brotli/1.0.7 libidn2/2.2.0 libpsl/0.21.0 (+libidn2/2.2.0) libssh/0.9.3/openssl/zlib nghttp2/1.40.0 librtmp/2.3
 
 [dev@camel-quarkus-workshop]$ docker --version
 Docker version 1.13.1, build 7f2769b/1.13.1
-
-[dev@camel-quarkus-workshop]$ git --version
-git version 1.8.3.1
 ```
 
 Describing all the ways to have those prerequisites installed is beyond the scope of this workshop, still some useful links could be found below:
@@ -66,7 +75,7 @@ Describing all the ways to have those prerequisites installed is beyond the scop
  * [https://medium.com/@gayanper/sdkman-on-windows-661976238042](https://medium.com/@gayanper/sdkman-on-windows-661976238042)
  * [https://maven.apache.org/guides/getting-started/windows-prerequisites.html](https://maven.apache.org/guides/getting-started/windows-prerequisites.html)
 
-As a last step, let's clone the workshop github project locally in a folder of your choice, let's call this folder `${CQ_WORKSHOP_DIRECTORY}` :
+As a next step, let's clone the workshop github project locally in a folder of your choice, let's call this folder `${CQ_WORKSHOP_DIRECTORY}` :
 
 ```
 cd ${CQ_WORKSHOP_DIRECTORY}
@@ -74,7 +83,7 @@ git clone https://github.com/aldettinger/camel-quarkus-workshop.git
 ```
 
 Note that during the workshop, you'll have to replace `${CQ_WORKSHOP_DIRECTORY}` by the folder you have chosen.
-For instance, one can list the folder present in the workshop folder as below:
+For instance, one can list all the sub-directories from the workshop folder as below:
 
 ```
 ls "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
@@ -90,8 +99,20 @@ part-5-routes
 part-6-eips
 ```
 
-There is currently no folder starting with `part-1-` ! Well spotted, that's totally fine as we'll create it in the next section.
-Setting up the requirements should be done now: Congratulations !
+There is currently no folder starting with `part-1-` ! Well spotted, that's totally fine as we'll create it later on.
+
+Finaly, let's pre-download as much required maven dependencies as possible, for instance as below:
+
+```
+cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
+mvn quarkus:go-offline -fae
+mvn dependency:go-offline -fae
+mvn clean package -fae
+```
+
+The build could fail at this stage but the main idea is to pre-download as much maven dependencies as possible.
+
+Setting up the requirements should be done now: **Congratulations !**
 
 ## Part 1 - Quarkus DEV mode
 Estimate time : 20 minutes
@@ -344,7 +365,7 @@ When the download has completed, we still have more time to wait as the native b
 ```
 
 It looks that there are really a lot of things happening at build time and it's taking long.
-This is one of the downsides when using the native mode: slow builds, hard debugging, no just-in-compilation of Java code and few developments trick could be needed when using Java dynamic features like reflection.
+This is one of the downsides when using the native mode: slow builds, hard debugging, no just-in-time compilation of Java code and few development tricks could be needed when using Java dynamic features like reflection.
 
 Let's see what we have produced, for instance by typing the command below
 
@@ -791,13 +812,6 @@ Estimate time : 25 minutes
 + Ask a MAC user to test the container build
 + Maybe container build is triggered automatically when native-image is not installed (when using mvnw?)
 + Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster (depends on part 7)
-+ Complete pre-requisites with as most pre-download as possible docker images, maven deps...
-+ Add maven download section in pre-requisites. commnands below pulls a lot of dependencies:
-  mvn io.quarkus:quarkus-maven-plugin:2.6.1.Final:create
-  mvn clean quarkus:dev in part-1
-  mvn clean package in part-2
-  mvn clean package -Dnative -Dquarkus.native.container-build=true in part-3
-  Actually, each parts download a lot
-  camel-quarkus-http deps are needed, but we know that only after users declare in pom.mxl in part-5
++ Complete pre-requisites with as most docker images pre-download as possible
 
 ## Satisfation form ? Reward/Goodies ?
