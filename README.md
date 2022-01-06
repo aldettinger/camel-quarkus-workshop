@@ -4,7 +4,7 @@
 
 This repository contains several assignments that will help you getting started with Integration with [Apache Camel](https://camel.apache.org/) & [Quarkus](https://quarkus.io/).
 
-The workshop is divided into these different sections :
+The workshop is structured into different sections :
 
 * [Prerequisites for the workshop](#prerequisites-for-the-workshop)
 * [Part 1 - Quarkus DEV mode](#part-1---quarkus-dev-mode)
