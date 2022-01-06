@@ -28,7 +28,7 @@ Downloading that much with a single shared connection from the workshop room cou
 ---
 **🚀 NOTE**
 
-If you happen to be already familiar with Quarkus, you could jump from [Prerequisites for the workshop](#prerequisites-for-the-workshop) to [Part 4 - Camel Quarkus Routes](#part-4---camel-quarkus-routes) and deep dive directly into Apache Camel! 
+* If you happen to be already familiar with Quarkus, you could jump from [Prerequisites for the workshop](#prerequisites-for-the-workshop) to [Part 4 - Camel Quarkus Routes](#part-4---camel-quarkus-routes) and deep dive directly into Apache Camel! 
 
 ---
 
@@ -807,15 +807,64 @@ When you have time, we invite you to take a look at:
  + [The dynamic router EIP](https://camel.apache.org/components/latest/eips/dynamicRouter-eip.html)
  + [The kamelet EIP](https://camel.apache.org/components/latest/eips/kamelet-eip.html)
 
-## Part 7 - Camel Quarkus and Kafka
+## Part 7 - Integration Example with Camel Quarkus
 Estimate time : 25 minutes
-@TODO: 25 MINUTES LEFT at this level
+
+### About this section
+In this part, we will discover how easy and fast it is to :
+* Stream data from and to Kafka
+* Write to Slack
+* Read / write to an SQL database with JPA
+* Use external APIs
+* Serialize Data
+* Create REST API
+
+
+We will also experience the joy of using [dev services](https://quarkus.io/guides/dev-services) in the development mode. No need to install any kafka server or database.
+
+---
+**🚀NOTE**
+
+This section requires having Docker installed in order to provition a Kafka and Postgresql servers. 
+
+In case, you don't have a proper Docker license:
+* Use H2 Databse instead of Postgresql
+* Ask us during the session to provide you a kafka instance in the Cloud.
+
+---
+
+### Introducing the example
+
+This example will illustrate a application that will receive and process coffee orders. The application is designed around Event Driven Architecture and uses Kafka to communicate with external systems. The orders are stored withing a database. The delivery team is notified on slack to go check the order. The delivery team can access information about orders to deliver using an API.
+
+
+* insert the orders within a Database
+* notify the delivery company using a specific API (This one will be provided during the session)
+
+The application is designed around Event Driven Architecture and uses Kafka to handle those messages:
+* The beer orders to be processed are in a kafka topic named `orders`
+* The notifications to the delivery company are in a kafka topic named `deliveries`
+
+The application that create orders and notify delivery teams are external to our ecosystem.
+
+![](images/CQ-workshop1.png)
+
 
 ## Bonus A - Camel Quarkus and the Kamelets
-@TODO
+---
+**🚀NOTE**
+
+This section is a revisited version of the [Part 7 - Integration Example with Camel Quarkus](#part-7---integration-example-with-camel-quarkus). We recommend you start with the Part 7 section, in order to have a better understanding of this one.
+
+---
 
 ## Bonus B - Deploying to the cloud
-@TODO
+---
+**🚀NOTE**
+
+This section is a revisited version of the [Part 7 - Integration Example with Camel Quarkus](#part-7---integration-example-with-camel-quarkus). We recommend you start with the Part 7 section, in order to have a better understanding of this one.
+
+---
 
 ## TODO:
 + We need to know what really means by (build:0ms init:35ms start:7ms)
@@ -840,3 +889,4 @@ docker cp downloads/m2-repository 99ef34eb8e2e:/root/.m2/repository
 ```
 
 ## Satisfation form ? Reward/Goodies ?
+@TODO

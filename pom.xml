@@ -86,5 +86,7 @@
         <module>part-4-routes</module>
         <module>part-5-extensions</module>
         <module>part-6-eips</module>
+        <module>part-7-kafka</module>
+        <module>part-8-cloud</module>
     </modules>
 </project>
