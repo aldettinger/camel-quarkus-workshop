@@ -1,5 +1,7 @@
 # Camel Quarkus Workshop
 
+## About
+
 This repository contains several assignments that will help you getting started with Integration with [Apache Camel](https://camel.apache.org/) & [Quarkus](https://quarkus.io/).
 
 The workshop in divided into these different sections :
