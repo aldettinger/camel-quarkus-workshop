@@ -1,6 +1,7 @@
 # Camel Quarkus Workshop
 
 ## About
+(Estimate time : 10 minutes)
 
 This repository contains several assignments that will help you getting started with Integration with [Apache Camel](https://camel.apache.org/) & [Quarkus](https://quarkus.io/).
 
@@ -18,7 +19,14 @@ The workshop is structured into different sections :
 * [Bonus B - Deploying Camel Quarkus apps into the Cloud](#bonus-b---deploying-to-the-cloud)
 
 ---
-**🚀NOTE**
+**⚠ WARNING**
+
+It is strongly advised to execute as much as possible the [prerequisites section](#prerequisites-for-the-workshop) **at home prior to the workshop.**
+Indeed, more than 1 GiB of downloads could be expected for tools, sources, maven dependencies and docker images.
+Downloading that much with a single shared connection from the workshop room could end up to be a poor experience.
+
+---
+**🚀 NOTE**
 
 If you happen to be already familiar with Quarkus, you could jump from [Prerequisites for the workshop](#prerequisites-for-the-workshop) to [Part 4 - Camel Quarkus Routes](#part-4---camel-quarkus-routes) and deep dive directly into Apache Camel! 
 
@@ -82,7 +90,7 @@ cd ${CQ_WORKSHOP_DIRECTORY}
 git clone https://github.com/aldettinger/camel-quarkus-workshop.git
 ```
 
-Note that during the workshop, you'll have to replace `${CQ_WORKSHOP_DIRECTORY}` by the folder you have chosen.
+Note that during the workshop, you'll have to replace `${CQ_WORKSHOP_DIRECTORY}` by the folder you have just chosen.
 For instance, one can list all the sub-directories from the workshop folder as below:
 
 ```
@@ -260,7 +268,7 @@ mvn clean package
 ```
 
 It should take only few seconds.
-Let's look at the produced artifacts as it was done below:
+Let's look at the produced artifacts, for instance using the command below:
 
 ```
 ls target/quarkus-app
@@ -273,7 +281,6 @@ app  lib  quarkus  quarkus-app-dependencies.txt  quarkus-run.jar
 
 ```
 
-Everything needed is here.
 In JVM mode, the application has actually been packaged as a **fast-jar**.
 Indeed, Quarkus has even designed its own packaging format in order to [provide faster startup times](https://www.youtube.com/watch?v=ogbMLeU1ogk).
 so far so good, we can start our Camel route in JVM mode as shown below:
@@ -312,20 +319,16 @@ Quarkus offers other significant improvements, for instance related to startup m
 When you have time, we encourage you to have a look at the RSS memory used on startup.
 Unix users could find the command `ps -e -o rss,comm,args | grep "quarkus-run.jar$"` useful.
 
-As a last step, we just need to stop our Camel Quarkus. For instance, by hitting CTRL+C.
+As a last step, we just need to stop our Camel Quarkus route. For instance, by hitting CTRL+C.
 
 Well done for the JVM mode ! Let's tackle a more tricky part now. In next section, we'll try to compile our Camel Quarkus route as a native executable.
-
-## Break (5 minutes)
-
-Let's have a break as the next part is a bit tricky
 
 ## Part 3 - Quarkus native mode
 Estimate time : 20 minutes
 
 The Quarkus philosophy is to move as much tasks as possible at build time.
 In this respect, the native mode is going one step further in this direction.
-The native mode is based on a different kind of virtual machine, namely the [SubstrateVM](https://docs.oracle.com/en/graalvm/enterprise/20/docs/reference-manual/native-image/SubstrateVM/#:~:text=Substrate%20VM%20is%20an%20internal,JVM%20Compiler%20Interface%20(JVMCI).) from the [GraalVM project](https://www.graalvm.org/).
+The native mode is based on a different kind of virtual machine, namely the [SubstrateVM](https://docs.oracle.com/en/graalvm/enterprise/20/docs/reference-manual/native-image/SubstrateVM/) from the [GraalVM project](https://www.graalvm.org/).
 
 In native mode, a lot more happen ahead of time. For instance, most Java static initializers could be expected to be executed once and for all during the build.
 Indeed, most Java static initializers are performing some tasks that are not runtime dependent.
@@ -365,7 +368,7 @@ When the download has completed, we still have more time to wait as the native b
 ```
 
 It looks that there are really a lot of things happening at build time and it's taking long.
-This is one of the downsides when using the native mode: slow builds, hard debugging, no just-in-time compilation of Java code and few development tricks could be needed when using Java dynamic features like reflection.
+This is one of the downsides when using the native mode: slow builds, hard debugging, no just-in-time compilation of Java code and few [development tricks](https://camel.apache.org/camel-quarkus/latest/user-guide/native-mode.html) could be needed, espacially when using Java dynamic features such as Java reflection.
 
 Let's see what we have produced, for instance by typing the command below
 
@@ -373,7 +376,7 @@ Let's see what we have produced, for instance by typing the command below
 ls -al target/*runner
 ```
 
-It should show a native executable a bit like this one:
+It should show a native executable, similar to below:
 
 ```
 -rwxr-xr-x. 1 user user 56251784 Jan  5 14:55 target/part-3-native-mode-1.0.0-SNAPSHOT-runner
@@ -406,7 +409,7 @@ curl localhost:8080/cq-http-endpoint
 
 ```
 
-We should have the same answer as in part 1 and 2:
+We should expect the same answer as in part 1 and 2:
 
 ```
 Hello Camel Quarkus from the 3h workshop room !
@@ -425,7 +428,7 @@ A big congrats for having learned the native mode ! It was a tricky part and may
 That's no big deal as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
 
 ## Part 4 - Camel Quarkus Routes
-Estimate time : 15 minutes
+Estimate time : 20 minutes
 
 When facing a typical integration challenge, one first needs to extract a **message** from a **source system**.
 The content of the **message** may need to be transformed and finally sent to a **target system**.
@@ -465,7 +468,7 @@ The route concept is not specific to Camel on Quarkus as it can also be used wit
 In such a case, we need to look at the [Apache Camel User Manual](https://camel.apache.org/manual/).
 Especially, let's review [the first paragraph in this page](https://camel.apache.org/manual/routes.html) in order to determine the two keywords needed to replace `/*TODO-FROM-CAMEL-DOC*/` in the code.
 
-Let's run `mvn clean quarkus:dev` again from the *DEV terminal*, for instance:
+Once the two comments have been replaced with right keywords, let's run `mvn clean quarkus:dev` again from the *DEV terminal*:
 
 ```
 mvn clean quarkus:dev
@@ -489,8 +492,8 @@ Let's pay attention to the class declaration in the file `src/main/java/org/acme
 public class MyRoutes /*TODO-FROM-CAMEL-QUARKUS-DOC*/ {
 ```
 
-We need to complete the class declaration.
-Indeed, Camel Quarkus needs a bit of information to detect that the `MyRoutes` class need to be bootstrapped.
+We should complete the class declaration.
+Indeed, Camel Quarkus requires a bit of information to detect that the `MyRoutes` class need to be bootstrapped.
 Such an information is specific to Camel Quarkus, so it will reside in the [Camel Quarkus documentation](https://camel.apache.org/camel-quarkus/next/index.html).
 Especially, please read the section explaining how to [define a route with the Java DSL](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_java_dsl).
 
@@ -527,7 +530,7 @@ Of course, there are more bootstrap options possible.
 When you have time, we invite you to implement a route using the XML DSL helped with [this link](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_xml_dsl).
 
 ## Part 5 - Camel Quarkus Extensions
-Estimate time : 30 minutes
+Estimate time : 40 minutes
 
 In the previous section, we have seen that a Camel route offers primitives to consume and produce messages.
 Actually, when facing integration challenges, those messages need to be consumed from/to a lot of disparate technologies.
@@ -537,7 +540,7 @@ Some components are only able to produce or consume messages, while other compon
 Camel components can be used in routes that could be deployed in multiple favors like an OSGi bundle, a Spring Boot uber jar or even a Quarkus fast-jar.
 In order to be usable in Camel Quarkus, a Camel component needs to be wrapped in what we call a Quarkus **extension**.
 There are currently around 200 Camel Quarkus extensions working both in JVM mode and native mode.
-In addition, there are also about 100 Camel Quarkus extensions available but in JVM mode only.
+In addition, there are also about 100 Camel Quarkus extensions more available but in JVM mode only.
 
 ### Let's review the documentations layout
 
@@ -557,7 +560,7 @@ Now that the documentation layout is a bit clearer, you should be able to answer
 ### Let's configure a consumer and a producer
 
 With the help of both Camel Quarkus and Camel documentations, we should now be able to create a simple route.
-Let's move to the part5 folder.
+Let's move to the part 5 folder.
 
 For instance, in the *DEV terminal*, type as below:
 
@@ -566,7 +569,7 @@ cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-5-extensions
 mvn clean quarkus:dev
 ```
 
-It starts a sandbox application simulating both a source and target systems.
+It starts a demo application simulating both a source and target systems.
 To integrate both systems, we will need to create a route in the file `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java`
 
 As a starter exercise, the source system is regularly storing orders as files in the `target/in-orders` folder.
@@ -639,7 +642,8 @@ This is exactly what happen in the next exercise.
 And guess what, the target system changed its interface again.
 Now, they would like to receive messages on an ActiveMQ 5.0 broker.
 The broker URL is `tcp://localhost:61617` and messages should be sent to the queue named `out-orders`.
-However, the configuration is a bit trickier this time as the default broker URL is NOT used.
+However, the configuration is a bit trickier this time as the Camel default value for the broker URL does NOT match our case.
+We'll then need to tune it.
 
 Please read the documentation paragraph describing [How to tune a Camel component with the application.properties file](https://camel.apache.org/camel-quarkus/next/user-guide/configuration.html#_application_properties)
 
@@ -667,11 +671,8 @@ When you have time, we encourage you to read the pages below:
  + [Create a new extension](https://camel.apache.org/camel-quarkus/latest/contributor-guide/create-new-extension.html)
  + [Promote a JVM extension to native](https://camel.apache.org/camel-quarkus/latest/contributor-guide/promote-jvm-to-native.html)
 
-## Break (5 minutes)
-That's a lot of content. Let's have a break before the final part.
-
 ## Part 6 - Camel Quarkus Enterprise Integration Patterns
-Estimate time : 25 minutes
+Estimate time : 30 minutes
 
 Being able to consume/produce messages from/to a lot of technologies is not always sufficient.
 In order to face any integration challenges, one would need to have a sort of recipe book describing common integration patterns and how to apply them.
@@ -697,7 +698,7 @@ The application starts and we see some logs as below:
 2021-12-16 14:39:37,014 INFO  [route2] (Camel (camel-1) thread #0 - timer://produceEventsSteadily) Received event with headers[id=2, importance=1] AND body[10]
 ```
 
-Indeed, for the purpose of this exercise, the application is producing a group 3 consecutive events each 3 seconds.
+Indeed, for the purpose of this exercise, the application is producing groups of 3 consecutive events each 3 seconds.
 Please note that those events have a header named `id`, another header named `importance` and finally a body.
 Both the headers and the body have an integer value.
 In Camel, there are more than just headers and body, but describing all those attributes is not in scope for this exercise.
@@ -766,10 +767,10 @@ And then compute the sum of the 3 corresponding bodies.
 Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` to group messages by importance and sum the bodies.
 
 Don't know where to start in order to write such a route, let's answer few questions:
- + What Camel EIP can be used to combine individual messages to processed them as a whole ?
+ + What Camel EIP can be used to combine individual messages to process them as a whole ?
  + What do we need to write after the `from` statement in order to use this eip ?
  + What is the correlation key/expression ? Do we correlate on header or body ?
- + How do we define an aggregation strategy ? What interface should we implement ?
+ + How do we define our own custom strategy to aggregate those 3 bodies with same importance ? What interface should we implement ?
  + What would be the value of the `oldExchange` parameter when aggregating the first exchange ?
  + What completion criteria should we use to delimit our group of messages ? completionTimeout ? completionSize ?
 
@@ -788,7 +789,7 @@ Three lines should be output each 9 seconds as below:
 Looking at the first log, we see a message with importance = 2 and body = 60 which is an aggregate of 3 events with importance = 2 and body = 20.
 
 Well done ! So far, we have seen how some easy integration challenges can be implemented quickly with the help of Camel EIP implementations.
-And by taping into lower level details, Camel is even able to handle more complex cases.
+And by tapping into even more powerful options, Camel is able to handle far more complex cases.
 
 Of course there are a lot more EIPs implemented in Camel.
 When you have time, we invite you to take a look at:
@@ -813,5 +814,6 @@ Estimate time : 25 minutes
 + Maybe container build is triggered automatically when native-image is not installed (when using mvnw?)
 + Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster (depends on part 7)
 + Complete pre-requisites with as most docker images pre-download as possible
++ @TODO: Let's integrate the schema showing what Quarkus does at build time vs typical Java framework. in part-2 jvm mode
 
 ## Satisfation form ? Reward/Goodies ?
