@@ -258,7 +258,11 @@ The bottom line being that the historical trade-offs used in the JVMs should cha
 For instance, in a world of containers, JVM are started and stopped more frequently.
 In this respect, it makes sense to perform as much tasks as possible once and for all at build time.
 
-@TODO: Let's integrate here the schema showing what Quarkus does at build time vs typical Java framework.
+The illustration below shows the difference between starting a typical Java framework vs starting Quarkus, images courtesy from [Quarkus: The Black Swan of Java](https://www.jug.ch/events/slides/200430_jugch_Quarkus_-_Black_Swan_of_Java.pdf):
+
+![Typical Java Framework Start](typical-java-framework-start-courtesy-of-quarkus-the-black-swan-of-java.png)
+
+![Quarkus Start](quarkus-start-courtesy-of-quarkus-the-black-swan-of-java.png)
 
 Building a Camel Quarkus route in JVM mode is simple. In the *DEV terminal*, type commands as below:
 
@@ -814,6 +818,5 @@ Estimate time : 25 minutes
 + Maybe container build is triggered automatically when native-image is not installed (when using mvnw?)
 + Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster (depends on part 7)
 + Complete pre-requisites with as most docker images pre-download as possible
-+ @TODO: Let's integrate the schema showing what Quarkus does at build time vs typical Java framework. in part-2 jvm mode
 
 ## Satisfation form ? Reward/Goodies ?
