@@ -22,7 +22,7 @@ The workshop is structured into different sections :
 **⚠ WARNING**
 
 It is strongly advised to execute as much as possible the [prerequisites section](#prerequisites-for-the-workshop) **at home prior to the workshop.**
-Indeed, more than 1 GiB of downloads could be expected for tools, sources, maven dependencies and docker images.
+Indeed, more than 2 GiB of downloads could be expected for tools, sources, maven dependencies and docker images.
 Downloading that much with a single shared connection from the workshop room could end up to be a poor experience.
 
 ---
@@ -102,14 +102,14 @@ You should see something similar to below:
 ```
 part-2-jvm-mode
 part-3-native-mode
-part-4-extensions
-part-5-routes
+part-4-routes
+part-5-extensions
 part-6-eips
 ```
 
 There is currently no folder starting with `part-1-` ! Well spotted, that's totally fine as we'll create it later on.
 
-Finaly, let's pre-download as much required maven dependencies as possible, for instance as below:
+Next step, let's pre-download as much required maven dependencies as possible, for instance as below:
 
 ```
 cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
@@ -119,6 +119,12 @@ mvn clean package -fae
 ```
 
 The build could fail at this stage but the main idea is to pre-download as much maven dependencies as possible.
+
+Finally, let's pre-pull docker images, like below:
+
+```
+docker pull quay.io/quarkus/ubi-quarkus-native-image:21.3-java11
+```
 
 Setting up the requirements should be done now: **Congratulations !**
 
@@ -348,7 +354,7 @@ cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-3-native-mode
 mvn clean package -Dnative -Dquarkus.native.container-build=true
 ```
 
-That's taking time. Docker may trigger the download of few images but this should occur only once.
+That's taking time. If not already pulled from the prerequisites section, docker may trigger the download of few images now.
 When the download has completed, we still have more time to wait as the native build is triggered and produces logs like below:
 
 ```
@@ -372,7 +378,7 @@ When the download has completed, we still have more time to wait as the native b
 ```
 
 It looks that there are really a lot of things happening at build time and it's taking long.
-This is one of the downsides when using the native mode: slow builds, hard debugging, no just-in-time compilation of Java code and few [development tricks](https://camel.apache.org/camel-quarkus/latest/user-guide/native-mode.html) could be needed, espacially when using Java dynamic features such as Java reflection.
+This is one of the downsides when using the native mode: slow builds, hard debugging, no just-in-time compilation of Java code and few [development tricks](https://camel.apache.org/camel-quarkus/latest/user-guide/native-mode.html) could be needed, especially when using Java dynamic features such as Java reflection.
 
 Let's see what we have produced, for instance by typing the command below
 
@@ -403,7 +409,7 @@ Like we did in JVM mode, we'll record the startup times. Please locate the two l
 ```
 
 Please pay attention at the Camel init/start time and also the Quarkus start time.
-Now you may think that the long native compilation may be worth the challenge in some situation where a quick JVM start is required.
+Now you may think that the long native compilation may be worth the challenge in some situations where a quick JVM start is required.
 
 Next, let's  check that our Camel Quarkus route in native mode behaves the same way as in DEV and JVM mode.
 In the *USER terminal*, use you favorite HTTP client, for instance:
@@ -811,12 +817,10 @@ Estimate time : 25 minutes
 ## Bonus B - Deploying to the cloud
 @TODO
 
-## TODO: more sections needed ? camel-bean ? some cdi tricks ?
+## TODO:
 + Use mvnw instead of maven (we don't have mvnw to generate that first project at this stage)
 + We need to know what really means by (build:0ms init:35ms start:7ms)
 + Ask a MAC user to test the container build
-+ Maybe container build is triggered automatically when native-image is not installed (when using mvnw?)
 + Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster (depends on part 7)
-+ Complete pre-requisites with as most docker images pre-download as possible
 
 ## Satisfation form ? Reward/Goodies ?
