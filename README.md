@@ -822,4 +822,21 @@ Estimate time : 25 minutes
 + Ask a MAC user to test the container build
 + Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster (depends on part 7)
 
+## Few tips to help organizers during the workshop
+
+This section contains few tips that could be useful for organizers during the workshop.
+
+### Save/restore a docker image
+
+```
+docker save quay.io/quarkus/ubi-quarkus-native-image:21.3-java11 -o downloads/docker-ubi-quarkus-native-image_21_3-java11
+docker image load -i downloads/docker-ubi-quarkus-native-image_21_3-java11
+```
+
+### Copy maven dependencies into a running container
+
+```
+docker cp downloads/m2-repository 99ef34eb8e2e:/root/.m2/repository
+```
+
 ## Satisfation form ? Reward/Goodies ?

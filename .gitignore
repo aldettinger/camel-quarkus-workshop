@@ -38,3 +38,6 @@ nb-configuration.xml
 
 # Vi/Vim
 *.swp
+
+# Other excludes
+downloads
