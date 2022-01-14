@@ -818,7 +818,6 @@ Estimate time : 25 minutes
 @TODO
 
 ## TODO:
-+ Use mvnw instead of maven (we don't have mvnw to generate that first project at this stage)
 + We need to know what really means by (build:0ms init:35ms start:7ms)
 + Ask a MAC user to test the container build
 + Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster (depends on part 7)
