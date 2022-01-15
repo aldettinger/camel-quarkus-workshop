@@ -3,20 +3,20 @@
 ## About
 (Estimate time : 10 minutes)
 
-This repository contains several assignments that will help you getting started with Integration with [Apache Camel](https://camel.apache.org/) & [Quarkus](https://quarkus.io/).
+This repository contains several assignments that will help you get started with Integration with [Apache Camel](https://camel.apache.org/) & [Quarkus](https://quarkus.io/).
 
 The workshop is structured into different sections :
 
 * [Prerequisites for the workshop](#prerequisites-for-the-workshop)
 * [Part 1 - Quarkus DEV mode](#part-1---quarkus-dev-mode)
-* [Part 2 - Quarkus JVM mode](#part-2---quarkus-jvm-mode)
-* [Part 3 - Quarkus native mode](#part-3---quarkus-native-mode)
-* [Part 4 - Camel Quarkus Routes](#part-4---camel-quarkus-routes)
-* [Part 5 - Camel Quarkus Extensions](#part-5---camel-quarkus-extensions)
-* [Part 6 - Camel Quarkus Enterprise Integration Patterns](#part-6---camel-quarkus-enterprise-integration-patterns)
-* [Part 7 - Camel Quarkus and Kafka](#part-7---camel-quarkus-and-kafka)
-* [Bonus A - Camel Quarkus and Kamelets](#bonus-a---camel-quarkus-and-the-kamelets)
-* [Bonus B - Deploying Camel Quarkus apps into the Cloud](#bonus-b---deploying-to-the-cloud)
+* [Part 2 - Camel Routes](#part-2---camel-routes)
+* [Part 3 - Camel Components](#part-3---camel-components)
+* [Part 4 - Enterprise Integration Patterns](#part-4---enterprise-integration-patterns)
+* [Part 5 - Camel Quarkus and Kafka](#part-5---camel-quarkus-et-kafka)
+* [Part 6 - Quarkus JVM mode](#part-6---quarkus-jvm-mode)
+* [Part 7 - Quarkus native mode](#part-7---quarkus-native-mode)
+* [Bonus A - Deploying Camel Quarkus apps into the Cloud](#bonus-a---deploying-to-the-cloud)
+* [Bonus B - Camel Quarkus and Kamelets](#bonus-b---camel-quarkus-and-the-kamelets)
 
 ---
 **⚠ WARNING**
@@ -24,14 +24,6 @@ The workshop is structured into different sections :
 It is strongly advised to execute as much as possible the [prerequisites section](#prerequisites-for-the-workshop) **at home prior to the workshop.**
 Indeed, more than 2 GiB of downloads could be expected for tools, sources, maven dependencies and docker images.
 Downloading that much with a single shared connection from the workshop room could end up to be a poor experience.
-
----
-**🚀 NOTE**
-
-* If you happen to be already familiar with Quarkus, you could jump from [Prerequisites for the workshop](#prerequisites-for-the-workshop) to [Part 4 - Camel Quarkus Routes](#part-4---camel-quarkus-routes) and deep dive directly into Apache Camel! 
-
----
-
 
 ## Prerequisites for the workshop
 (Estimate time : 20 minutes)
@@ -46,7 +38,7 @@ It is strongly advised to install as much as possible prior to the workshop.
  * JDK 11 installed
  * Maven >= 3.6.3 advised, possibly with JAVA_HOME configured appropriately
  * A favorite HTTP client like curl
- * Docker >= 1.13.1 installed (if docker is missing, that's no big deal, you may only miss part-3 and part-7)
+ * Docker >= 1.13.1 installed (if docker is missing, that's no big deal, you may only miss part-7, and some concepts of part-5)
 
 Let's check whether some prerequisites are already installed on your machine, for instance like below:
 
@@ -100,11 +92,16 @@ ls "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
 You should see something similar to below:
 
 ```
-part-2-jvm-mode
-part-3-native-mode
-part-4-routes
-part-5-extensions
-part-6-eips
+bonus-a-cloud
+images
+part-2-routes
+part-3-components
+part-4-eips
+part-5-kafka
+part-6-jvm-mode
+part-7-kafka
+part-7-native-mode
+
 ```
 
 There is currently no folder starting with `part-1-` ! Well spotted, that's totally fine as we'll create it later on.
@@ -256,188 +253,7 @@ The DEV mode offers few more features. When you have time, we encourage you to t
  * [https://quarkus.io/guides/continuous-testing](https://quarkus.io/guides/continuous-testing)
  * [https://quarkus.io/guides/dev-services](https://quarkus.io/guides/dev-services)
 
-## Part 2 - Quarkus JVM mode
-Estimate time : 15 minutes
-
-With the JVM mode, we enter into the core of the Quarkus philosophy.
-The bottom line being that the historical trade-offs used in the JVMs should change as we are now coding in the cloud era.
-For instance, in a world of containers, JVM are started and stopped more frequently.
-In this respect, it makes sense to perform as much tasks as possible once and for all at build time.
-
-The illustration below shows the difference between starting a typical Java framework vs starting Quarkus, images courtesy from [Quarkus: The Black Swan of Java](https://www.jug.ch/events/slides/200430_jugch_Quarkus_-_Black_Swan_of_Java.pdf):
-
-![Typical Java Framework Start](typical-java-framework-start-courtesy-of-quarkus-the-black-swan-of-java.png)
-
-![Quarkus Start](quarkus-start-courtesy-of-quarkus-the-black-swan-of-java.png)
-
-Building a Camel Quarkus route in JVM mode is simple. In the *DEV terminal*, type commands as below:
-
-```
-cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-2-jvm-mode
-mvn clean package
-```
-
-It should take only few seconds.
-Let's look at the produced artifacts, for instance using the command below:
-
-```
-ls target/quarkus-app
-```
-
-It should exhibit a directory structure as below:
-
-```
-app  lib  quarkus  quarkus-app-dependencies.txt  quarkus-run.jar
-
-```
-
-In JVM mode, the application has actually been packaged as a **fast-jar**.
-Indeed, Quarkus has even designed its own packaging format in order to [provide faster startup times](https://www.youtube.com/watch?v=ogbMLeU1ogk).
-so far so good, we can start our Camel route in JVM mode as shown below:
-
-```
-java -jar target/quarkus-app/quarkus-run.jar
-```
-
-At this stage, we'll record the startup times. Please locate the two lines that looks like below:
-
-```
-2022-01-05 14:44:54,366 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.14.0 (camel-1) started in 52ms (build:0ms init:42ms start:10ms)
-2022-01-05 14:44:54,460 INFO  [io.quarkus] (main) part-2-jvm-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.6.1.Final) started in 0.855s. Listening on: http://0.0.0.0:8080
-```
-
-Pay attention to the Camel start time and also to the Quarkus start time.
-You can compare them with your neighbors if you'd like :) But the important part is to remind them for the next section.
-
-Now let's  check that our Camel Quarkus route in JVM mode behaves the same way as in DEV mode.
-In the *USER terminal*, use you favorite HTTP client, for instance:
-
-```
-curl localhost:8080/cq-http-endpoint
-
-```
-
-We should have the same answer as in part 1:
-
-```
-Hello Camel Quarkus from the 3h workshop room !
-```
-
-At this point, we have seen that Quarkus can start quicker than typical Java frameworks in JVM mode.
-In a container world where the time to serve the first request is a key metric, it's a huge advantage.
-Quarkus offers other significant improvements, for instance related to startup memory.
-When you have time, we encourage you to have a look at the RSS memory used on startup.
-Unix users could find the command `ps -e -o rss,comm,args | grep "quarkus-run.jar$"` useful.
-
-As a last step, we just need to stop our Camel Quarkus route. For instance, by hitting CTRL+C.
-
-Well done for the JVM mode ! Let's tackle a more tricky part now. In next section, we'll try to compile our Camel Quarkus route as a native executable.
-
-## Part 3 - Quarkus native mode
-Estimate time : 20 minutes
-
-The Quarkus philosophy is to move as much tasks as possible at build time.
-In this respect, the native mode is going one step further in this direction.
-The native mode is based on a different kind of virtual machine, namely the [SubstrateVM](https://docs.oracle.com/en/graalvm/enterprise/20/docs/reference-manual/native-image/SubstrateVM/) from the [GraalVM project](https://www.graalvm.org/).
-
-In native mode, a lot more happen ahead of time. For instance, most Java static initializers could be expected to be executed once and for all during the build.
-Indeed, most Java static initializers are performing some tasks that are not runtime dependent.
-So, why should we wait the last minute to perform those tasks ?
-
-Completing the setup to enable native compilation could be a bit tricky during a workshop.
-So, we'll have a try with [Creating a Linux executable without GraalVM installed](https://quarkus.io/guides/building-native-image#container-runtime).
-
-In the *DEV terminal*, let's trigger a native build by activating the `native` profile:
-
-```
-cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-3-native-mode
-mvn clean package -Dnative -Dquarkus.native.container-build=true
-```
-
-That's taking time. If not already pulled from the prerequisites section, docker may trigger the download of few images now.
-When the download has completed, we still have more time to wait as the native build is triggered and produces logs like below:
-
-```
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]    classlist:   4,075.68 ms,  1.19 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]        (cap):     787.70 ms,  1.19 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]        setup:   2,916.63 ms,  1.19 GB
-13:53:48,976 INFO  [org.jbo.threads] JBoss Threads version 3.4.2.Final
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]     (clinit):     735.50 ms,  4.19 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]   (typeflow):   4,298.46 ms,  4.19 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]    (objects):  32,772.76 ms,  4.19 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]   (features):   5,024.62 ms,  4.19 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]     analysis:  44,810.36 ms,  4.19 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]     universe:   2,212.09 ms,  4.19 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]      (parse):   8,634.28 ms,  5.17 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]     (inline):   5,664.15 ms,  5.43 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]    (compile):  37,225.29 ms,  6.89 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]      compile:  54,948.06 ms,  6.89 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]        image:   4,534.56 ms,  6.89 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]        write:     772.79 ms,  6.89 GB
-[part-3-native-mode-1.0.0-SNAPSHOT-runner:26]      [total]: 115,210.07 ms,  6.89 GB
-```
-
-It looks that there are really a lot of things happening at build time and it's taking long.
-This is one of the downsides when using the native mode: slow builds, hard debugging, no just-in-time compilation of Java code and few [development tricks](https://camel.apache.org/camel-quarkus/latest/user-guide/native-mode.html) could be needed, especially when using Java dynamic features such as Java reflection.
-
-Let's see what we have produced, for instance by typing the command below
-
-```
-ls -al target/*runner
-```
-
-It should show a native executable, similar to below:
-
-```
--rwxr-xr-x. 1 user user 56251784 Jan  5 14:55 target/part-3-native-mode-1.0.0-SNAPSHOT-runner
-```
-
-The size of 54 MiB may seems big for a Java application but note that no JDK is needed to run this.
-Indeed, during the long native compilation phase, all necessary parts from the JDK and third party libraries have been embedded into the native executable.
-
-Now let's start our Camel Quarkus native route with the following command:
-
-```
-target/*runner
-```
-
-Like we did in JVM mode, we'll record the startup times. Please locate the two lines that looks like below:
-
-```
-2022-01-05 14:58:17,729 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.14.0 (camel-1) started in 1ms (build:0ms init:1ms start:0ms)
-2022-01-05 14:58:17,734 INFO  [io.quarkus] (main) part-3-native-mode 1.0.0-SNAPSHOT native (powered by Quarkus 2.6.1.Final) started in 0.026s. Listening on: http://0.0.0.0:8080
-```
-
-Please pay attention at the Camel init/start time and also the Quarkus start time.
-Now you may think that the long native compilation may be worth the challenge in some situations where a quick JVM start is required.
-
-Next, let's  check that our Camel Quarkus route in native mode behaves the same way as in DEV and JVM mode.
-In the *USER terminal*, use you favorite HTTP client, for instance:
-
-```
-curl localhost:8080/cq-http-endpoint
-
-```
-
-We should expect the same answer as in part 1 and 2:
-
-```
-Hello Camel Quarkus from the 3h workshop room !
-```
-
-Reaching this point, we have scratched the surface of the JVM and native mode.
-Let's retain few lessons.
-The application behaves the same in JVM and native mode but the performance profile is not the same.
-The native mode and JVM mode are both great but adapted to distinct scenarios.
-
-There are still a lot of things to know about the native mode.
-When you have time, we encourage you to have a look at the RSS memory used on startup.
-Unix users could find the command `ps -e -o rss,comm,args | grep "part-3-native-mode.*runner$"` useful.
-
-A big congrats for having learned the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
-That's no big deal as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
-
-## Part 4 - Camel Quarkus Routes
+## Part 2 - Camel Routes
 Estimate time : 20 minutes
 
 When facing a typical integration challenge, one first needs to extract a **message** from a **source system**.
@@ -447,16 +263,16 @@ With Camel, facing such a typical integration challenge is done by implementing 
 So, let's reuse the *DEV terminal* and attempt to build a route, for instance as below:
 
 ```
-cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-4-routes
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-2-routes
 mvn clean quarkus:dev
 ```
 
 Some ERROR logs like below are shown:
 
 ```
-[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[13,18] <identifier> expected
-[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[13,17] not a statement
-[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[13,42] ';' expected
+[ERROR] /home/workshop/camel-quarkus-workshop/part-2-routes/src/main/java/org/acme/MyRoutes.java:[13,18] <identifier> expected
+[ERROR] /home/workshop/camel-quarkus-workshop/part-2-routes/src/main/java/org/acme/MyRoutes.java:[13,17] not a statement
+[ERROR] /home/workshop/camel-quarkus-workshop/part-2-routes/src/main/java/org/acme/MyRoutes.java:[13,42] ';' expected
 ```
 
 Indeed, the current route definition is not complete, that's expected as some TODO items needs to be completed in the code.
@@ -487,10 +303,10 @@ mvn clean quarkus:dev
 But in the *DEV terminal*, there is now yet another issue:
 
 ```
-[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[11,9] cannot find symbol
+[ERROR] /home/workshop/camel-quarkus-workshop/part-2-routes/src/main/java/org/acme/MyRoutes.java:[11,9] cannot find symbol
 [ERROR]   symbol:   method from(java.lang.String)
 [ERROR]   location: class org.acme.MyRoutes
-[ERROR] /home/workshop/camel-quarkus-workshop/part-4-routes/src/main/java/org/acme/MyRoutes.java:[12,26] cannot find symbol
+[ERROR] /home/workshop/camel-quarkus-workshop/part-2-routes/src/main/java/org/acme/MyRoutes.java:[12,26] cannot find symbol
 [ERROR]   symbol:   method constant(java.lang.String)
 [ERROR]   location: class org.acme.MyRoutes
 ```
@@ -539,7 +355,7 @@ But at this stage, let's simply remember the layout of a typical route and how t
 Of course, there are more bootstrap options possible.
 When you have time, we invite you to implement a route using the XML DSL helped with [this link](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_xml_dsl).
 
-## Part 5 - Camel Quarkus Extensions
+## Part 3 - Camel Components
 Estimate time : 40 minutes
 
 In the previous section, we have seen that a Camel route offers primitives to consume and produce messages.
@@ -570,12 +386,12 @@ Now that the documentation layout is a bit clearer, you should be able to answer
 ### Let's configure a consumer and a producer
 
 With the help of both Camel Quarkus and Camel documentations, we should now be able to create a simple route.
-Let's move to the part 5 folder.
+Let's move to the part 3 folder.
 
 For instance, in the *DEV terminal*, type as below:
 
 ```
-cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-5-extensions
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-3-components
 mvn clean quarkus:dev
 ```
 
@@ -681,7 +497,7 @@ When you have time, we encourage you to read the pages below:
  + [Create a new extension](https://camel.apache.org/camel-quarkus/latest/contributor-guide/create-new-extension.html)
  + [Promote a JVM extension to native](https://camel.apache.org/camel-quarkus/latest/contributor-guide/promote-jvm-to-native.html)
 
-## Part 6 - Camel Quarkus Enterprise Integration Patterns
+## Part 4 - Enterprise Integration Patterns
 Estimate time : 30 minutes
 
 Being able to consume/produce messages from/to a lot of technologies is not always sufficient.
@@ -692,11 +508,11 @@ From now on, let's call them **EIPs**.
 
 ### Let's review the exercise layout
 
-Let's navigate to the part 6 folder.
+Let's navigate to the part 4 folder.
 For instance, in the *DEV terminal*, type as below:
 
 ```
-cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-6-eips
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-4-eips
 mvn clean quarkus:dev
 ```
 
@@ -807,7 +623,7 @@ When you have time, we invite you to take a look at:
  + [The dynamic router EIP](https://camel.apache.org/components/latest/eips/dynamicRouter-eip.html)
  + [The kamelet EIP](https://camel.apache.org/components/latest/eips/kamelet-eip.html)
 
-## Part 7 - Integration Example with Camel Quarkus
+## Part 5 - Camel Quarkus et Kafka
 Estimate time : 25 minutes
 
 ### About this section
@@ -849,27 +665,202 @@ The application that create orders and notify delivery teams are external to our
 
 ![](images/CQ-workshop1.png)
 
+## Part 6 - Quarkus JVM mode
+Estimate time : 15 minutes
 
-## Bonus A - Camel Quarkus and the Kamelets
+With the JVM mode, we enter into the core of the Quarkus philosophy.
+The bottom line being that the historical trade-offs used in the JVMs should change as we are now coding in the cloud era.
+For instance, in a world of containers, JVM are started and stopped more frequently.
+In this respect, it makes sense to perform as much tasks as possible once and for all at build time.
+
+The illustration below shows the difference between starting a typical Java framework vs starting Quarkus, images courtesy from [Quarkus: The Black Swan of Java](https://www.jug.ch/events/slides/200430_jugch_Quarkus_-_Black_Swan_of_Java.pdf):
+
+![Typical Java Framework Start](typical-java-framework-start-courtesy-of-quarkus-the-black-swan-of-java.png)
+
+![Quarkus Start](quarkus-start-courtesy-of-quarkus-the-black-swan-of-java.png)
+
+Building a Camel Quarkus route in JVM mode is simple. In the *DEV terminal*, type commands as below:
+
+```
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-6-jvm-mode
+mvn clean package
+```
+
+It should take only few seconds.
+Let's look at the produced artifacts, for instance using the command below:
+
+```
+ls target/quarkus-app
+```
+
+It should exhibit a directory structure as below:
+
+```
+app  lib  quarkus  quarkus-app-dependencies.txt  quarkus-run.jar
+
+```
+
+In JVM mode, the application has actually been packaged as a **fast-jar**.
+Indeed, Quarkus has even designed its own packaging format in order to [provide faster startup times](https://www.youtube.com/watch?v=ogbMLeU1ogk).
+so far so good, we can start our Camel route in JVM mode as shown below:
+
+```
+java -jar target/quarkus-app/quarkus-run.jar
+```
+
+At this stage, we'll record the startup times. Please locate the two lines that looks like below:
+
+```
+2022-01-05 14:44:54,366 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.14.0 (camel-1) started in 52ms (build:0ms init:42ms start:10ms)
+2022-01-05 14:44:54,460 INFO  [io.quarkus] (main) part-6-jvm-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.6.1.Final) started in 0.855s. Listening on: http://0.0.0.0:8080
+```
+
+Pay attention to the Camel start time and also to the Quarkus start time.
+You can compare them with your neighbors if you'd like :) But the important part is to remind them for the next section.
+
+Now let's  check that our Camel Quarkus route in JVM mode behaves the same way as in DEV mode.
+In the *USER terminal*, use you favorite HTTP client, for instance:
+
+```
+curl localhost:8080/cq-http-endpoint
+
+```
+
+We should have the same answer as in part 1:
+
+```
+Hello Camel Quarkus from the 3h workshop room !
+```
+
+At this point, we have seen that Quarkus can start quicker than typical Java frameworks in JVM mode.
+In a container world where the time to serve the first request is a key metric, it's a huge advantage.
+Quarkus offers other significant improvements, for instance related to startup memory.
+When you have time, we encourage you to have a look at the RSS memory used on startup.
+Unix users could find the command `ps -e -o rss,comm,args | grep "quarkus-run.jar$"` useful.
+
+As a last step, we just need to stop our Camel Quarkus route. For instance, by hitting CTRL+C.
+
+Well done for the JVM mode ! Let's tackle a more tricky part now. In next section, we'll try to compile our Camel Quarkus route as a native executable.
+
+## Part 7 - Quarkus native mode
+Estimate time : 20 minutes
+
+The Quarkus philosophy is to move as much tasks as possible at build time.
+In this respect, the native mode is going one step further in this direction.
+The native mode is based on a different kind of virtual machine, namely the [SubstrateVM](https://docs.oracle.com/en/graalvm/enterprise/20/docs/reference-manual/native-image/SubstrateVM/) from the [GraalVM project](https://www.graalvm.org/).
+
+In native mode, a lot more happen ahead of time. For instance, most Java static initializers could be expected to be executed once and for all during the build.
+Indeed, most Java static initializers are performing some tasks that are not runtime dependent.
+So, why should we wait the last minute to perform those tasks ?
+
+Completing the setup to enable native compilation could be a bit tricky during a workshop.
+So, we'll have a try with [Creating a Linux executable without GraalVM installed](https://quarkus.io/guides/building-native-image#container-runtime).
+
+In the *DEV terminal*, let's trigger a native build by activating the `native` profile:
+
+```
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-7-native-mode
+mvn clean package -Dnative -Dquarkus.native.container-build=true
+```
+
+That's taking time. If not already pulled from the prerequisites section, docker may trigger the download of few images now.
+When the download has completed, we still have more time to wait as the native build is triggered and produces logs like below:
+
+```
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]    classlist:   4,075.68 ms,  1.19 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]        (cap):     787.70 ms,  1.19 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]        setup:   2,916.63 ms,  1.19 GB
+13:53:48,976 INFO  [org.jbo.threads] JBoss Threads version 3.4.2.Final
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]     (clinit):     735.50 ms,  4.19 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]   (typeflow):   4,298.46 ms,  4.19 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]    (objects):  32,772.76 ms,  4.19 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]   (features):   5,024.62 ms,  4.19 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]     analysis:  44,810.36 ms,  4.19 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]     universe:   2,212.09 ms,  4.19 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]      (parse):   8,634.28 ms,  5.17 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]     (inline):   5,664.15 ms,  5.43 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]    (compile):  37,225.29 ms,  6.89 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]      compile:  54,948.06 ms,  6.89 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]        image:   4,534.56 ms,  6.89 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]        write:     772.79 ms,  6.89 GB
+[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]      [total]: 115,210.07 ms,  6.89 GB
+```
+
+It looks that there are really a lot of things happening at build time and it's taking long.
+This is one of the downsides when using the native mode: slow builds, hard debugging, no just-in-time compilation of Java code and few [development tricks](https://camel.apache.org/camel-quarkus/latest/user-guide/native-mode.html) could be needed, especially when using Java dynamic features such as Java reflection.
+
+Let's see what we have produced, for instance by typing the command below
+
+```
+ls -al target/*runner
+```
+
+It should show a native executable, similar to below:
+
+```
+-rwxr-xr-x. 1 user user 56251784 Jan  5 14:55 target/part-7-native-mode-1.0.0-SNAPSHOT-runner
+```
+
+The size of 54 MiB may seems big for a Java application but note that no JDK is needed to run this.
+Indeed, during the long native compilation phase, all necessary parts from the JDK and third party libraries have been embedded into the native executable.
+
+Now let's start our Camel Quarkus native route with the following command:
+
+```
+target/*runner
+```
+
+Like we did in JVM mode, we'll record the startup times. Please locate the two lines that looks like below:
+
+```
+2022-01-05 14:58:17,729 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.14.0 (camel-1) started in 1ms (build:0ms init:1ms start:0ms)
+2022-01-05 14:58:17,734 INFO  [io.quarkus] (main) part-7-native-mode 1.0.0-SNAPSHOT native (powered by Quarkus 2.6.1.Final) started in 0.026s. Listening on: http://0.0.0.0:8080
+```
+
+Please pay attention at the Camel init/start time and also the Quarkus start time.
+Now you may think that the long native compilation may be worth the challenge in some situations where a quick JVM start is required.
+
+Next, let's  check that our Camel Quarkus route in native mode behaves the same way as in DEV and JVM mode.
+In the *USER terminal*, use you favorite HTTP client, for instance:
+
+```
+curl localhost:8080/cq-http-endpoint
+
+```
+
+We should expect the same answer as in part 1 and 6:
+
+```
+Hello Camel Quarkus from the 3h workshop room !
+```
+
+Reaching this point, we have scratched the surface of the JVM and native mode.
+Let's retain few lessons.
+The application behaves the same in JVM and native mode but the performance profile is not the same.
+The native mode and JVM mode are both great but adapted to distinct scenarios.
+
+There are still a lot of things to know about the native mode.
+When you have time, we encourage you to have a look at the RSS memory used on startup.
+Unix users could find the command `ps -e -o rss,comm,args | grep "part-7-native-mode.*runner$"` useful.
+
+A big congrats for having learned the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
+That's no big deal as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
+
+## Bonus A - Deploying to the cloud
 ---
 **🚀NOTE**
 
-This section is a revisited version of the [Part 7 - Integration Example with Camel Quarkus](#part-7---integration-example-with-camel-quarkus). We recommend you start with the Part 7 section, in order to have a better understanding of this one.
+This section is a revisited version of the [Part 5 - Camel Quarkus et Kafka](#part-5---camel-quarkus-et-kafka). We recommend you start with the Part 5 section, in order to have a better understanding of this one.
 
 ---
 
-## Bonus B - Deploying to the cloud
----
-**🚀NOTE**
-
-This section is a revisited version of the [Part 7 - Integration Example with Camel Quarkus](#part-7---integration-example-with-camel-quarkus). We recommend you start with the Part 7 section, in order to have a better understanding of this one.
-
----
+## Bonus B - Camel Quarkus and the Kamelets
+// TODO Zineb
 
 ## TODO:
 + We need to know what really means by (build:0ms init:35ms start:7ms)
 + Ask a MAC user to test the container build
-+ Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster (depends on part 7)
++ Complete pre-requisites with creating a sandbox account or install CRC or get an openshift cluster (depends on part 5)
 
 ## Few tips to help organizers during the workshop
 
