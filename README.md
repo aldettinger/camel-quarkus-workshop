@@ -651,7 +651,7 @@ In case, you don't have a proper Docker license:
 
 ### Introducing the example
 
-This example will illustrate an application that will receive and process coffee orders. The application is designed around Event Driven Architecture and uses Kafka to communicate with external systems. The orders are stored withing a database. The delivery team is notified on slack to go check the order. The delivery team can access information about orders to deliver using an API.
+This example will illustrate an application that will receive and process coffee orders. The application is designed around Event Driven Architecture and uses Kafka to communicate with external systems. The orders are stored within a database. The delivery team is notified on slack to go check the order. The delivery team can access information about orders to deliver using an API.
 
 
 * insert the orders within a Database
