@@ -641,29 +641,29 @@ We will also experience the joy of using [dev services](https://quarkus.io/guide
 ---
 **🚀NOTE**
 
-This section requires having Docker installed in order to provition a Kafka and Postgresql servers. 
+This section requires having Docker installed in order to provision a Kafka and Postgresql servers. 
 
 In case, you don't have a proper Docker license:
-* Use H2 Databse instead of Postgresql
-* Ask us during the session to provide you a kafka instance in the Cloud.
+* Use H2 Database instead of Postgresql (use JDBC h2 extension instead of JDBC Postgresql extension)
+* See how to provision Kafka topic from [Bonus B - Camel Quarkus and Kamelets section](#bonus-b---camel-quarkus-and-the-kamelets) 
 
 ---
 
 ### Introducing the example
 
-This example will illustrate a application that will receive and process coffee orders. The application is designed around Event Driven Architecture and uses Kafka to communicate with external systems. The orders are stored withing a database. The delivery team is notified on slack to go check the order. The delivery team can access information about orders to deliver using an API.
+This example will illustrate an application that will receive and process coffee orders. The application is designed around Event Driven Architecture and uses Kafka to communicate with external systems. The orders are stored withing a database. The delivery team is notified on slack to go check the order. The delivery team can access information about orders to deliver using an API.
 
 
 * insert the orders within a Database
 * notify the delivery company using a specific API (This one will be provided during the session)
 
 The application is designed around Event Driven Architecture and uses Kafka to handle those messages:
-* The beer orders to be processed are in a kafka topic named `orders`
+* The coffee orders to be processed are in a kafka topic named `orders`
 * The notifications to the delivery company are in a kafka topic named `deliveries`
 
 The application that create orders and notify delivery teams are external to our ecosystem.
 
-![](images/CQ-workshop1.png)
+![](resources/CQ-workshop1.png)
 
 ## Part 6 - Quarkus JVM mode
 Estimate time : 15 minutes
@@ -675,9 +675,9 @@ In this respect, it makes sense to perform as much tasks as possible once and fo
 
 The illustration below shows the difference between starting a typical Java framework vs starting Quarkus, images courtesy from [Quarkus: The Black Swan of Java](https://www.jug.ch/events/slides/200430_jugch_Quarkus_-_Black_Swan_of_Java.pdf):
 
-![Typical Java Framework Start](typical-java-framework-start-courtesy-of-quarkus-the-black-swan-of-java.png)
+![Typical Java Framework Start](resources/typical-java-framework-start-courtesy-of-quarkus-the-black-swan-of-java.png)
 
-![Quarkus Start](quarkus-start-courtesy-of-quarkus-the-black-swan-of-java.png)
+![Quarkus Start](resources/quarkus-start-courtesy-of-quarkus-the-black-swan-of-java.png)
 
 Building a Camel Quarkus route in JVM mode is simple. In the *DEV terminal*, type commands as below:
 

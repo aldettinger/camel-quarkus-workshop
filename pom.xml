@@ -49,6 +49,38 @@
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-activemq</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-timer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jdbc-postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-bean</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-slack</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>
@@ -81,12 +113,12 @@
     </build>
     <modules>
         <!-- sub-modules for new parts may need to be added there for maven dependencies pre-download -->
-        <module>part-2-jvm-mode</module>
-        <module>part-3-native-mode</module>
-        <module>part-4-routes</module>
-        <module>part-5-extensions</module>
-        <module>part-6-eips</module>
-        <module>part-7-kafka</module>
-        <module>part-8-cloud</module>
+        <module>part-2-routes</module>
+        <module>part-3-components</module>
+        <module>part-4-eips</module>
+        <module>part-5-kafka</module>
+        <module>part-6-jvm-mode</module>
+        <module>part-7-native-mode</module>
+        <module>bonus-a-cloud</module>
     </modules>
 </project>
