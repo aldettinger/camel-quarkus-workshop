@@ -645,7 +645,7 @@ This section requires having Docker installed in order to provision a Kafka and 
 
 In case, you don't have a proper Docker license:
 * Use H2 Database instead of Postgresql (use JDBC h2 extension instead of JDBC Postgresql extension)
-* See how to provision Kafka topic from [Bonus B - Camel Quarkus and Kamelets section](#bonus-b---camel-quarkus-and-the-kamelets) 
+* See how to provision Kafka topic from [Bonus A - Deploying Camel Quarkus apps into the Cloud section](#bonus-a---deploying-to-the-cloud) 
 
 ---
 
@@ -844,7 +844,6 @@ When you have time, we encourage you to have a look at the RSS memory used on st
 Unix users could find the command `ps -e -o rss,comm,args | grep "part-7-native-mode.*runner$"` useful.
 
 A big congrats for having learned the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
-That's no big deal as we'll prefer to use the DEV and JVM mode for the rest of the workshop.
 
 ## Bonus A - Deploying to the cloud
 ---
