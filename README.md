@@ -653,7 +653,6 @@ In case, you don't have a proper Docker license:
 
 This example will illustrate an application that will receive and process coffee orders. The application is designed around Event Driven Architecture and uses Kafka to communicate with external systems. The orders are stored within a database. The delivery team is notified on slack to go check the order. The delivery team can access information about orders to deliver using an API.
 
-
 * insert the orders within a Database
 * notify the delivery company using a specific API (This one will be provided during the session)
 
@@ -664,6 +663,163 @@ The application is designed around Event Driven Architecture and uses Kafka to h
 The application that create orders and notify delivery teams are external to our ecosystem.
 
 ![](resources/CQ-workshop1.png)
+
+Let's navigate to the part 5 folder.
+
+### Dev Services
+Quarkus supports the automatic provisioning of unconfigured services in development and test mode. For more information, you can check the [official Dev Services overview](https://quarkus.io/guides/dev-services).
+As we are using kafka and PostgreSQL, without any configuration, Quarkus dev services will start automatically Strimzi and PostgreSQL. 
+Start the app in dev mode. Notice that those 2 servers have been started.
+
+### Generate coffee orders
+In this part we use a Camel Route to simulate the external app that generates some coffee orders. Those orders are pushed to the Kafka topic named `orders`.
+
+To achieve this, we will get random coffees from an [external API](https://random-data-api.com/api/coffee/random_coffee) that generates Random coffee. We use a timer to call the API every 1s.
+We use 2 components : [timer](https://camel.apache.org/components/latest/timer-component.html) and [http](https://camel.apache.org/components/latest/http-component.html), as described in [MyRoutes class](part-5-kafka/src/main/java/org/acme/MyRoutes.java):
+```java
+public class MyRoutes extends RouteBuilder {
+
+    @Override
+    public void configure() throws Exception {
+        from("timer:create-random-coffee-orders")
+                .to("http:{{random-coffee-api}}");
+    }
+}
+```
+`random-coffee-api` value is described in the [application.properties configuration file](part-5-kafka/src/main/resources/application.properties). It contains the URI to the random coffee API.
+The response from the API is in json format. We use the [Jackson is a Data Format](https://camel.apache.org/components/latest/dataformats/json-jackson-dataformat.html) to convert from Json to [Coffee Java class](part-5-kafka/src/main/java/org/acme/Coffee.java).
+
+```
+    .unmarshal().json(Coffee.class)
+```
+
+Then we use [bean component](https://camel.apache.org/components/latest/bean-component.html) to transform the body to a [Coffee Order](part-5-kafka/src/main/java/org/acme/CoffeeOrder.java). Note that we do specify the method everytime the bean class contains many methods.
+```
+    .bean("myBean", "generateOrder")
+```
+
+Next, we convert the Java CoffeeOrder to a Json format before pushing it to the kafka topic.
+```
+ .marshal().json()
+```
+Now it's your part: push the result to the kafka topic named `orders`, using the [Kafka component](https://camel.apache.org/components/latest/kafka-component.html).
+
+---
+**🚀NOTE**
+
+Since we are using Quarkus dev services, no configuration is needed for the kafka producer. All you need to provision is the kafka topic name.
+
+---
+
+You should see some logs from the kafka consumer.
+
+### Implement the Kafka consumer : part 1 - insert into Database
+Let's look at the Kafka consumer Route. This is the Route streaming from the kafka topic `orders`.
+
+```
+        from("kafka:orders")
+            .log("received from kafka : ${body}");
+```
+
+Now let's change the log part, and insert the coming orders into the database. To write to Database, we use the [JPA component](https://camel.apache.org/components/latest/jpa-component.html).
+Note that, the CoffeeOrder table has been configured using JPA in the  [CoffeeOrder class](part-5-kafka/src/main/java/org/acme/CoffeeOrder.java). The id is auto-generated.
+
+The table is created automatically with JPA while Dev services starts PostgreSQL, thanks to this Quarkus configuration:
+```
+#Hibernate : drop and create the database
+quarkus.hibernate-orm.database.generation=drop-and-create
+```
+
+Now, you can delete the log instruction, and insert the order to the database using JPA producer. Note that the default operation of the JPA producer is inserting into database.
+
+---
+**🚀NOTE**
+
+Make sure you convert the json message streamed from Kafka to Java, before using the JPA producer.
+
+---
+
+Now you can check you're adding new orders to the database with the REST endpoint `/order`, described in the Camel Route :
+```
+ rest("order-api").description("Coffee Orders REST service")
+                // REST endpoint to get all coffee orders using JPA NamedQuery
+                .get("/order").description("The list of all the coffee orders")
+                .route().routeId("orders-all")
+                .to("jpa:" + CoffeeOrder.class + "?namedQuery=findAll")
+                .marshal().json()
+                .endRest()
+```
+In this Route, we are using the REST component, to create an API. This api contains a GET endpoint that fetches all coffee orders using JPA and named Query `findAll`.
+This named query is described in the [CoffeeOrder class](part-5-kafka/src/main/java/org/acme/CoffeeOrder.java).
+
+Now check using :
+```
+ $ curl http://8080/order-api/order
+```
+
+Congrats! You've just learned how easy it is to stream from and to Kafka and to write in an SQL database with Camel. 
+
+### Implement the Kafka consumer : part 2 - Send notifications to Slack
+Once a coffee order is inserted into the database, the Route should also send a notification to a Slack Channel. 
+In order to check your notifications, connect to the Slack channel provided by the organizers during this workshop.
+
+---
+**🚀NOTE**
+
+If you are running this workshop alone. Create a slack workspace. Create a dedicated channel. Create a Slack application for this channel and set up a Webhook URL.
+
+---
+
+
+The notification is a String message containing the new order id. By the way, once inserted into the database the CoffeeOrder object has its id generated with JPA.
+The message is generated with the bean Method MyBean.generateNotification. Change the message using your own name. As all participants will be sending same message. The name will help identify those messages.
+
+Now use the [bean component](https://camel.apache.org/components/latest/bean-component.html) to transform the CoffeeOrder to this message.
+
+Next send this message to the slack channel. To achieve that, you'll need to use the [Slack component](https://camel.apache.org/components/latest/slack-component.html) to produce the message. The organizers have created a Slack application and will provide you the Webhook URL, that is needed to configure slack.
+Put the webhook URL in the [application.properties configuration file](part-5-kafka/src/main/resources/application.properties).
+
+```
+#Ask workshop organizers to give you the Webhook URL needed to setup the config for slack
+webhook-url=INSERT_HERE_VALUE
+```
+
+Next check that the notifications are visible in the Slack channel.
+
+Congrats! you have been able to use Java Beans to transform messages. Also, you discovered how to send messages easily to a Slack channel.
+
+### Get a coffee order by id
+Once a notification is sent to the Slack channel. One would like to check this order.
+
+To achieve that, we will create a GET endpoint that gets an order by its id. Go back to [MyRoutes class](part-5-kafka/src/main/java/org/acme/MyRoutes.java). Check the REST Route.
+Notice that there is a commented part of a Route, uncomment it and implement the missing part.
+
+This part creates a REST endpoint that gets an order with an id. That id is set as REST parameter.
+Use JPA to find the CoffeeOrder by id. Use the producer with the option of using a query.
+
+To help you, this is the JPA query you would use: 
+```
+select m  from org.acme.CoffeeOrder m  where id =${header.id}
+```
+
+The {id} parameter has been put by camel in the headers of the message. In order to send the query to the JPA producer with a dynamic header value such as ${header.id}, you will need to use [To Dynamic EIP](https://camel.apache.org/components/3.14.x/eips/toD-eip.html).
+
+Next convert the message to JSON.
+
+Next test your REST endpoint.
+
+```
+$ curl http://localhost:8080/order-api/order/1
+```
+
+Congrats! you've just achieved your first integration application with Apache Camel and Quarkus. 
+
+---
+**🚀NOTE**
+
+In case you had some difficulties running this example, one right implementation of these Routes can be found in the bonus-a-cloud part.
+
+---
 
 ## Part 6 - Quarkus JVM mode
 Estimate time : 15 minutes
@@ -846,12 +1002,75 @@ Unix users could find the command `ps -e -o rss,comm,args | grep "part-7-native-
 A big congrats for having learned the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
 
 ## Bonus A - Deploying to the cloud
+
 ---
 **🚀NOTE**
 
-This section is a revisited version of the [Part 5 - Camel Quarkus and Kafka](#part-5---camel-quarkus-and-kafka). We recommend you start with the Part 5 section, in order to have a better understanding of this one.
+This section is a revisited version of the [Part 5 - Camel Quarkus and Kafka](#part-5---camel-quarkus-and-kafka). We recommend you start with the Part 5 section, in order to have a better understanding of the example.
 
 ---
+
+We invite to review our Kafka example for a cloud version. For this :
+* We will deploy the example in an Openshift Cluster. (Openshift is a Kubernetes distribution). We will the free version of [Red Hat developer Sandbox](https://developers.redhat.com/developer-sandbox), to deploy apps into the cloud.
+* We will use a Cloud Kafka instance. We will the [Red Hat OpenShift Streams for Apache Kafka](https://developers.redhat.com/products/red-hat-openshift-streams-for-apache-kafka/getting-started)
+
+---
+**🚀NOTE**
+
+Note that to avoid installing a database on the cluster, we changed PostgreSQL by H2 database.
+
+---
+
+### Create free cloud accounts and configure the Kafka instance 
+To get started, first :
+* Create a free [Red Hat developer Sandbox](https://developers.redhat.com/developer-sandbox/get-started) 
+* Create a  [Red Hat OpenShift Streams for Apache Kafka](https://developers.redhat.com/products/red-hat-openshift-streams-for-apache-kafka/getting-started). You can create a free instance with one topic that is valid for a 48h trial.
+* Create a kafka instance and a topic named `orders`. In order to achieve this, please check the prerequisites in [this tutorial](https://developers.redhat.com/developer-sandbox/activities/connecting-to-your-managed-kafka-instance). (Sections to see: set up the Free Kafka account + create instance + create topic)
+* Create a set of credentials, following the [Creating a service account to connect to a Kafka instance in OpenShift Streams for Apache Kafka Guide](https://access.redhat.com/documentation/en-us/red_hat_openshift_streams_for_apache_kafka/1/guide/f351c4bd-9840-42ef-bcf2-b0c9be4ee30a#_7cb5e3f0-4b76-408d-b245-ff6959d3dbf7).
+* Set permissions for the service account, following the [Setting permissions for a service account in a Kafka instance in OpenShift Streams for Apache Kafka Guide](https://access.redhat.com/documentation/en-us/red_hat_openshift_streams_for_apache_kafka/1/guide/f351c4bd-9840-42ef-bcf2-b0c9be4ee30a#_3dc6265b-96f9-49fd-b2f6-9e3688859539).
+
+---
+**🚀NOTE**
+
+The minimal service account permissions needed to run this tutorial are : setting the topic `orders` access to `Allow All`, and setting the consumer Group `*` access to `Allow Read`
+
+---
+
+Next update this section with your kafka configuration in the [application.properties file](bonus-a-cloud/src/main/resources/application.properties).
+
+```
+camel.component.kafka.brokers=<YOUR_KAFKA_BROKERS_URL>
+camel.component.kafka.security-protocol=SASL_SSL
+camel.component.kafka.sasl-mechanism=PLAIN
+camel.component.kafka.sasl-jaas-config=org.apache.kafka.common.security.plain.PlainLoginModule required username="<YOUR_KAFKA_SASL_CLIENT_ID>" password="<YOUR_KAFKA_SASL_CLIENT_SECRET>";
+```
+
+* Change YOUR_KAFKA_SASL_CLIENT_ID by the Client ID
+* Change YOUR_KAFKA_SASL_CLIENT_SECRET by the Client Secret
+* Change YOUR_KAFKA_BROKERS_URL by the Bootstrap server
+
+### try the application locally
+Next start your application in dev mode. Notice that Dev services are disabled because the Kafka broker is configured.
+
+Now if this is working fine, this means that your kafka instance is well configured with the Camel Quarkus application.
+
+### deploy to cloud
+In order to deploy your application to the cloud, you will need to install the [Openshift CLI from the Web Console](https://docs.openshift.com/container-platform/4.7/cli_reference/openshift_cli/getting-started-cli.html#cli-installing-cli-web-console-macos-linux_cli-developer-commands).
+
+Once installed, you can use the OC cli.
+
+Next connect to your openshift sandbox using the CLI, copy the login command from the menu, and execute the login command.
+```
+$ oc login ....
+```
+
+Next Connect to your openshift project:
+```
+$ oc project YOUR_PROJECT_NAME
+```
+
+Next deploy to openshift.
+//TODO
 
 ## Bonus B - Camel Quarkus and the Kamelets
 // TODO Zineb

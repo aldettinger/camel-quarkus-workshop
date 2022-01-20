@@ -17,11 +17,14 @@ public class MyRoutes extends RouteBuilder {
                 .unmarshal().json(Coffee.class)
                 .bean("myBean", "generateOrder")
                 .marshal().json()
-                /* TODO push the result to kafka*/;
+                .to("kafka:orders");
 
-        // This is the Kafka Consumer Route to implement
+        // This is the Kafka Route to create
         from("kafka:orders")
-                .log("received from kafka : ${body}");
+                .unmarshal().json(CoffeeOrder.class)
+                .to("jpa:" + CoffeeOrder.class)
+                .bean("myBean", "generateNotification")
+                .to("slack://general?webhookUrl={{webhook-url}}");
 
         /**
          * REST api to fetch Coffee Orders
@@ -29,17 +32,15 @@ public class MyRoutes extends RouteBuilder {
         rest("order-api").description("Coffee Orders REST service")
                 // REST endpoint to get all coffee orders using JPA NamedQuery
                 .get("/order").description("The list of all the coffee orders")
-                .route().routeId("orders-all")
+                .route().routeId("orders-api")
                 .to("jpa:" + CoffeeOrder.class + "?namedQuery=findAll")
                 .marshal().json()
                 .endRest()
-                // TODO add new GET endpoint
-                /*.get("/order/{id}").description("A Coffee order by id")
+                // REST endpoint to get coffee order by id using a JPA Query
+                .get("/order/{id}").description("A Coffee order by id")
                 .route().routeId("order-by-id")
-                ....
-                .endRest()
-                 */
-        ;
-
+                .toD("jpa://" + CoffeeOrder.class.getName() + "?query=select m  from " + CoffeeOrder.class.getName() + " m  where id =${header.id}")
+                .marshal().json()
+                .endRest();
     }
 }
