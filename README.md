@@ -12,7 +12,7 @@ The workshop is structured into different sections :
 * [Part 2 - Camel Routes](#part-2---camel-routes)
 * [Part 3 - Camel Components](#part-3---camel-components)
 * [Part 4 - Enterprise Integration Patterns](#part-4---enterprise-integration-patterns)
-* [Part 5 - Camel Quarkus and Kafka](#part-5---camel-quarkus-et-kafka)
+* [Part 5 - Camel Quarkus and Kafka](#part-5---camel-quarkus-and-kafka)
 * [Part 6 - Quarkus JVM mode](#part-6---quarkus-jvm-mode)
 * [Part 7 - Quarkus native mode](#part-7---quarkus-native-mode)
 * [Bonus A - Deploying Camel Quarkus apps into the Cloud](#bonus-a---deploying-to-the-cloud)
@@ -623,7 +623,7 @@ When you have time, we invite you to take a look at:
  + [The dynamic router EIP](https://camel.apache.org/components/latest/eips/dynamicRouter-eip.html)
  + [The kamelet EIP](https://camel.apache.org/components/latest/eips/kamelet-eip.html)
 
-## Part 5 - Camel Quarkus et Kafka
+## Part 5 - Camel Quarkus and Kafka
 Estimate time : 25 minutes
 
 ### About this section
@@ -849,7 +849,7 @@ A big congrats for having learned the native mode ! It was a tricky part and may
 ---
 **🚀NOTE**
 
-This section is a revisited version of the [Part 5 - Camel Quarkus et Kafka](#part-5---camel-quarkus-et-kafka). We recommend you start with the Part 5 section, in order to have a better understanding of this one.
+This section is a revisited version of the [Part 5 - Camel Quarkus and Kafka](#part-5---camel-quarkus-and-kafka). We recommend you start with the Part 5 section, in order to have a better understanding of this one.
 
 ---
 
