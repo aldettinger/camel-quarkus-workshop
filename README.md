@@ -641,10 +641,10 @@ We will also experience the joy of using [dev services](https://quarkus.io/guide
 ---
 **🚀NOTE**
 
-This section requires having Docker installed in order to provision a Kafka and Postgresql servers. 
+This section requires having Docker installed in order to provision a Kafka and PostgreSQL servers. 
 
 In case, you don't have a proper Docker license:
-* Use H2 Database instead of Postgresql (use JDBC h2 extension instead of JDBC Postgresql extension)
+* Use H2 Database instead of PostgreSQL (use JDBC h2 extension instead of JDBC PostgreSQL extension)
 * See how to provision Kafka topic from [Bonus A - Deploying Camel Quarkus apps into the Cloud section](#bonus-a---deploying-to-the-cloud) 
 
 ---
