@@ -6,11 +6,10 @@ import org.apache.camel.builder.RouteBuilder;
 
 @ApplicationScoped
 public class MyRoutes /*TODO-FROM-CAMEL-QUARKUS-DOC*/ {
-    /*TODO-FROM-CAMEL-DOC @Override */
+    @Override
     public void configure() {
-        /*TODO-FROM-CAMEL-DOC*/
-        /*("timer:myTimer")
+        /*TODO-FROM-CAMEL-DOC*/("timer:myTimer")
                 .setBody(constant("Transformed message content"))
-                *TODO-FROM-CAMEL-DOC .("log:myLogCategory");*/
+                ./*TODO-FROM-CAMEL-DOC*/("log:myLogCategory");
     }
 }
