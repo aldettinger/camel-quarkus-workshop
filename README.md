@@ -37,6 +37,7 @@ It is strongly advised to install as much as possible prior to the workshop.
  * Maven >= 3.6.3 advised, possibly with JAVA_HOME configured appropriately
  * A favorite HTTP client like curl
  * Docker >= 1.13.1 installed (if docker is missing, that's no big deal, you may only miss part-7 and some concepts in part-5)
+ * Windows and MAC users interested in the native mode should install the GraalVM native-image and required tool (like Visual C++ Build Tools and so on)
 
 Let's check whether some prerequisites are already installed on your machine, for instance like below:
 
@@ -72,6 +73,9 @@ Describing all the ways to have those prerequisites installed is beyond the scop
  * [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
  * [https://medium.com/@gayanper/sdkman-on-windows-661976238042](https://medium.com/@gayanper/sdkman-on-windows-661976238042)
  * [https://maven.apache.org/guides/getting-started/windows-prerequisites.html](https://maven.apache.org/guides/getting-started/windows-prerequisites.html)
+ * [https://quarkus.io/guides/building-native-image](https://quarkus.io/guides/building-native-image)
+ * [https://www.youtube.com/watch?v=2CmBkybJNnA](https://www.youtube.com/watch?v=2CmBkybJNnA)
+ * [https://codetinkering.com/install-graalvm-native-image-mac/](https://codetinkering.com/install-graalvm-native-image-mac/)
 
 As a next step, let's clone the workshop github project locally in a folder of your choice, let's call this folder `${CQ_WORKSHOP_DIRECTORY}` :
 
