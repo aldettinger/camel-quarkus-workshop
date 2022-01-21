@@ -179,8 +179,8 @@ Quarkus has just started in DEV mode and print interesting logs like the Camel v
 
 Now, let's create a second terminal, we'll call it the *USER terminal*.
 
-The next step is to configure our first camel route by creating the file `src/main/java/org/acme/MyRoutes.java`.
-For instance, it can be done from the *USER terminal*, by typing the following commands:
+The next step is to configure our first camel route by creating a new `org.acme.MyRoutes` Java class.
+You can do it in your IDE or if you have a POSIX compatible terminal, you can use the following commands:
 
 ```
 cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-1-dev-mode
@@ -213,13 +213,13 @@ public class MyRoutes extends RouteBuilder {
 We'll explain a bit more the Camel syntax later on.
 But at this stage, it should be enough to know that we have just created a Camel application listening for incoming HTTP requests and answering with an hard-coded response.
 
-Let's test that with your favorite HTTP client. For instance, in the *USER terminal*, type the following command:
+Visit http://localhost:8080/cq-http-endpoint in your browser or if you prefer `curl`, type the following in the *USER terminal*:
 
 ```
 curl http://localhost:8080/cq-http-endpoint
 ```
 
-We should see the HTTP response as below:
+You should see an HTTP response as below:
 
 ```
 Hello Camel Quarkus in DEV mode !
@@ -231,7 +231,7 @@ Now, in `src/main/java/org/acme/MyRoutes.java` let's update the hard-coded respo
 from("platform-http:/cq-http-endpoint").setBody(constant("Hello Camel Quarkus from the 3h workshop room !"));
 ```
 
-Let's test again with your favorite HTTP client. For instance, in the *USER terminal*, type the following command:
+Refresh your browser or re-run `curl` again:
 
 ```
 curl http://localhost:8080/cq-http-endpoint
