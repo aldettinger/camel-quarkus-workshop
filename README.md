@@ -107,7 +107,7 @@ Next step, let's pre-download as much required maven dependencies as possible, f
 cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
 mvn quarkus:go-offline -fae
 mvn dependency:go-offline -fae
-mvn clean package -fae
+mvn clean package -fae -pl -part-2-routes
 cd part-5-kafka
 mvn clean quarkus:dev
 ```
