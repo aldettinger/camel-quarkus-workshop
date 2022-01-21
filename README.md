@@ -308,9 +308,9 @@ At this stage, we'll record the startup times. Please locate the two lines that 
 ```
 
 Pay attention to the Camel start time and also to the Quarkus start time.
-You can compare them with your neighbors if you'd like :) But the important part is to remind them for the next section.
+You can compare them with your neighbors if you'd like :) But the important part is to make a mental note of them for the next section.
 
-Now let's  check that our Camel Quarkus route in JVM mode behaves the same way as in DEV mode.
+Now let's check that our Camel Quarkus route in JVM mode behaves the same way as in DEV mode.
 In the *USER terminal*, use you favorite HTTP client, for instance:
 
 ```
