@@ -522,7 +522,7 @@ Once the class declaration has been completed, `mvn clean quarkus:dev` should no
 2022-01-05 16:12:57,888 INFO  [myLogCategory] (Camel (camel-1) thread #1 - timer://myTimer) Exchange[ExchangePattern: InOnly, BodyType: String, Body: Transformed message content]
 ```
 
-So, that's it ? We have faced an integration challenge and implemented a route ?
+So, that's it? We have faced an integration challenge and implemented a route?
 Sort of, it's just an example to start gently.
 Talking with Camel words, we have defined a route **consuming messages** from a **source system** (here it's a timer).
 The content of each message is then transformed and **produced** to a **target system** (here it's a logger).
