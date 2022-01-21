@@ -341,14 +341,18 @@ The Quarkus philosophy is to move as much tasks as possible at build time.
 In this respect, the native mode is going one step further in this direction.
 The native mode is based on a different kind of virtual machine, namely the [SubstrateVM](https://docs.oracle.com/en/graalvm/enterprise/20/docs/reference-manual/native-image/SubstrateVM/) from the [GraalVM project](https://www.graalvm.org/).
 
-In native mode, a lot more happen ahead of time. For instance, most Java static initializers could be expected to be executed once and for all during the build.
+In native mode, a lot more happens ahead of (run)time. For instance, most Java static initializers could be expected to be executed just once and for all possible executions during the build.
 Indeed, most Java static initializers are performing some tasks that are not runtime dependent.
-So, why should we wait the last minute to perform those tasks ?
+So, why should we wait the last minute to perform those tasks?
 
 Completing the setup to enable native compilation could be a bit tricky during a workshop.
 So, we'll have a try with [Creating a Linux executable without GraalVM installed](https://quarkus.io/guides/building-native-image#container-runtime).
 
 In the *DEV terminal*, let's trigger a native build by activating the `native` profile:
+
+:::tip
+Check the memory settings of your Docker installation and set it to 6 GB at least if possible
+:::
 
 ```
 cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-3-native-mode
