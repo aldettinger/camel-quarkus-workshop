@@ -7,11 +7,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native -t quarkus/part-1-cq-dev-mode .
+# docker build -f src/main/docker/Dockerfile.native -t quarkus/part-2-jvm-mode .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/part-1-cq-dev-mode
+# docker run -i --rm -p 8080:8080 quarkus/part-2-jvm-mode
 #
 ###
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.4
