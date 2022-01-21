@@ -37,7 +37,7 @@ It is strongly advised to install as much as possible prior to the workshop.
  * Maven >= 3.6.3 advised, possibly with JAVA_HOME configured appropriately
  * A favorite HTTP client like curl
  * Docker >= 1.13.1 installed (if docker is missing, that's no big deal, you may only miss part-7 and some concepts in part-5)
- * Windows and MAC users interested in the native mode should install the GraalVM native-image and required tool (like Visual C++ Build Tools and so on)
+ * Windows and MAC users interested in the native mode should install the GraalVM native-image and required tools (like Visual C++ Build Tools and so on)
 
 Let's check whether some prerequisites are already installed on your machine, for instance like below:
 
