@@ -557,7 +557,7 @@ In order to be usable in Camel Quarkus, a Camel component needs to be wrapped in
 There are currently around 200 Camel Quarkus extensions working both in JVM mode and native mode.
 In addition, there are also about 100 Camel Quarkus extensions more available but in JVM mode only.
 
-### Let's review the documentations layout
+### Where to find what in Camel documentation
 
 In order to start with Camel Quarkus extensions, please have a look at the [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/latest/reference/index.html).
 Now, you should be able to answer questions beneath:
@@ -566,11 +566,11 @@ Now, you should be able to answer questions beneath:
 
 The [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/latest/reference/index.html) gives a good overview.
 From there, you can navigate to the documentation of a specific Camel Quarkus extension.
-And from the documentation of a specific Camel Quarkus extension, you should be able to access the documentation of the underlying Camel component.
+And from the documentation of a specific Camel Quarkus extension, you can continue to the documentation of the underlying Camel component.
 Now that the documentation layout is a bit clearer, you should be able to answer questions below:
- * What is the URI syntax of the extension used to send and receive message from a NATS messaging system ?
- * When communicating with Salesforce, will you be able to consume messages ? produce messages ?
- * What is the default value of the  _proxyProtocol_  component option when storing/retrieving objects from an AWS S3 Storage Service ?
+ * What is the URI syntax of the extension used to send and receive message from a NATS messaging system?
+ * When communicating with Salesforce, will you be able to consume messages? Produce messages?
+ * What is the default value of the _proxyProtocol_ component option when storing/retrieving objects from an AWS S3 Storage Service?
 
 ### Let's configure a consumer and a producer
 
@@ -592,13 +592,13 @@ The destination system is expecting to receive such orders on an HTTP server.
 The target HTTP server is running on `localhost`, the port is `8080` and the resourceUri is `out-orders`.
 
 Don't know where to start in order to write such a route, let's answer few questions:
- + What Camel primitive do I need to use in order to consume messages from a source system ?
- + What extension should I use to read files from the source system ?
- + What is the URI syntax of this extension in the Camel Quarkus documentation ?
- + What Camel primitive do I need to use in order to produce messages to a destination system ?
- + What extension should I use to send requests to external HTTP servers ? we advise camel-quarkus-http
- + What maven coordinates need to be present in the pom file in order to use camel-quarkus-http ?
- + Is there more details about the HTTP component URI format in the Camel Documentation ?
+ + What Camel primitive do I need to use in order to consume messages from a source system?
+ + What extension should I use to read files from the source system?
+ + What is the URI syntax of this extension in the Camel Quarkus documentation?
+ + What Camel primitive do I need to use in order to produce messages to a destination system?
+ + What extension should I use to send requests to external HTTP servers? - We advise `camel-quarkus-http`
+ + What Maven coordinates need to be present in the pom file in order to use `camel-quarkus-http`?
+ + Is there more details about the HTTP component URI format in the Camel Documentation?
 
 At the end of the day, one should be able to create such a route with a simple line of code in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java`.
 When the route is correctly setup, the destination will print logs like below:
@@ -623,9 +623,9 @@ In the next section, we'll learn how to tune endpoint options.
 
 ### Let's specify an endpoint option with a query parameter
 
-The Camel Quarkus extensions could be tuned in a lot of fashion.
-There is always a good default value but often you would need to tune that.
-For instance, one way is to tune endpoint options using query parameters.
+The Camel Quarkus extensions can be tuned in a lot of of ways.
+There is always a good default value but often you need to tweak it.
+One possible way of doing it is to use query parameters.
 Endpoint options are merely lower level tuning explained in the [Camel documentation](https://camel.apache.org/components/latest/file-component.html#_configuring_endpoint_options).
 
 As an exercise, please amend the route in order to read file messages from a new folder named `target/in-orders-recursive`.
@@ -635,10 +635,10 @@ So, we will need to consume the files recursively from sub-folders this time.
 
 Please amend the route in order to read files recursively.
 Questions below could help:
- + Is there a query parameter to read recursively in the documentation table ?
- + What is the query parameter name ? and the default value ?
- + How to append such a query parameter to the endpoint URI in the route ?
- + Maybe there is section in the Camel documentation about reading files recursively from a directory ?
+ + Is there a query parameter to read recursively in the documentation table?
+ + What is the query parameter name ? and the default value?
+ + How to append such a query parameter to the endpoint URI in the route?
+ + Maybe there is section in the Camel documentation about reading files recursively from a directory?
 
 At the end of the day, you should see back messages as below:
 
@@ -648,12 +648,12 @@ Target system received a message via the Camel Quarkus FILE extension
 
 ### Let's tune a component option
 
-Sometimes, setting a query parameter in a lot of from and to statements is a bit cumbersome.
+Sometimes, setting a query parameter in a lot of `from` and `to` statements might be a bit cumbersome.
 It is a sign that we need something else, like a way to set an option at Camel component level.
-Such options would then apply each time the Camel component is used in any routes of our application.
-The Camel documentation gives more information, for instance [here](https://camel.apache.org/components/latest/file-component.html#_configuring_component_options).
+Such options would then apply each time the Camel component is used in any route within our application.
+The Camel documentation gives more information [here](https://camel.apache.org/components/latest/file-component.html#_configuring_component_options).
 
-This is exactly what happen in the next exercise.
+This is exactly what we will focus on in the next exercise.
 And guess what, the target system changed its interface again.
 Now, they would like to receive messages on an ActiveMQ 5.0 broker.
 The broker URL is `tcp://localhost:61617` and messages should be sent to the queue named `out-orders`.
@@ -664,11 +664,11 @@ Please read the documentation paragraph describing [How to tune a Camel componen
 
 Please amend the route in order to produce messages to this broker.
 Don't know where to start, questions below might help:
- + What Camel Quarkus extension do we need to send messages to an Apache ActiveMQ server ?
- + What is the URI format ?
- + Could we set the ActiveMQ broker URL in the Camel endpoint URI ?
- + Do we have a component option that would allow to override the default broker URL ? What is the default TCP port used ?
- + How do we actually tune a Camel component in Camel Quarkus ? Maybe a documentation paragraph was mentioned ?
+ + What Camel Quarkus extension do we need to send messages to an Apache ActiveMQ server?
+ + What is the URI format?
+ + Could we set the ActiveMQ broker URL in the Camel endpoint URI?
+ + Do we have a component option that would allow to override the default broker URL ? What is the default TCP port used?
+ + How do we actually tune a Camel component in Camel Quarkus? Maybe a documentation paragraph was mentioned?
 
 At the end of day, you should end up with messages as below:
 
@@ -680,9 +680,9 @@ And that's it.
 I hope we know have a better view of Camel Quarkus extensions.
 They actually wrap a Camel component to make it runnable with Quarkus.
 Common default values are provided off the shelf for component and endpoint options.
-Anyway, we have touched some ways to tune at different level when needed.
-Of course, a lot of things happen under the hood to have a fully functional Camel Quarkus extension.
-When you have time, we encourage you to read the pages below:
+If needed there are various ways to adjust the configuration of Camel endpoints and components.
+Of course, a lot of things happen under the hood thanks to Camel Quarkus extensions.
+In case you are missing a specific extension, we encourage you to read the pages below:
  + [Create a new extension](https://camel.apache.org/camel-quarkus/latest/contributor-guide/create-new-extension.html)
  + [Promote a JVM extension to native](https://camel.apache.org/camel-quarkus/latest/contributor-guide/promote-jvm-to-native.html)
 
