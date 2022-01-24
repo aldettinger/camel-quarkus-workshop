@@ -182,8 +182,8 @@ Quarkus has just started in DEV mode and print interesting logs like the Camel v
 
 Now, let's create a second terminal, we'll call it the *USER terminal*.
 
-The next step is to configure our first camel route by creating the file `src/main/java/org/acme/MyRoutes.java`.
-For instance, it can be done from the *USER terminal*, by typing the following commands:
+The next step is to configure our first camel route by creating a new `org.acme.MyRoutes` Java class.
+You can do it in your IDE or if you have a POSIX compatible terminal, you can use the following commands:
 
 ```
 cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-1-dev-mode
@@ -216,13 +216,13 @@ public class MyRoutes extends RouteBuilder {
 We'll explain a bit more the Camel syntax later on.
 But at this stage, it should be enough to know that we have just created a Camel application listening for incoming HTTP requests and answering with an hard-coded response.
 
-Let's test that with your favorite HTTP client. For instance, in the *USER terminal*, type the following command:
+Visit [http://localhost:8080/cq-http-endpoint](http://localhost:8080/cq-http-endpoint) in your browser or if you prefer `curl`, type the following in the *USER terminal*:
 
 ```
 curl http://localhost:8080/cq-http-endpoint
 ```
 
-We should see the HTTP response as below:
+We should see an HTTP response as below:
 
 ```
 Hello Camel Quarkus in DEV mode !
@@ -234,7 +234,7 @@ Now, in `src/main/java/org/acme/MyRoutes.java` let's update the hard-coded respo
 from("platform-http:/cq-http-endpoint").setBody(constant("Hello Camel Quarkus from the 3h workshop room !"));
 ```
 
-Let's test again with your favorite HTTP client. For instance, in the *USER terminal*, type the following command:
+Refresh your browser or re-run `curl` again:
 
 ```
 curl http://localhost:8080/cq-http-endpoint
@@ -282,7 +282,7 @@ Some ERROR logs like below are shown:
 [ERROR] /home/workshop/camel-quarkus-workshop/part-2-routes/src/main/java/org/acme/MyRoutes.java:[13,42] ';' expected
 ```
 
-Indeed, the current route definition is not complete, that's expected as some TODO items needs to be completed in the code.
+Indeed, the current route definition is not complete, that's expected as some TODO items need to be completed in the code.
 
 Let's review the content of the `src/main/java/org/acme/MyRoutes.java` source file.
 In the `configure()` method, a route is defined as below:
@@ -340,7 +340,7 @@ Once the class declaration has been completed, `mvn clean quarkus:dev` should no
 2022-01-05 16:12:57,888 INFO  [myLogCategory] (Camel (camel-1) thread #1 - timer://myTimer) Exchange[ExchangePattern: InOnly, BodyType: String, Body: Transformed message content]
 ```
 
-So, that's it ? We have faced an integration challenge and implemented a route ?
+So, that's it? We have faced an integration challenge and implemented a route?
 Sort of, it's just an example to start gently.
 Talking with Camel words, we have defined a route **consuming messages** from a **source system** (here it's a timer).
 The content of each message is then transformed and **produced** to a **target system** (here it's a logger).
@@ -375,7 +375,7 @@ In order to be usable in Camel Quarkus, a Camel component needs to be wrapped in
 There are currently around 200 Camel Quarkus extensions working both in JVM mode and native mode.
 In addition, there are also about 100 Camel Quarkus extensions more available but in JVM mode only.
 
-### Let's review the documentations layout
+### Let's learn where to find what in the Camel documentation
 
 In order to start with Camel Quarkus extensions, please have a look at the [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/latest/reference/index.html).
 Now, you should be able to answer questions beneath:
@@ -384,11 +384,11 @@ Now, you should be able to answer questions beneath:
 
 The [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/latest/reference/index.html) gives a good overview.
 From there, you can navigate to the documentation of a specific Camel Quarkus extension.
-And from the documentation of a specific Camel Quarkus extension, you should be able to access the documentation of the underlying Camel component.
+And from the documentation of a specific Camel Quarkus extension, you can continue to the documentation of the underlying Camel component.
 Now that the documentation layout is a bit clearer, you should be able to answer questions below:
- * What is the URI syntax of the extension used to send and receive message from a NATS messaging system ?
- * When communicating with Salesforce, will you be able to consume messages ? produce messages ?
- * What is the default value of the  _proxyProtocol_  component option when storing/retrieving objects from an AWS S3 Storage Service ?
+ * What is the URI syntax of the extension used to send and receive message from a NATS messaging system?
+ * When communicating with Salesforce, will you be able to consume messages? produce messages?
+ * What is the default value of the  _proxyProtocol_  component option when storing/retrieving objects from an AWS S3 Storage Service?
 
 ### Let's configure a consumer and a producer
 
@@ -410,13 +410,13 @@ The destination system is expecting to receive such orders on an HTTP server.
 The target HTTP server is running on `localhost`, the port is `8080` and the resourceUri is `out-orders`.
 
 Don't know where to start in order to write such a route, let's answer few questions:
- + What Camel primitive do I need to use in order to consume messages from a source system ?
- + What extension should I use to read files from the source system ?
- + What is the URI syntax of this extension in the Camel Quarkus documentation ?
- + What Camel primitive do I need to use in order to produce messages to a destination system ?
- + What extension should I use to send requests to external HTTP servers ? we advise camel-quarkus-http
- + What maven coordinates need to be present in the pom file in order to use camel-quarkus-http ?
- + Is there more details about the HTTP component URI format in the Camel Documentation ?
+ + What Camel primitive do I need to use in order to consume messages from a source system?
+ + What extension should I use to read files from the source system?
+ + What is the URI syntax of this extension in the Camel Quarkus documentation?
+ + What Camel primitive do I need to use in order to produce messages to a destination system?
+ + What extension should I use to send requests to external HTTP servers? - we advise [camel-quarkus-http](https://camel.apache.org/camel-quarkus/latest/reference/extensions/http.html)
+ + What Maven coordinates need to be present in the pom file in order to use `camel-quarkus-http`?
+ + Is there more details about the HTTP component URI format in the Camel Documentation?
 
 Now, please write the corresponding route in the file `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java`.
 This route should take a single line of code.
@@ -443,8 +443,8 @@ In the next section, we'll learn how to tune endpoint options.
 ### Let's specify an endpoint option with a query parameter
 
 The Camel Quarkus extensions could be tuned in a lot of fashion.
-There is always a good default value but often you would need to tune that.
-For instance, one way is to tune endpoint options using query parameters.
+There is always a good default value but often you would need to tweak it.
+One possible way of doing it is to use query parameters.
 Endpoint options are merely lower level tuning explained in the [Camel documentation](https://camel.apache.org/components/latest/file-component.html#_configuring_endpoint_options).
 
 As an exercise, please amend the route in order to read file messages from a new folder named `target/in-orders-recursive`.
@@ -454,10 +454,10 @@ So, we will need to consume the files recursively from sub-folders this time.
 
 Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` in order to read files recursively.
 Questions below could help:
- + Is there a query parameter to read recursively in the documentation table ?
- + What is the query parameter name ? and the default value ?
- + How to append such a query parameter to the endpoint URI in the route ?
- + Maybe there is section in the Camel documentation about reading files recursively from a directory ?
+ + Is there a query parameter to read recursively in the documentation table?
+ + What is the query parameter name ? and the default value?
+ + How to append such a query parameter to the endpoint URI in the route?
+ + Maybe there is section in the Camel documentation about reading files recursively from a directory?
 
 At the end of the day, you should see back messages as below:
 
@@ -467,12 +467,12 @@ Target system received a message via the Camel Quarkus FILE extension
 
 ### Let's tune a component option
 
-Sometimes, setting a query parameter in a lot of from and to statements is a bit cumbersome.
+Sometimes, setting a query parameter in a lot of `from` and `to` statements might be a bit cumbersome.
 It is a sign that we need something else, like a way to set an option at Camel component level.
-Such options would then apply each time the Camel component is used in any routes of our application.
-The Camel documentation gives more information, for instance [here](https://camel.apache.org/components/latest/file-component.html#_configuring_component_options).
+Such options would then apply each time the Camel component is used in any route within our application.
+The Camel documentation gives more information [here](https://camel.apache.org/components/latest/activemq-component.html#_configuring_component_options).
 
-This is exactly what happen in the next exercise.
+This is exactly what we will focus on in the next exercise.
 And guess what, the target system changed its interface again.
 Now, they would like to receive messages on an ActiveMQ 5.0 broker.
 The broker URL is `tcp://localhost:61617` and messages should be sent to the queue named `out-orders`.
@@ -483,11 +483,11 @@ Please read the documentation paragraph describing [How to tune a Camel componen
 
 Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` in order to produce messages to this broker.
 Don't know where to start, questions below might help:
- + What Camel Quarkus extension do we need to send messages to an Apache ActiveMQ server ?
- + What is the URI format ?
- + Could we set the ActiveMQ broker URL in the Camel endpoint URI ?
- + Do we have a component option that would allow to override the default broker URL ? What is the default TCP port used ?
- + How do we actually tune a Camel component in Camel Quarkus ? Maybe a documentation paragraph was mentioned ?
+ + What Camel Quarkus extension do we need to send messages to an Apache ActiveMQ server?
+ + What is the URI format?
+ + Could we set the ActiveMQ broker URL in the Camel endpoint URI?
+ + Do we have a component option that would allow to override the default broker URL ? What is the default TCP port used?
+ + How do we actually tune a Camel component in Camel Quarkus? Maybe a documentation paragraph was mentioned?
 
 At the end of day, you should end up with messages as below:
 
@@ -499,8 +499,8 @@ And that's it.
 I hope we know have a better view of Camel Quarkus extensions.
 They actually wrap a Camel component to make it runnable with Quarkus.
 Common default values are provided off the shelf for component and endpoint options.
-Anyway, we have touched some ways to tune at different level when needed.
-Of course, a lot of things happen under the hood to have a fully functional Camel Quarkus extension.
+If needed there are various ways to adjust the configuration of Camel endpoints and components.
+Of course, a lot of things happen under the hood thanks to Camel Quarkus extensions.
 When you have time, we encourage you to read the pages below:
  + [Create a new extension](https://camel.apache.org/camel-quarkus/latest/contributor-guide/create-new-extension.html)
  + [Promote a JVM extension to native](https://camel.apache.org/camel-quarkus/latest/contributor-guide/promote-jvm-to-native.html)
@@ -862,9 +862,9 @@ At this stage, we'll record the startup times. Please locate the two lines that 
 ```
 
 Pay attention to the Camel start time and also to the Quarkus start time.
-You can compare them with your neighbors if you'd like :) But the important part is to remind them for the next section.
+You can compare them with your neighbors if you'd like :) But the important part is to make a mental note of them for the next section.
 
-Now let's  check that our Camel Quarkus route in JVM mode behaves the same way as in DEV mode.
+Now let's check that our Camel Quarkus route in JVM mode behaves the same way as in DEV mode.
 In the *USER terminal*, use you favorite HTTP client, for instance:
 
 ```
@@ -875,7 +875,7 @@ curl localhost:8080/cq-http-endpoint
 We should have the same answer as in part 1:
 
 ```
-Hello Camel Quarkus from the 3h workshop room !
+Hello Camel Quarkus in JVM mode from the 3h workshop room !
 ```
 
 At this point, we have seen that Quarkus can start quicker than typical Java frameworks in JVM mode.
@@ -895,7 +895,8 @@ The Quarkus philosophy is to move as much tasks as possible at build time.
 In this respect, the native mode is going one step further in this direction.
 The native mode is based on a different kind of virtual machine, namely the [SubstrateVM](https://docs.oracle.com/en/graalvm/enterprise/20/docs/reference-manual/native-image/SubstrateVM/) from the [GraalVM project](https://www.graalvm.org/).
 
-In native mode, a lot more happen ahead of time. For instance, most Java static initializers could be expected to be executed once and for all during the build.
+In native mode, a lot more happens ahead of (run)time.
+For instance, most Java static initializers could be expected to be executed just once and for all possible executions during the build.
 Indeed, most Java static initializers are performing some tasks that are not runtime dependent.
 So, why should we wait the last minute to perform those tasks ?
 
@@ -910,6 +911,14 @@ mvn clean package -Dnative
 
 If you don't have installed GraalVM native image and required tools, then we'll have a try with [creating a Linux executable without GraalVM installed](https://quarkus.io/guides/building-native-image#container-runtime).
 However, note that it will produce a native executable for Linux even when building on MAC and Windows.
+
+---
+**💡 TIP**
+
+Container build is resource hungry.
+Check the memory settings of your Docker installation and set it to 6 GB at least if possible
+
+---
 
 In the *DEV terminal*, let's trigger a container build by setting `quarkus.native.container-build=true`:
 
@@ -986,7 +995,7 @@ curl localhost:8080/cq-http-endpoint
 We should expect the same answer as in part 1 and 6:
 
 ```
-Hello Camel Quarkus from the 3h workshop room !
+Hello Camel Quarkus in NATIVE mode from the 3h workshop room !
 ```
 
 Reaching this point, we have scratched the surface of the JVM and native mode.
