@@ -955,7 +955,7 @@ It should show a native executable, similar to below:
 -rwxr-xr-x. 1 user user 56251784 Jan  5 14:55 target/part-7-native-mode-1.0.0-SNAPSHOT-runner
 ```
 
-The size of 50/60 MiB may seems big for a Java application but note that no JDK is needed to run this.
+The size of 50/60 MiB may seem big for a Java application, but note that no JDK is needed to run this.
 Indeed, during the long native compilation phase, all necessary parts from the JDK and third party libraries have been embedded into the native executable.
 
 Now let's start our Camel Quarkus native route, for instance with the following command:
@@ -998,8 +998,6 @@ When you have time, we encourage you to have a look at the RSS memory used on st
 Unix users could find the command `ps -e -o rss,comm,args | grep "part-7-native-mode.*runner$"` useful.
 
 A big congrats for having learned the native mode ! It was a tricky part and maybe some of us were not able to build the native executable.
-
-
 
 ## Few tips to help organizers during the workshop
 
