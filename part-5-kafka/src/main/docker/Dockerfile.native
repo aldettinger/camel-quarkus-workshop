@@ -7,11 +7,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native -t quarkus/part-7-kafka .
+# docker build -f src/main/docker/Dockerfile.native -t quarkus/part-5-kafka .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/part-7-kafka
+# docker run -i --rm -p 8080:8080 quarkus/part-5-kafka
 #
 ###
 FROM quay.io/quarkus/quarkus-micro-image:1.0
