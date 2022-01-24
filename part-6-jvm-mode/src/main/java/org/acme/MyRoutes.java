@@ -9,6 +9,6 @@ public class MyRoutes extends RouteBuilder {
 
     @Override
     public void configure() {
-from("platform-http:/cq-http-endpoint").setBody(constant("Hello Camel Quarkus from the 3h workshop room !"));    
+from("platform-http:/cq-http-endpoint").setBody(constant("Hello Camel Quarkus in JVM mode from the 3h workshop room !"));    
 }
 }
