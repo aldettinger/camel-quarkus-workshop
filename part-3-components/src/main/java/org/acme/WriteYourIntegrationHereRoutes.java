@@ -12,5 +12,6 @@ import org.apache.camel.builder.RouteBuilder;
 public class WriteYourIntegrationHereRoutes extends RouteBuilder {
     @Override
     public void configure() {
+      // TODO: Write your route here
     }
 }

@@ -418,7 +418,8 @@ Don't know where to start in order to write such a route, let's answer few quest
  + What maven coordinates need to be present in the pom file in order to use camel-quarkus-http ?
  + Is there more details about the HTTP component URI format in the Camel Documentation ?
 
-At the end of the day, one should be able to create such a route with a simple line of code in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java`.
+Now, please write the corresponding route in the file `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java`.
+This route should take a single line of code.
 When the route is correctly setup, the destination will print logs like below:
 
 ```
@@ -429,7 +430,7 @@ First integration written, well done.
 But now the destination system company faces a budget cost and would not be able to run the HTTP server anymore.
 They want to receive the orders as files in a folder named `target/out-orders`.
 
-Please, amend the route accordingly, you should now see logs such as below:
+Please, amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` accordingly, you should now see logs such as below:
 
 ```
 Target system received a message via the Camel Quarkus FILE extension
@@ -451,7 +452,7 @@ D'oh! No logs are produced meaning that the destination system is not receiving 
 Indeed, it turns out that the messages are not stored as direct child of the `in-orders-recursive` folder.
 So, we will need to consume the files recursively from sub-folders this time.
 
-Please amend the route in order to read files recursively.
+Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` in order to read files recursively.
 Questions below could help:
  + Is there a query parameter to read recursively in the documentation table ?
  + What is the query parameter name ? and the default value ?
@@ -480,7 +481,7 @@ We'll then need to tune it.
 
 Please read the documentation paragraph describing [How to tune a Camel component with the application.properties file](https://camel.apache.org/camel-quarkus/next/user-guide/configuration.html#_application_properties)
 
-Please amend the route in order to produce messages to this broker.
+Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` in order to produce messages to this broker.
 Don't know where to start, questions below might help:
  + What Camel Quarkus extension do we need to send messages to an Apache ActiveMQ server ?
  + What is the URI format ?
