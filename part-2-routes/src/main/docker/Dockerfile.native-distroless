@@ -7,11 +7,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native-distroless -t quarkus/part-1-cq-dev-mode .
+# docker build -f src/main/docker/Dockerfile.native-distroless -t quarkus/part-2-routes .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/part-1-cq-dev-mode
+# docker run -i --rm -p 8080:8080 quarkus/part-2-routes
 #
 ###
 FROM quay.io/quarkus/quarkus-distroless-image:1.0
