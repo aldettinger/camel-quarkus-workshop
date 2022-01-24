@@ -899,17 +899,26 @@ Indeed, most Java static initializers are performing some tasks that are not run
 So, why should we wait the last minute to perform those tasks ?
 
 Completing the setup to enable native compilation could be a bit tricky during a workshop.
-So, we'll have a try with [Creating a Linux executable without GraalVM installed](https://quarkus.io/guides/building-native-image#container-runtime).
+It's especially hard for MAC and Windows users but they could find more information in [this documentation](https://quarkus.io/guides/building-native-image).
+Folks that have installed GraalVM native image and required tools could try to build with `-Dnative`:
 
-In the *DEV terminal*, let's trigger a native build by activating the `native` profile:
+```
+cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-7-native-mode
+mvn clean package -Dnative
+```
+
+If you don't have installed GraalVM native image and required tools, then we'll have a try with [creating a Linux executable without GraalVM installed](https://quarkus.io/guides/building-native-image#container-runtime).
+However, note that it will produce a native executable for Linux even when building on MAC and Windows.
+
+In the *DEV terminal*, let's trigger a container build by setting `quarkus.native.container-build=true`:
 
 ```
 cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-7-native-mode
 mvn clean package -Dnative -Dquarkus.native.container-build=true
 ```
 
-That's taking time. If not already pulled from the prerequisites section, docker may trigger the download of few images now.
-When the download has completed, we still have more time to wait as the native build is triggered and produces logs like below:
+Anyway, building with GraalVM native image installed directly on your machine or via container build is taking time.
+Be patient and at the end of the day, it should produce logs like below:
 
 ```
 [part-7-native-mode-1.0.0-SNAPSHOT-runner:26]    classlist:   4,075.68 ms,  1.19 GB
@@ -946,10 +955,10 @@ It should show a native executable, similar to below:
 -rwxr-xr-x. 1 user user 56251784 Jan  5 14:55 target/part-7-native-mode-1.0.0-SNAPSHOT-runner
 ```
 
-The size of 54 MiB may seems big for a Java application but note that no JDK is needed to run this.
+The size of 50/60 MiB may seems big for a Java application but note that no JDK is needed to run this.
 Indeed, during the long native compilation phase, all necessary parts from the JDK and third party libraries have been embedded into the native executable.
 
-Now let's start our Camel Quarkus native route with the following command:
+Now let's start our Camel Quarkus native route, for instance with the following command:
 
 ```
 target/*runner
