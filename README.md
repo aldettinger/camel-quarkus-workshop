@@ -23,6 +23,12 @@ It is strongly advised to execute as much as possible the [prerequisites section
 Indeed, more than 2 GiB of downloads could be expected for tools, sources, maven dependencies and docker images.
 Downloading that much with a single shared connection from the workshop room could end up to be a poor experience.
 
+---
+**☕ BREAK**
+
+Everyone could execute the workshop at its own pace, so we might not observe common pauses.
+You are welcome to take breaks on your own when needed.
+
 ## Prerequisites for the workshop
 (Estimate time : 20 minutes)
 
@@ -127,7 +133,7 @@ docker pull quay.io/quarkus/ubi-quarkus-native-image:21.3-java11
 Setting up the requirements should be done now: **Congratulations !**
 
 ## Part 1 - Quarkus DEV mode
-Estimate time : 20 minutes
+Estimate time : 10 minutes
 
 In this section, we'll have our first contact with Quarkus. Indeed, Quarkus offers multiple modes DEV, JVM, native... for multiple purposes.
 The idea behind the DEV mode is to simplify developers life. Better than words, let's start the creation of a Camel Quarkus project.
