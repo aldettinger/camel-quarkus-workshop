@@ -3,7 +3,7 @@
 ## About
 (Estimate time : 10 minutes)
 
-This repository contains several assignments that will help you get started with Integration with [Apache Camel](https://camel.apache.org/) & [Quarkus](https://quarkus.io/).
+This repository contains several assignments that will help you get started with Integration using [Apache Camel](https://camel.apache.org/) and [Quarkus](https://quarkus.io/).
 
 The workshop is structured into different sections :
 
@@ -143,7 +143,7 @@ In the *DEV terminal*, type commands as below:
 
 ```
 cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
-mvn io.quarkus:quarkus-maven-plugin:2.6.1.Final:create
+mvn io.quarkus:quarkus-maven-plugin:2.6.1.Final:create -DplatformVersion=2.6.1.Final
 ```
 
 We need to specify the artifactId, extensions and code start. For groupId and version, simple press enter as it was done below:
