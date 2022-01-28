@@ -644,7 +644,7 @@ In this part, we will discover how easy and fast it is to :
 * Create REST API
 
 
-We will also experience the joy of using [dev services](https://quarkus.io/guides/dev-services) in the development mode. No need to install any kafka server or database.
+We will also experience the joy of using [dev services](https://quarkus.io/guides/dev-services) in the development mode. No need to install any Kafka server or database.
 
 ### Introducing the example
 
@@ -654,8 +654,8 @@ This example will illustrate an application that will receive and process coffee
 * notify the delivery company using a specific API (This one will be provided during the session)
 
 The application is designed around Event Driven Architecture and uses Kafka to handle those messages:
-* The coffee orders to be processed are in a kafka topic named `orders`
-* The notifications to the delivery company are in a kafka topic named `deliveries`
+* The coffee orders to be processed are in a Kafka topic named `orders`
+* The notifications to the delivery company are in a Kafka topic named `deliveries`
 
 The application that create orders and notify delivery teams are external to our ecosystem.
 
@@ -665,61 +665,61 @@ Let's navigate to the part 5 folder.
 
 ### Dev Services
 Quarkus supports the automatic provisioning of unconfigured services in development and test mode. For more information, you can check the [official Dev Services overview](https://quarkus.io/guides/dev-services).
-As we are using kafka and PostgreSQL, without any configuration, Quarkus dev services will start automatically Strimzi and PostgreSQL. 
+As we are using Kafka and PostgreSQL, without any configuration, Quarkus dev services will start automatically Strimzi and PostgreSQL. 
 Start the app in dev mode. Notice that those 2 servers have been started.
 
 ### Generate coffee orders
 In this part we use a Camel Route to simulate the external app that generates some coffee orders. Those orders are pushed to the Kafka topic named `orders`.
 
 To achieve this, we will get random coffees from an [external API](https://random-data-api.com/api/coffee/random_coffee) that generates Random coffee. We use a timer to call the API every 1s.
-We use 2 components : [timer](https://camel.apache.org/components/latest/timer-component.html) and [http](https://camel.apache.org/components/latest/http-component.html), as described in [MyRoutes class](part-5-kafka/src/main/java/org/acme/MyRoutes.java):
+We use 2 extensions : [timer](https://camel.apache.org/camel-quarkus/latest/reference/extensions/timer.html) and [http](https://camel.apache.org/camel-quarkus/latest/reference/extensions/http.html), as described in [MyRoutes class](part-5-kafka/src/main/java/org/acme/MyRoutes.java):
 ```java
 public class MyRoutes extends RouteBuilder {
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
         from("timer:create-random-coffee-orders")
                 .to("http:{{random-coffee-api}}");
     }
 }
 ```
 `random-coffee-api` value is described in the [application.properties configuration file](part-5-kafka/src/main/resources/application.properties). It contains the URI to the random coffee API.
-The response from the API is in json format. We use the [Jackson Data Format](https://camel.apache.org/components/latest/dataformats/json-jackson-dataformat.html) to convert from Json to [Coffee Java class](part-5-kafka/src/main/java/org/acme/Coffee.java).
+The response from the API is in JSON format. We use the [Jackson Data Format](https://camel.apache.org/camel-quarkus/latest/reference/extensions/bean.html) to convert from Json to [Coffee Java class](part-5-kafka/src/main/java/org/acme/Coffee.java).
 
 ```
     .unmarshal().json(Coffee.class)
 ```
 
-Then we use [bean component](https://camel.apache.org/components/latest/bean-component.html) to transform the body to a [Coffee Order](part-5-kafka/src/main/java/org/acme/CoffeeOrder.java). Note that we explicitly specify the method name `generateOrder` to select among the `myBean` methods.
+Then we use [bean extension](https://camel.apache.org/camel-quarkus/latest/reference/extensions/bean.html) to transform the body to a [Coffee Order](part-5-kafka/src/main/java/org/acme/CoffeeOrder.java). Note that we explicitly specify the method name `generateOrder` to select among the `myBean` methods.
 ```
     .bean("myBean", "generateOrder")
 ```
 
-Next, we convert the Java CoffeeOrder to a Json format before pushing it to the kafka topic.
+Next, we convert the Java CoffeeOrder to a Json format before pushing it to the Kafka topic.
 ```
  .marshal().json()
 ```
-Now it's your part: push the result to the kafka topic named `orders`, using the [Kafka component](https://camel.apache.org/components/latest/kafka-component.html).
+Now it's your part: push the result to the Kafka topic named `orders`, using the [Kafka extension](https://camel.apache.org/camel-quarkus/latest/reference/extensions/kafka.html).
 
 ---
 **🚀NOTE**
 
-Since we are using Quarkus dev services, no configuration is needed for the kafka producer. All you need to provision is the kafka topic name.
+Since we are using Quarkus dev services, no configuration is needed for the Kafka producer. All you need to provision is the Kafka topic name.
 
 ---
 
-You should see some logs from the kafka consumer.
+You should see some logs from the Kafka consumer.
 
 ### Implement the Kafka consumer : part 1 - insert into Database
-Let's look at the Kafka consumer Route. This is the Route streaming from the kafka topic `orders`.
+Let's look at the Kafka consumer Route. This is the Route streaming from the Kafka topic `orders`.
 
 ```
         from("kafka:orders")
             .log("received from kafka : ${body}");
 ```
 
-Now let's change the log part, and insert the coming orders into the database. To write to Database, we use the [JPA component](https://camel.apache.org/components/latest/jpa-component.html).
-Note that, the CoffeeOrder table has been configured using JPA in the  [CoffeeOrder class](part-5-kafka/src/main/java/org/acme/CoffeeOrder.java). The id is auto-generated.
+Now let's change the log part, and insert the coming orders into the database. To write to Database, we use the [JPA extension](https://camel.apache.org/camel-quarkus/latest/reference/extensions/jpa.html).
+Note that, the CoffeeOrder table has been configured using JPA in the [CoffeeOrder class](part-5-kafka/src/main/java/org/acme/CoffeeOrder.java). The id is auto-generated.
 
 The table is created automatically with JPA while Dev services starts PostgreSQL, thanks to this Quarkus configuration:
 ```
@@ -746,15 +746,16 @@ Now you can check you're adding new orders to the database with the REST endpoin
                 .marshal().json()
                 .endRest()
 ```
-In this Route, we are using the REST component, to create an API. This api contains a GET endpoint that fetches all coffee orders using JPA and named Query `findAll`.
+In this Route, we are using the REST DSL, to create an API. This API contains a GET endpoint that fetches all coffee orders using JPA and named Query `findAll`.
 This named query is described in the [CoffeeOrder class](part-5-kafka/src/main/java/org/acme/CoffeeOrder.java).
 
 Now check using :
+
 ```
- $ curl http://8080/order-api/order
+curl http://localhost:8080/order-api/order
 ```
 
-Congrats! You've just learned how easy it is to stream from and to Kafka and to write in an SQL database with Camel. 
+Congrats! You've just learned how easy it is to stream from and to Kafka and to write in a SQL database with Camel. 
 
 ### Implement the Kafka consumer : part 2 - Send notifications to Slack
 Once a coffee order is inserted into the database, the Route should also send a notification to a Slack Channel. 
@@ -769,11 +770,11 @@ If you are running this workshop alone. Create a slack workspace. Create a dedic
 
 
 The notification is a String message containing the new order id. By the way, once inserted into the database the CoffeeOrder object has its id generated with JPA.
-The message is generated with the bean Method MyBean.generateNotification. Change the message using your own name. As all participants will be sending same message. The name will help identify those messages.
+The message is generated with the bean Method `MyBean.generateNotification`. Change the message using your own name. As all participants will be sending the same message. The name will help identify those messages.
 
-Now use the [bean component](https://camel.apache.org/components/latest/bean-component.html) to transform the CoffeeOrder to this message.
+Now use the [bean extension](https://camel.apache.org/camel-quarkus/latest/reference/extensions/bean.html) to transform the CoffeeOrder to this message.
 
-Next send this message to the slack channel. To achieve that, you'll need to use the [Slack component](https://camel.apache.org/components/latest/slack-component.html) to produce the message. The organizers have created a Slack application and will provide you the Webhook URL, that is needed to configure slack.
+Next send this message to the slack channel. To achieve that, you'll need to use the [Slack extension](https://camel.apache.org/camel-quarkus/latest/reference/extensions/slack.html) to produce the message. The organizers have created a Slack application and will provide you the Webhook URL, that is needed to configure slack.
 Put the webhook URL in the [application.properties configuration file](part-5-kafka/src/main/resources/application.properties).
 
 ```
@@ -789,27 +790,30 @@ Congrats! you have been able to use Java Beans to transform messages. Also, you 
 Once a notification is sent to the Slack channel. One would like to check this order.
 
 To achieve that, we will create a GET endpoint that gets an order by its id. Go back to [MyRoutes class](part-5-kafka/src/main/java/org/acme/MyRoutes.java). Check the REST Route.
-Notice that there is a commented part of a Route, uncomment it and implement the missing part.
+Notice that a part of the route is commented.
+Please, uncomment it and implement the missing part.
 
 This part creates a REST endpoint that gets an order with an id. That id is set as REST parameter.
-Use JPA to find the CoffeeOrder by id. Use the producer with the option of using a query.
+Use JPA to find the CoffeeOrder by id.
+Use a `JPA` producer with the `query` endpoint option.
 
 To help you, this is the JPA query you would use: 
 ```
-select m  from org.acme.CoffeeOrder m  where id =${header.id}
+select m from org.acme.CoffeeOrder m  where id = ${header.id}
 ```
 
-The {id} parameter has been put by camel in the headers of the message. In order to send the query to the JPA producer with a dynamic header value such as ${header.id}, you will need to use [To Dynamic EIP](https://camel.apache.org/components/3.14.x/eips/toD-eip.html).
+The `id` path parameter has been automatically stored by Camel as a header named `id`.
+In order to send the query to the JPA producer with a dynamic header value such as ${header.id}, you will need to use [To Dynamic EIP](https://camel.apache.org/components/latest/eips/toD-eip.html).
 
 Next convert the message to JSON.
 
-Next test your REST endpoint.
+And finally, test your REST endpoint.
 
 ```
 $ curl http://localhost:8080/order-api/order/1
 ```
 
-Congrats! you've just achieved your first integration application with Apache Camel and Quarkus. 
+Congrats! You've just learned few more Camel Quarkus tricks. 
 
 ## Part 6 - Quarkus JVM mode
 Estimate time : 15 minutes
@@ -848,7 +852,7 @@ app  lib  quarkus  quarkus-app-dependencies.txt  quarkus-run.jar
 
 In JVM mode, the application has actually been packaged as a **fast-jar**.
 Indeed, Quarkus has even designed its own packaging format in order to [provide faster startup times](https://www.youtube.com/watch?v=ogbMLeU1ogk).
-so far so good, we can start our Camel route in JVM mode as shown below:
+So far so good, we can start our Camel route in JVM mode as shown below:
 
 ```
 java -jar target/quarkus-app/quarkus-run.jar
