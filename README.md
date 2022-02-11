@@ -135,10 +135,18 @@ Setting up the requirements should be done now: **Congratulations !**
 ## Part 1 - Quarkus DEV mode
 Estimate time : 10 minutes
 
-In this section, we'll have our first contact with Quarkus. Indeed, Quarkus offers multiple modes DEV, JVM, native... for multiple purposes.
-The idea behind the DEV mode is to simplify developers life. Better than words, let's start the creation of a Camel Quarkus project.
+In this section, we'll have our first contact with Quarkus.
+Indeed, Quarkus offers multiple modes DEV, JVM, native... for multiple purposes.
+The idea behind the DEV mode is to simplify developers life.
+Better than words, let's start the creation of a Camel Quarkus project.
 
-As such, let's create a first terminal, we'll call it the *DEV terminal*.
+There are multiple ways to create a project from scratch.
+One could generate a new project using a [command line like quarkus CLI or maven](https://quarkus.io/guides/maven-tooling).
+A more graphical option would be to use [code.quarkus.io](https://code.quarkus.io/).
+
+### Create the project via the quarkus-maven-plugin
+
+Let's create a first terminal, we'll call it the *DEV terminal*.
 In the *DEV terminal*, type commands as below:
 
 ```
@@ -156,10 +164,24 @@ What extensions do you wish to add (comma separated list): platform-http
 Would you like some code to start (yes), or just an empty Quarkus project (no): no
 ```
 
-Let's start the project, for instance:
+### Create the project via code.quarkus.io
+
+If you have issues using the `quarkus-maven-plugin`, the fallback would be to generate the project graphically, as below:
+ + Navigate to [code.quarkus.io](https://code.quarkus.io/)
+ + Fill in the `Artifact` field with value `part-1-dev-mode`
+ + In the `Filters` field, add the required extension `camel-quarkus-platform-http`
+ + Check the box `Camel Platform HTTP`
+ + Click the `Generate your application` button
+ + Click the `DOWNLOAD THE ZIP` button
+ + Unzip the `part-1-dev-mode` folder in the `${CQ_WORKSHOP_DIRECTORY}` folder
+
+
+### Start the generated project
+
+Once the project is generated, let's start the it, for instance:
 
 ```
-cd part-1-dev-mode
+cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-1-dev-mode"
 mvn clean quarkus:dev
 ```
 
@@ -301,6 +323,7 @@ The route concept is not specific to Camel on Quarkus as it can also be used wit
 In such a case, we need to look at the [Apache Camel User Manual](https://camel.apache.org/manual/).
 Especially, let's review [the first paragraph in this page](https://camel.apache.org/manual/routes.html) in order to determine the two keywords needed to replace `/*TODO-FROM-CAMEL-DOC*/` in the code.
 
+Now it's your turn, please replace the two comments in the `configure()` method with the two Camel keywords spotted in the documentation.
 Once the two comments have been replaced with right keywords, let's run `mvn clean quarkus:dev` again from the *DEV terminal*:
 
 ```
@@ -365,7 +388,7 @@ When you have time, we invite you to implement a route using the XML DSL helped 
 ## Part 3 - Camel Components
 Estimate time : 40 minutes
 
-In the previous section, we have seen that a Camel route offers primitives to consume and produce messages.
+In the previous section, we have seen that a Camel route offers keywords to consume and produce messages.
 Actually, when facing integration challenges, those messages need to be consumed from/to a lot of disparate technologies.
 Lucky us, Camel offers connectivity with more than 300 technologies via **components**.
 Some components are only able to produce or consume messages, while other components might do both.
@@ -410,10 +433,10 @@ The destination system is expecting to receive such orders on an HTTP server.
 The target HTTP server is running on `localhost`, the port is `8080` and the resourceUri is `out-orders`.
 
 Don't know where to start in order to write such a route, let's answer few questions:
- + What Camel primitive do I need to use in order to consume messages from a source system?
+ + What Camel keyword do I need to use in order to consume messages from a source system?
  + What extension should I use to read files from the source system?
  + What is the URI syntax of this extension in the Camel Quarkus documentation?
- + What Camel primitive do I need to use in order to produce messages to a destination system?
+ + What Camel keyword do I need to use in order to produce messages to a destination system?
  + What extension should I use to send requests to external HTTP servers? - we advise [camel-quarkus-http](https://camel.apache.org/camel-quarkus/latest/reference/extensions/http.html)
  + What Maven coordinates need to be present in the pom file in order to use `camel-quarkus-http`?
  + Is there more details about the HTTP component URI format in the Camel Documentation?
