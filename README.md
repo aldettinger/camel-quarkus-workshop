@@ -432,6 +432,8 @@ As a starter exercise, the source system is regularly storing orders as files in
 The destination system is expecting to receive such orders on an HTTP server.
 The target HTTP server is running on `localhost`, the port is `8080` and the resourceUri is `out-orders`.
 
+![Extensions exercice 1](resources/extensions-exercice-1.png)
+
 Don't know where to start in order to write such a route, let's answer few questions:
  + What Camel keyword do I need to use in order to consume messages from a source system?
  + What extension should I use to read files from the source system?
@@ -452,6 +454,8 @@ Target system received a message via the Camel Quarkus PLATFORM-HTTP extension
 First integration written, well done.
 But now the destination system company faces a budget cost and would not be able to run the HTTP server anymore.
 They want to receive the orders as files in a folder named `target/out-orders`.
+
+![Extensions exercice 2](resources/extensions-exercice-2.png)
 
 Please, amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` accordingly, you should now see logs such as below:
 
@@ -474,6 +478,8 @@ As an exercise, please amend the route in order to read file messages from a new
 D'oh! No logs are produced meaning that the destination system is not receiving anything.
 Indeed, it turns out that the messages are not stored as direct child of the `in-orders-recursive` folder.
 So, we will need to consume the files recursively from sub-folders this time.
+
+![Extensions exercice 3](resources/extensions-exercice-3.png)
 
 Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` in order to read files recursively.
 Questions below could help:
@@ -503,6 +509,8 @@ However, the configuration is a bit trickier this time as the Camel default valu
 We'll then need to tune it.
 
 Please read the documentation paragraph describing [How to tune a Camel component with the application.properties file](https://camel.apache.org/camel-quarkus/next/user-guide/configuration.html#_application_properties)
+
+![Extensions exercice 4](resources/extensions-exercice-4.png)
 
 Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` in order to produce messages to this broker.
 Don't know where to start, questions below might help:
