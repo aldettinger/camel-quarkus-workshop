@@ -250,10 +250,10 @@ We should see an HTTP response as below:
 Hello Camel Quarkus in DEV mode !
 ```
 
-Now, in `src/main/java/org/acme/MyRoutes.java` let's update the hard-coded response to `Hello Camel Quarkus from the 3h workshop room !`:
+Now, in `src/main/java/org/acme/MyRoutes.java` let's update the hard-coded response to `Hello Camel Quarkus from the workshop room !`:
 
 ```
-from("platform-http:/cq-http-endpoint").setBody(constant("Hello Camel Quarkus from the 3h workshop room !"));
+from("platform-http:/cq-http-endpoint").setBody(constant("Hello Camel Quarkus from the workshop room !"));
 ```
 
 Refresh your browser or re-run `curl` again:
@@ -265,7 +265,7 @@ curl http://localhost:8080/cq-http-endpoint
 We see that the message has been updated:
 
 ```
-Hello Camel Quarkus from the 3h workshop room !
+Hello Camel Quarkus from the workshop room !
 ```
 
 Now, let's stop the quarkus DEV mode by pressing `q` or `CTRL+C` in the *DEV terminal*.
@@ -910,7 +910,7 @@ curl localhost:8080/cq-http-endpoint
 We should have the same answer as in part 1:
 
 ```
-Hello Camel Quarkus in JVM mode from the 3h workshop room !
+Hello Camel Quarkus in JVM mode from the workshop room !
 ```
 
 At this point, we have seen that Quarkus can start quicker than typical Java frameworks in JVM mode.
@@ -1030,7 +1030,7 @@ curl localhost:8080/cq-http-endpoint
 We should expect the same answer as in part 1 and 6:
 
 ```
-Hello Camel Quarkus in NATIVE mode from the 3h workshop room !
+Hello Camel Quarkus in NATIVE mode from the workshop room !
 ```
 
 Reaching this point, we have scratched the surface of the JVM and native mode.
