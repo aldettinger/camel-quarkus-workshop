@@ -12,6 +12,13 @@ import org.apache.camel.builder.RouteBuilder;
 public class WriteYourIntegrationHereRoutes extends RouteBuilder {
     @Override
     public void configure() {
-      // TODO: Write your route here
+        // TODO: Write your route here
+        // file to http
+       /* from("file:target/in-orders")
+                .to("http:localhost:8080/out-orders");*/
+
+        // file to active MQ
+        from("file:target/in-orders-recursive/?recursive=true")
+                .to("activemq:out-orders");
     }
 }
