@@ -17,11 +17,15 @@ public class MyRoutes extends RouteBuilder {
                 .unmarshal().json(Coffee.class)
                 .bean("myBean", "generateOrder")
                 .marshal().json()
-                /* TODO push the result to kafka*/;
+                .to("kafka:orders");
 
-        // This is the Kafka Consumer Route to implement
+        // This is the Kafka Route to create
         from("kafka:orders")
-                .log("received from kafka : ${body}");
+                .unmarshal().json(CoffeeOrder.class)
+                .to("jpa:" + CoffeeOrder.class)
+                .bean("myBean", "generateNotification")
+                .log("${body}")
+                .to("slack://general");
 
         /**
          * REST api to fetch Coffee Orders
@@ -35,12 +39,15 @@ public class MyRoutes extends RouteBuilder {
         from("direct:orders-api")
                 .routeId("orders-api")
                 .log("Received a message in route orders-api")
-                /*Complete the route to fetch all orders*/;
+                /*Complete the route to fetch all orders*/
+                .to("jpa:" + CoffeeOrder.class + "?namedQuery=findAll")
+                .marshal().json();
 
         from("direct:order-api")
                 .routeId("order-api")
                 .log("Received a message in route order-api")
-                /*Complete the route to fetch order by id*/;
-
+                /*Complete the route to fetch order by id*/
+                .toD("jpa://" + CoffeeOrder.class.getName() + "?query=select m  from " + CoffeeOrder.class.getName() + " m  where id =${header.id}")
+                .marshal().json();
     }
 }
