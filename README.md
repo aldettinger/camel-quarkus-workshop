@@ -1061,6 +1061,11 @@ docker image load -i downloads/docker-ubi-quarkus-native-image_21_3-java11
 docker cp downloads/m2-repository 99ef34eb8e2e:/root/.m2/repository
 ```
 
+### How to simply share the webhook url needed for the kafka exercice
+
+The URL contains sensitive information that's better not to be committed on github nor mailed.
+So far, sharing a shortened version of the URL proves to be quite efficient.
+
 ### Upgrade the quarkus version in the workshop
 
 Each module remains parent free for resiliency, flexibility and maven dependencies pre-download purpose.
