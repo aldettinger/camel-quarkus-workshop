@@ -173,7 +173,7 @@ If you have issues using the `quarkus-maven-plugin`, the fallback would be to ge
  + Check the box `Camel Platform HTTP`
  + Click the `Generate your application` button
  + Click the `DOWNLOAD THE ZIP` button
- + Unzip the `part-1-dev-mode` folder in the `${CQ_WORKSHOP_DIRECTORY}` folder
+ + Unzip the `part-1-dev-mode` folder in the `${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/` folder
 
 
 ### Start the generated project
