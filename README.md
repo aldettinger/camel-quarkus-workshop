@@ -54,7 +54,7 @@ git version 1.8.3.1
 [dev@camel-quarkus-workshop]$ vim --version
 VIM - Vi IMproved 8.1 (2018 May 18, compiled Nov 08 2021 14:21:34)
 
-[dev@camel-quarkus-workshop]$ java --version
+[dev@camel-quarkus-workshop]$ java -version
 openjdk 11.0.11 2021-04-20
 OpenJDK Runtime Environment AdoptOpenJDK-11.0.11+9 (build 11.0.11+9)
 OpenJDK 64-Bit Server VM AdoptOpenJDK-11.0.11+9 (build 11.0.11+9, mixed mode)
