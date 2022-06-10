@@ -39,8 +39,8 @@ It is strongly advised to install as much as possible prior to the workshop.
 
  * Git >= 1.8.3.1 advised
  * A Java IDE like Eclipse or at least a text editor like Vim
- * JDK 11 installed
- * Maven >= 3.8.4 advised, possibly with JAVA_HOME configured appropriately
+ * JDK 11 installed, please ensure that JAVA_HOME is configured appropriately (otherwise it leads to various sort of issues)
+ * Maven >= 3.8.4 advised
  * A favorite HTTP client like curl
  * Docker >= 1.13.1 installed (if docker is missing, that's no big deal, you may only miss part-7 and some concepts in part-5)
  * Windows and MAC users interested in the native mode should install GraalVM native-image 21.3.0 and required tools (like Visual C++ Build Tools and so on)
