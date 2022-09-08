@@ -40,10 +40,10 @@ It is strongly advised to install as much as possible prior to the workshop.
  * Git >= 1.8.3.1 advised
  * A Java IDE like Eclipse or at least a text editor like Vim
  * JDK 11 installed, please ensure that JAVA_HOME is configured appropriately (otherwise it leads to various sort of issues)
- * Maven >= 3.8.4 advised
+ * Maven >= 3.8.6 advised
  * A favorite HTTP client like curl
  * Docker >= 1.13.1 installed (if docker is missing, that's no big deal, you may only miss part-7 and some concepts in part-5)
- * Windows and MAC users interested in the native mode should install GraalVM native-image 21.3.0 and required tools (like Visual C++ Build Tools and so on)
+ * Windows and MAC users interested in the native mode should install GraalVM native-image 22.2.0 and required tools (like Visual C++ Build Tools and so on)
 
 Let's check whether some prerequisites are already installed on your machine, for instance like below:
 
@@ -127,7 +127,7 @@ The build could fail at this stage but the main idea is to pre-download as much 
 Finally, let's pre-pull docker images, like below:
 
 ```
-docker pull quay.io/quarkus/ubi-quarkus-native-image:21.3-java11
+docker pull quay.io/quarkus/ubi-quarkus-native-image:22.2-java11
 ```
 
 Setting up the requirements should be done now: **Congratulations !**
@@ -151,7 +151,7 @@ In the *DEV terminal*, type commands as below:
 
 ```
 cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
-mvn io.quarkus:quarkus-maven-plugin:2.7.5.Final:create -DplatformVersion=2.7.5.Final
+mvn io.quarkus:quarkus-maven-plugin:2.12.1.Final:create -DplatformVersion=2.12.1.Final
 ```
 
 We need to specify the artifactId, extensions and code start. For groupId and version, simple press enter as it was done below:
@@ -196,7 +196,7 @@ Quarkus has just started in DEV mode and print interesting logs like the Camel v
 2022-01-05 14:33:05,977 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup (total:1 started:1)
 2022-01-05 14:33:05,978 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread)     Started route1 (platform-http:///cq-http-endpoint)
 2022-01-05 14:33:05,978 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Apache Camel 3.14.0 (camel-1) started in 36ms (build:0ms init:30ms start:6ms)
-2022-01-05 14:33:06,034 INFO  [io.quarkus] (Quarkus Main Thread) part-1-dev-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.7.5.Final) started in 1.481s. Listening on: http://localhost:8080
+2022-01-05 14:33:06,034 INFO  [io.quarkus] (Quarkus Main Thread) part-1-dev-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.12.1.Final) started in 1.481s. Listening on: http://localhost:8080
 2022-01-05 14:33:06,035 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
 2022-01-05 14:33:06,035 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [camel-attachments, camel-core, camel-platform-http, cdi, smallrye-context-propagation, vertx]
 
@@ -893,7 +893,7 @@ At this stage, we'll record the startup times. Please locate the two lines that 
 
 ```
 2022-01-05 14:44:54,366 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.14.0 (camel-1) started in 52ms (build:0ms init:42ms start:10ms)
-2022-01-05 14:44:54,460 INFO  [io.quarkus] (main) part-6-jvm-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.7.5.Final) started in 0.855s. Listening on: http://0.0.0.0:8080
+2022-01-05 14:44:54,460 INFO  [io.quarkus] (main) part-6-jvm-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.12.1.Final) started in 0.855s. Listening on: http://0.0.0.0:8080
 ```
 
 Pay attention to the Camel start time and also to the Quarkus start time.
@@ -1013,7 +1013,7 @@ Like we did in JVM mode, we'll record the startup times. Please locate the two l
 
 ```
 2022-01-05 14:58:17,729 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.14.0 (camel-1) started in 1ms (build:0ms init:1ms start:0ms)
-2022-01-05 14:58:17,734 INFO  [io.quarkus] (main) part-7-native-mode 1.0.0-SNAPSHOT native (powered by Quarkus 2.7.5.Final) started in 0.026s. Listening on: http://0.0.0.0:8080
+2022-01-05 14:58:17,734 INFO  [io.quarkus] (main) part-7-native-mode 1.0.0-SNAPSHOT native (powered by Quarkus 2.12.1.Final) started in 0.026s. Listening on: http://0.0.0.0:8080
 ```
 
 Please pay attention at the Camel init/start time and also the Quarkus start time.
@@ -1051,8 +1051,8 @@ This section contains few tips that could be useful for organizers during the wo
 ### Save/restore a docker image
 
 ```
-docker save quay.io/quarkus/ubi-quarkus-native-image:21.3-java11 -o downloads/docker-ubi-quarkus-native-image_21_3-java11
-docker image load -i downloads/docker-ubi-quarkus-native-image_21_3-java11
+docker save quay.io/quarkus/ubi-quarkus-native-image:22.2-java11 -o downloads/docker-ubi-quarkus-native-image_22_2-java11
+docker image load -i downloads/docker-ubi-quarkus-native-image_22_2-java11
 ```
 
 ### Copy maven dependencies into a running container
@@ -1074,7 +1074,7 @@ As such, each part of the workshop remains independent and should be updated on 
 At first, identify the latest quarkus-platform recommended version and upgrade to it, e.g:
 
 ```
-find ./ -type f -exec sed -i 's/2.6.0.Final/2.7.4.Final/g' {} \;
+find ./ -type f -exec sed -i 's/2.7.5.Final/2.12.1.Final/g' {} \;
 ```
 
 Then identify the camel-quarkus version brought by the platform. For instance, by building part-2 and checking logs.
@@ -1084,4 +1084,4 @@ In the pom, you should find `supported-maven-versions` and `graalvm.version`.
 From there, the prerequisites section may need to be updated in few places:
  + There is a bullet showing the maven version
  + There is another bullet explaining that MAC and Windows users should install native-image
- + At the end, there is a docker pull command
+ + At the end of the prerequisites, there is a docker pull command where the graalvm version may need to be updated
