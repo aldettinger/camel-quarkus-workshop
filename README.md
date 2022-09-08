@@ -527,7 +527,7 @@ Target system received a message via the Camel Quarkus ACTIVEMQ extension
 ```
 
 And that's it.
-I hope we know have a better view of Camel Quarkus extensions.
+I hope we now have a better view of Camel Quarkus extensions.
 They actually wrap a Camel component to make it runnable with Quarkus.
 Common default values are provided off the shelf for component and endpoint options.
 If needed there are various ways to adjust the configuration of Camel endpoints and components.
@@ -715,7 +715,7 @@ public class MyRoutes extends RouteBuilder {
 }
 ```
 `random-coffee-api` value is described in the [application.properties configuration file](part-5-kafka/src/main/resources/application.properties). It contains the URI to the random coffee API.
-The response from the API is in JSON format. We use the [Jackson Data Format](https://camel.apache.org/camel-quarkus/latest/reference/extensions/bean.html) to convert from Json to [Coffee Java class](part-5-kafka/src/main/java/org/acme/Coffee.java).
+The response from the API is in JSON format. We use the [Jackson Data Format](https://camel.apache.org/camel-quarkus/latest/reference/extensions/jackson.html) to convert from Json to [Coffee Java class](part-5-kafka/src/main/java/org/acme/Coffee.java).
 
 ```
     .unmarshal().json(Coffee.class)
@@ -966,23 +966,54 @@ Anyway, building with GraalVM native image installed directly on your machine or
 Be patient and at the end of the day, it should produce logs like below:
 
 ```
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]    classlist:   4,075.68 ms,  1.19 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]        (cap):     787.70 ms,  1.19 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]        setup:   2,916.63 ms,  1.19 GB
-13:53:48,976 INFO  [org.jbo.threads] JBoss Threads version 3.4.2.Final
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]     (clinit):     735.50 ms,  4.19 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]   (typeflow):   4,298.46 ms,  4.19 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]    (objects):  32,772.76 ms,  4.19 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]   (features):   5,024.62 ms,  4.19 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]     analysis:  44,810.36 ms,  4.19 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]     universe:   2,212.09 ms,  4.19 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]      (parse):   8,634.28 ms,  5.17 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]     (inline):   5,664.15 ms,  5.43 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]    (compile):  37,225.29 ms,  6.89 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]      compile:  54,948.06 ms,  6.89 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]        image:   4,534.56 ms,  6.89 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]        write:     772.79 ms,  6.89 GB
-[part-7-native-mode-1.0.0-SNAPSHOT-runner:26]      [total]: 115,210.07 ms,  6.89 GB
+=========================================================================================================
+GraalVM Native Image: Generating 'part-7-native-mode-1.0.0-SNAPSHOT-runner' (executable)...
+=========================================================================================================
+[1/7] Initializing...                                                                     (8.5s @ 0.27GB)
+ Version info: 'GraalVM 22.2.0 Java 11 CE'
+ Java version info: '11.0.16+8-jvmci-22.2-b06'
+ C compiler: gcc (redhat, x86_64, 4.8.5)
+ Garbage collector: Serial GC
+ 4 user-specific feature(s)
+ - io.quarkus.runner.Feature: Auto-generated class by Quarkus from the existing extensions
+ - io.quarkus.runtime.graal.DisableLoggingFeature: Disables INFO logging during the analysis phase for the [org.jboss.threads] categories
+ - io.quarkus.runtime.graal.ResourcesFeature: Register each line in META-INF/quarkus-native-resources.txt as a resource on Substrate VM
+ - org.graalvm.home.HomeFinderFeature: Finds GraalVM paths and its version number
+[2/7] Performing analysis...  [*********]                                                (45.3s @ 1.71GB)
+  12,585 (85.02%) of 14,803 classes reachable
+  17,685 (62.29%) of 28,391 fields reachable
+  58,742 (55.69%) of 105,474 methods reachable
+     521 classes,    10 fields, and 4,287 methods registered for reflection
+      69 classes,    88 fields, and    55 methods registered for JNI access
+       5 native libraries: dl, pthread, rt, stdc++, z
+[3/7] Building universe...                                                                (6.6s @ 3.99GB)
+[4/7] Parsing methods...      [***]                                                       (6.1s @ 3.84GB)
+[5/7] Inlining methods...     [***]                                                       (3.4s @ 1.54GB)
+[6/7] Compiling methods...    [******]                                                   (38.1s @ 3.41GB)
+[7/7] Creating image...                                                                   (5.3s @ 5.09GB)
+  22.55MB (43.06%) for code area:    37,913 compilation units
+  29.29MB (55.94%) for image heap:  285,758 objects and 598 resources
+ 537.01KB ( 1.00%) for other data
+  52.37MB in total
+---------------------------------------------------------------------------------------------------------
+Top 10 packages in code area:                       Top 10 object types in image heap:
+   1.58MB sun.security.ssl                             7.34MB java.lang.Class
+ 979.14KB java.util                                    4.87MB byte[] for code metadata
+ 767.55KB org.apache.camel.main                        2.62MB java.lang.String
+ 738.89KB org.apache.camel.impl.engine                 2.31MB byte[] for general heap data
+ 690.15KB com.sun.crypto.provider                      2.24MB byte[] for java.lang.String
+ 491.03KB org.apache.camel.support                     2.08MB byte[] for embedded resources
+ 479.03KB sun.security.x509                            1.15MB c.oracle.svm.core.hub.DynamicHubCompanion
+ 435.73KB java.util.concurrent                       717.91KB byte[] for reflection metadata
+ 420.21KB java.lang                                  574.97KB java.util.HashMap$Node
+ 391.78KB io.netty.buffer                            508.77KB java.lang.String[]
+  15.41MB for 409 more packages                        4.52MB for 2622 more object types
+---------------------------------------------------------------------------------------------------------
+                 5.0s (4.2% of total time) in 31 GCs | Peak RSS: 6.23GB | CPU load: 6.15
+---------------------------------------------------------------------------------------------------------
+Produced artifacts:
+ /home/agallice/dev/demos/camel-quarkus-demos/camel-quarkus-workshop/part-7-native-mode/target/part-7-native-mode-1.0.0-SNAPSHOT-native-image-source-jar/part-7-native-mode-1.0.0-SNAPSHOT-runner (executable)
+ /home/agallice/dev/demos/camel-quarkus-demos/camel-quarkus-workshop/part-7-native-mode/target/part-7-native-mode-1.0.0-SNAPSHOT-native-image-source-jar/part-7-native-mode-1.0.0-SNAPSHOT-runner.build_artifacts.txt (txt)
 ```
 
 It looks that there are really a lot of things happening at build time and it's taking long.
