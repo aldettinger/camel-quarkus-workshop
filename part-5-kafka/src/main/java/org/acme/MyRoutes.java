@@ -27,19 +27,20 @@ public class MyRoutes extends RouteBuilder {
          * REST api to fetch Coffee Orders
          */
         rest("order-api").description("Coffee Orders REST service")
-                // REST endpoint to get all coffee orders using JPA NamedQuery
                 .get("/order").description("The list of all the coffee orders")
-                .route().routeId("orders-all")
-                .to("jpa:" + CoffeeOrder.class + "?namedQuery=findAll")
-                .marshal().json()
-                .endRest()
-                // TODO add new GET endpoint
-                /*.get("/order/{id}").description("A Coffee order by id")
-                .route().routeId("order-by-id")
-                ....
-                .endRest()
-                 */
-        ;
+                .to("direct:orders-api")
+                .get("/order/{id}").description("A Coffee order by id")
+                .to("direct:order-api");
+
+        from("direct:orders-api")
+                .routeId("orders-api")
+                .log("Received a message in route orders-api")
+                /*Complete the route to fetch all orders*/;
+
+        from("direct:order-api")
+                .routeId("order-api")
+                .log("Received a message in route order-api")
+                /*Complete the route to fetch order by id*/;
 
     }
 }
