@@ -768,14 +768,18 @@ Make sure you convert the json message streamed from Kafka to Java, before using
 ---
 
 Now you can check you're adding new orders to the database with the REST endpoint `/order`, described in the Camel Route :
+
 ```
- rest("order-api").description("Coffee Orders REST service")
-                // REST endpoint to get all coffee orders using JPA NamedQuery
-                .get("/order").description("The list of all the coffee orders")
-                .route().routeId("orders-all")
-                .to("jpa:" + CoffeeOrder.class + "?namedQuery=findAll")
-                .marshal().json()
-                .endRest()
+rest("order-api").description("Coffee Orders REST service")
+        .get("/order").description("The list of all the coffee orders")
+        .to("direct:orders-api")
+        .get("/order/{id}").description("A Coffee order by id")
+        .to("direct:order-api");
+
+from("direct:orders-api")
+        .routeId("orders-api")
+        .log("Received a message in route orders-api")
+        .to("jpa:" + CoffeeOrder.class + "?namedQuery=findAll");
 ```
 In this Route, we are using the REST DSL, to create an API. This API contains a GET endpoint that fetches all coffee orders using JPA and named Query `findAll`.
 This named query is described in the [CoffeeOrder class](part-5-kafka/src/main/java/org/acme/CoffeeOrder.java).
