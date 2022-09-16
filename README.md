@@ -1119,7 +1119,7 @@ Apache Maven 3.8.6 (84538c9988a25aec085021c365c560670ad80f63)
 Maven home: /home/name/.m2/wrapper/dists/apache-maven-3.8.6-bin/67568434/apache-maven-3.8.6
 ```
 
-And this trick would need to be run in each exercise folder, as exercises are independent.
+And this trick would need to be run in each exercise folder as exercise are independent.
 
 ### Upgrade the quarkus version in the workshop
 
