@@ -1101,6 +1101,26 @@ docker cp downloads/m2-repository 99ef34eb8e2e:/root/.m2/repository
 The URL contains sensitive information that's better not to be committed on github nor mailed.
 So far, sharing a shortened version of the URL proves to be quite efficient.
 
+### How to avoid user installing a specific maven version
+
+Users might not want to install the maven version required by this workshop, or maybe have issues with their maven installation.
+In such a case, it's possible to try using:
+
+```
+cd part-2-routes
+./mvnw wrapper:wrapper -Dmaven=3.8.6
+```
+
+After that, we expect to have the right version:
+
+```
+./mvnw --version
+Apache Maven 3.8.6 (84538c9988a25aec085021c365c560670ad80f63)
+Maven home: /home/name/.m2/wrapper/dists/apache-maven-3.8.6-bin/67568434/apache-maven-3.8.6
+```
+
+And this trick would need to be run in each exercise folder as exercise are independent.
+
 ### Upgrade the quarkus version in the workshop
 
 Each module remains parent free for resiliency, flexibility and maven dependencies pre-download purpose.
