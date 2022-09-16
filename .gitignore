@@ -12,6 +12,7 @@ dependency-reduced-pom.xml
 .classpath
 .settings/
 bin/
+*.jar
 
 # IDEA
 .idea
