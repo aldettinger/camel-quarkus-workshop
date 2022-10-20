@@ -1100,6 +1100,9 @@ docker cp downloads/m2-repository 99ef34eb8e2e:/root/.m2/repository
 
 The URL contains sensitive information that's better not to be committed on github nor mailed.
 So far, sharing a shortened version of the URL proves to be quite efficient.
+Sometimes, the URL redirection is not working permanently.
+A trick is to paste the shortened URL in a web browser that will expand it.
+From there, we can copy the expanded URL and use that expanded value in the `application.properties` configuration file.
 
 ### How to avoid user installing a specific maven version
 
