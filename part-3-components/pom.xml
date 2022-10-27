@@ -39,6 +39,11 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
+            <!-- The activemq extension is needed to produce to activemq -->
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-activemq</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-file</artifactId>
         </dependency>
