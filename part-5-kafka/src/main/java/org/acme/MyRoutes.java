@@ -13,7 +13,7 @@ public class MyRoutes extends RouteBuilder {
          * This Camel Route simulates the external app that adds orders
          */
         from("timer:create-random-coffee-orders")
-                .to("http:{{random-coffee-api}}")
+                .to("https:{{random-coffee-api}}")
                 .unmarshal().json(Coffee.class)
                 .bean("myBean", "generateOrder")
                 .marshal().json()
