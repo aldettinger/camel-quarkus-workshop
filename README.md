@@ -127,7 +127,7 @@ The build could fail at this stage but the main idea is to pre-download as much 
 Finally, let's pre-pull docker images, like below:
 
 ```
-docker pull quay.io/quarkus/ubi-quarkus-native-image:22.2-java11
+docker pull quay.io/quarkus/ubi-quarkus-native-image:22.3-java17
 ```
 
 Setting up the requirements should be done now: **Congratulations !**
