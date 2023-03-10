@@ -272,7 +272,7 @@ Now, let's stop the quarkus DEV mode by pressing `q` or `CTRL+C` in the *DEV ter
 We should see logs stating that the Camel routes are stopping as below:
 
 ```
-2022-01-05 14:34:34,412 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Routes stopped (total:1 stopped:1)
+2022-01-05 14:34:34,412 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Routes stopped (stopped:1)
 2022-01-05 14:34:34,412 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread)     Stopped route2 (platform-http:///cq-http-endpoint)
 ```
 
