@@ -300,8 +300,6 @@ Some ERROR logs like below are shown:
 
 ```
 [ERROR] /home/workshop/camel-quarkus-workshop/part-2-routes/src/main/java/org/acme/MyRoutes.java:[13,18] <identifier> expected
-[ERROR] /home/workshop/camel-quarkus-workshop/part-2-routes/src/main/java/org/acme/MyRoutes.java:[13,17] not a statement
-[ERROR] /home/workshop/camel-quarkus-workshop/part-2-routes/src/main/java/org/acme/MyRoutes.java:[13,42] ';' expected
 ```
 
 Indeed, the current route definition is not complete, that's expected as some TODO items need to be completed in the code.
