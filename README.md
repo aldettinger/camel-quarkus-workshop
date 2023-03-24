@@ -1185,3 +1185,8 @@ From there, the prerequisites section may need to be updated in few places:
  + There is a bullet showing the maven version
  + There is another bullet explaining that MAC and Windows users should install native-image
  + At the end of the prerequisites, there is a docker pull command where the graalvm version may need to be updated
+
+@TODO:
+ + ClassCastException in DEV mode part-1 and others
+ + Try implement XML route in part-2
+ + part-3 is brokenn activemq has been removed
