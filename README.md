@@ -1188,5 +1188,4 @@ From there, the prerequisites section may need to be updated in few places:
 
 @TODO:
  + ClassCastException in DEV mode part-1 and others
- + Try implement XML route in part-2
  + part-3 is brokenn activemq has been removed
