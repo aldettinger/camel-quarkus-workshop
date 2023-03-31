@@ -1187,5 +1187,5 @@ From there, the prerequisites section may need to be updated in few places:
  + At the end of the prerequisites, there is a docker pull command where the graalvm version may need to be updated
 
 @TODO:
- + ClassCastException in DEV mode part-1 and others
+ + ClassCastException in DEV mode part-1 and others (part-2 seems fixed, I don't know why)
  + part-3 is brokenn activemq has been removed
