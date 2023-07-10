@@ -385,6 +385,12 @@ But at this stage, let's simply remember the layout of a typical route and how t
 Of course, there are more bootstrap options possible.
 When you have time, we invite you to implement a route using the XML DSL helped with [this link](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_xml_dsl).
 
+Congratulations on completing this section! Now, to ensure you have access to the results of the previous part in case you need them, please switch to the next branch in the repository.
+
+```
+git checkout part-2
+```
+
 ## Part 3 - Camel Components
 Estimate time : 40 minutes
 
@@ -451,7 +457,12 @@ When the route is correctly setup, the destination will print logs like below:
 Target system received a message via the Camel Quarkus PLATFORM-HTTP extension
 ```
 
-First integration written, well done.
+First integration written, well done. Now, to ensure you have access to the results of the exercice 1, please switch to the next branch in the repository.
+
+```
+git checkout part-3-exercice-1
+```
+
 But now the destination system company faces a budget cost and would not be able to run the HTTP server anymore.
 They want to receive the orders as files in a folder named `target/out-orders`.
 
@@ -466,6 +477,12 @@ Target system received a message via the Camel Quarkus FILE extension
 So far, we have learned a bit more about Camel connectivity.
 We are able to choose the right extensions and run them with default options.
 In the next section, we'll learn how to tune endpoint options.
+
+Now, to ensure you have access to the results of the exercice 2, please switch to the next branch in the repository.
+
+```
+git checkout part-3-exercice-2
+```
 
 ### Let's specify an endpoint option with a query parameter
 
@@ -536,6 +553,12 @@ When you have time, we encourage you to read the pages below:
  + [Create a new extension](https://camel.apache.org/camel-quarkus/latest/contributor-guide/create-new-extension.html)
  + [Promote a JVM extension to native](https://camel.apache.org/camel-quarkus/latest/contributor-guide/promote-jvm-to-native.html)
 
+Congratulations on completing this section! Now, to ensure you have access to the results of the previous part in case you need them, please switch to the next branch in the repository.
+
+```
+git checkout part-3
+```
+
 ## Part 4 - Enterprise Integration Patterns
 Estimate time : 30 minutes
 
@@ -596,7 +619,12 @@ When the route is correctly setup, the application will print logs only for even
 2022-01-05 17:29:09,530 INFO  [route5] (Camel (camel-2) thread #2 - timer://produceEventsSteadily) Received event with headers[id=8, importance=1] AND body[10]
 ```
 
-Well done, we have been able to filter messages using a single line of code.
+Well done, we have been able to filter messages using a single line of code. Now, to ensure you have access to the results of the previous part in case you need them, please switch to the next branch in the repository.
+
+```
+git checkout part-4-exercice-1
+```
+
 
 ### Let's put events back into the correct order
 
@@ -621,7 +649,12 @@ When the route is correctly setup, the application will print 3 log lines at a t
 2021-12-16 16:24:07,848 INFO  [route2] (Camel (camel-1) thread #0 - Batch Sender) Received event with headers[id=3, importance=3] AND body[30]
 ```
 
-Nice to see those groups of 3 events treated in the correct order.
+Nice to see those groups of 3 events treated in the correct order. Now, to ensure you have access to the results of the previous part in case you need them, please switch to the next branch in the repository.
+
+```
+git checkout part-4-exercice-2
+```
+
 
 ### Let's group and sum events
 
@@ -661,6 +694,12 @@ When you have time, we invite you to take a look at:
  + [The content based router EIP](https://camel.apache.org/components/latest/eips/choice-eip.html)
  + [The dynamic router EIP](https://camel.apache.org/components/latest/eips/dynamicRouter-eip.html)
  + [The kamelet EIP](https://camel.apache.org/components/latest/eips/kamelet-eip.html)
+
+Congratulations on completing this section! Now, to ensure you have access to the results of the previous part in case you need them, please switch to the next branch in the repository.
+
+```
+git checkout part-4
+```
 
 ## Part 5 - Camel Quarkus and Kafka
 Estimate time : 25 minutes
@@ -849,6 +888,11 @@ $ curl http://localhost:8080/order-api/order/1
 ```
 
 Congrats! You've just learned few more Camel Quarkus tricks. 
+Now, to ensure you have access to the results of the previous part in case you need them, please switch to the next branch in the repository.
+
+```
+git checkout part-5
+```
 
 ## Part 6 - Quarkus JVM mode
 Estimate time : 15 minutes
