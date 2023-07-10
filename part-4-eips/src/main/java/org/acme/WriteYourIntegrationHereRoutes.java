@@ -14,8 +14,8 @@ public class WriteYourIntegrationHereRoutes extends RouteBuilder {
     @Override
     public void configure() {
         from("direct:events-source")
-            // filter
-            .filter(simple("${header.importance} == '1'"))
+            // resequence
+            .resequence(header("id")).batch()
             .to("direct:events-sink");
     }
 }
