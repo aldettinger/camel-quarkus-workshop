@@ -12,6 +12,7 @@ import org.apache.camel.builder.RouteBuilder;
 public class WriteYourIntegrationHereRoutes extends RouteBuilder {
     @Override
     public void configure() {
-      // TODO: Write your route here
+        from("file:target/in-orders")
+                .to("http:localhost:8080/out-orders");
     }
 }
