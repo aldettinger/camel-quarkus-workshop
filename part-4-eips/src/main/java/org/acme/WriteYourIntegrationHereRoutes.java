@@ -14,8 +14,21 @@ public class WriteYourIntegrationHereRoutes extends RouteBuilder {
     @Override
     public void configure() {
         from("direct:events-source")
-            // resequence
-            .resequence(header("id")).batch()
+            // aggregate
+                .aggregate(header("importance"), new AggregationStrategy() {
+                    @Override
+                    public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
+                        if (oldExchange == null) {
+                            return newExchange;
+                        }
+                        Integer body1 = oldExchange.getIn().getBody(Integer.class);
+                        Integer body2 = newExchange.getIn().getBody(Integer.class);
+
+                        oldExchange.getIn().setBody(body1 + body2);
+                        return oldExchange;
+                    }
+                })
+                .completionSize(3)
             .to("direct:events-sink");
     }
 }
