@@ -13,6 +13,6 @@ public class WriteYourIntegrationHereRoutes extends RouteBuilder {
     @Override
     public void configure() {
         from("file:target/in-orders")
-                .to("http:localhost:8080/out-orders");
+                .to("file:target/out-orders");
     }
 }
