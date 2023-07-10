@@ -221,7 +221,7 @@ Now let's implement our first camel route in `src/main/java/org/acme/MyRoutes.ja
 ```
 package org.acme;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.builder.RouteBuilder;
 
