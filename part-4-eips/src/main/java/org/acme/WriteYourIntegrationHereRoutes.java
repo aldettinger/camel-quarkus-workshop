@@ -14,7 +14,8 @@ public class WriteYourIntegrationHereRoutes extends RouteBuilder {
     @Override
     public void configure() {
         from("direct:events-source")
-            /*@TODO: Use some eips here*/
+            // filter
+            .filter(simple("${header.importance} == '1'"))
             .to("direct:events-sink");
     }
 }
