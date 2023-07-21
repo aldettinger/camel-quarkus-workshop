@@ -1153,15 +1153,15 @@ In such a case, it's possible to try using:
 
 ```
 cd part-2-routes
-./mvnw wrapper:wrapper -Dmaven=3.9.2
+./mvnw wrapper:wrapper -Dmaven=3.9.3
 ```
 
 After that, we expect to have the right version:
 
 ```
 ./mvnw --version
-Apache Maven 3.8.6 (84538c9988a25aec085021c365c560670ad80f63)
-Maven home: /home/name/.m2/wrapper/dists/apache-maven-3.8.6-bin/67568434/apache-maven-3.8.6
+Apache Maven 3.9.3 (21122926829f1ead511c958d89bd2f672198ae9f)
+Maven home: /home/agallice/.m2/wrapper/dists/apache-maven-3.9.3-bin/326f10f4/apache-maven-3.9.3
 ```
 
 And this trick would need to be run in each exercise folder, as exercises are independent.
