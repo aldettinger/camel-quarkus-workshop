@@ -1122,6 +1122,32 @@ Maven home: /home/agallice/.m2/wrapper/dists/apache-maven-3.9.3-bin/326f10f4/apa
 
 And this trick would need to be run in each exercise folder, as exercises are independent.
 
+### EXPERIMENTAL: How to apply the solution of a given exercise
+
+In case one is stuck on a given exercise, please try out reading again the exercise, the documentation and even asking questions.
+This is the best way to learn, the workshop is all about that.
+Still, there might be some situations where it could be convenient to quickly see the solution to a given exercise.
+
+The approach below could be experimented:
+
+```
+# List all the answers branches
+git branch --all | grep '/part-'
+# It will display the answers branches like below
+  remotes/origin/part-2
+  remotes/origin/part-3
+  remotes/origin/part-3-exercice-1
+  remotes/origin/part-3-exercice-2
+  remotes/origin/part-4
+  remotes/origin/part-4-exercice-1
+  remotes/origin/part-4-exercice-2
+  remotes/origin/part-5
+# Then select the right answer branch and rebase on top
+git rebase remotes/origin/part-3-exercice-1
+```
+
+This approach is experimental and not guaranteed to work, contributions are welcome.
+
 ### Upgrade the quarkus version in the workshop
 
 Each module remains parent free for resiliency, flexibility and maven dependencies pre-download purpose.
