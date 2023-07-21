@@ -18,6 +18,8 @@
 	<quarkus.platform.version>3.2.1.Final</quarkus.platform.version>
 	<skipITs>true</skipITs>
 	<surefire-plugin.version>3.0.0</surefire-plugin.version>
+	<maven.plugin.validation>brief</maven.plugin.validation>
+	<quarkus.analytics.disabled>true</quarkus.analytics.disabled>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -55,7 +57,7 @@
                 <plugin>
                     <!-- Needed for dependency:go-offline in multi-modules projects -->
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.6.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

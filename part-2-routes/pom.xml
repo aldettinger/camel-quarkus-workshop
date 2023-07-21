@@ -14,6 +14,8 @@
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>3.2.1.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0</surefire-plugin.version>
+    <maven.plugin.validation>brief</maven.plugin.validation>
+    <quarkus.analytics.disabled>true</quarkus.analytics.disabled>
   </properties>
   <dependencyManagement>
     <dependencies>
