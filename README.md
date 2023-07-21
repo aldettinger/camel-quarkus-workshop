@@ -407,7 +407,7 @@ In addition, there are also about 100 Camel Quarkus extensions more available bu
 In order to start with Camel Quarkus extensions, please have a look at the [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/latest/reference/index.html).
 Now, you should be able to answer questions beneath:
  * How many extensions are able to interact with a Kudu data store ?
- * Was is possible to trade bitcoins with Camel Quarkus version 1.5.0 in JVM mode ? And in native mode ?
+ * Was is possible to send messages to Apache Pulsar messaging systems with Camel Quarkus version 1.1.0 in JVM mode ? And in native mode ?
 
 The [Camel Quarkus Extensions Reference](https://camel.apache.org/camel-quarkus/latest/reference/index.html) gives a good overview.
 From there, you can navigate to the documentation of a specific Camel Quarkus extension.
