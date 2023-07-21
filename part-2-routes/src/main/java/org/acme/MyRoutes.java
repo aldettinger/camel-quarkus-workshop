@@ -5,11 +5,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.camel.builder.RouteBuilder;
 
 @ApplicationScoped
-public class MyRoutes extends RouteBuilder {
+public class MyRoutes /*TODO-FROM-CAMEL-QUARKUS-DOC*/ {
     @Override
     public void configure() {
-        from("timer:myTimer")
+        /*TODO-FROM-CAMEL-DOC*/("timer:myTimer")
                 .setBody(constant("Transformed message content"))
-                .to("log:myLogCategory");
+                ./*TODO-FROM-CAMEL-DOC*/("log:myLogCategory");
     }
 }
