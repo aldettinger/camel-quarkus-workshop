@@ -40,16 +40,16 @@ It is strongly advised to install as much as possible prior to the workshop.
  * Git >= 2.31.1 advised
  * A Java IDE like Eclipse or at least a text editor like Vim
  * JDK 17 installed, please ensure that JAVA_HOME is configured appropriately (otherwise it leads to various sort of issues)
- * Maven >= 3.8.7 advised
+ * Maven >= 3.9.2 advised
  * A favorite HTTP client like curl
- * Docker >= 23.01.1 advised (if docker is missing, that's no big deal, you may only miss part-7 and some concepts in part-5)
- * Windows and MAC users interested in the native mode should install GraalVM native-image 22.3.0 and required tools (like Visual C++ Build Tools and so on)
+ * Docker >= 24.0.4 advised (if docker is missing, that's no big deal, you may only miss part-7 and some concepts in part-5)
+ * Windows and MAC users interested in the native mode should install GraalVM native-image 22.3.2 and required tools (like Visual C++ Build Tools and so on)
 
 Let's check whether some prerequisites are already installed on your machine, for instance like below:
 
 ```
 [dev@camel-quarkus-workshop]$ git --version
-git version 2.31.1
+git version 2.39.3
 
 [dev@camel-quarkus-workshop]$ vim --version
 VIM - Vi IMproved 8.0 (2016 Sep 12, compiled Jun 14 2022 02:52:30)
@@ -60,17 +60,17 @@ OpenJDK Runtime Environment Temurin-17.0.5+8 (build 17.0.5+8)
 OpenJDK 64-Bit Server VM Temurin-17.0.5+8 (build 17.0.5+8, mixed mode, sharing)
 
 [dev@camel-quarkus-workshop]$ mvn --version
-Apache Maven 3.8.6 (84538c9988a25aec085021c365c560670ad80f63)
-Maven home: /home/agallice/dev/maven/apache-maven-3.8.6-upstream
+Apache Maven 3.9.2 (c9616018c7a021c1c39be70fb2843d6f5f9b8a1c)
+Maven home: /home/agallice/dev/maven/apache-maven-3.9.2-upstream
 Java version: 17.0.5, vendor: Eclipse Adoptium, runtime: /home/agallice/.sdkman/candidates/java/17.0.5-tem
 Default locale: en_US, platform encoding: UTF-8
-OS name: "linux", version: "4.18.0-425.10.1.el8_7.x86_64", arch: "amd64", family: "unix"
+OS name: "linux", version: "4.18.0-477.15.1.el8_8.x86_64", arch: "amd64", family: "unix"
 
 [dev@camel-quarkus-workshop]$ curl --version
 curl 7.61.1 (x86_64-redhat-linux-gnu) libcurl/7.61.1 OpenSSL/1.1.1k zlib/1.2.11 brotli/1.0.6 libidn2/2.2.0 libpsl/0.20.2 (+libidn2/2.2.0) libssh/0.9.6/openssl/zlib nghttp2/1.33.0
 
 [dev@camel-quarkus-workshop]$ docker --version
-Docker version 23.0.1, build a5ee5b1
+Docker version 24.0.4, build 3713ee1
 ```
 
 Describing all the ways to have those prerequisites installed is beyond the scope of this workshop, still some useful links could be found below:
@@ -1153,7 +1153,7 @@ In such a case, it's possible to try using:
 
 ```
 cd part-2-routes
-./mvnw wrapper:wrapper -Dmaven=3.8.6
+./mvnw wrapper:wrapper -Dmaven=3.9.2
 ```
 
 After that, we expect to have the right version:
