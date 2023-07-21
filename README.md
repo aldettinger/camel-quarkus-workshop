@@ -151,7 +151,7 @@ In the *DEV terminal*, type commands as below:
 
 ```
 cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
-mvn io.quarkus:quarkus-maven-plugin:3.0.0.Beta1:create -DplatformVersion=3.0.0.Beta1
+mvn io.quarkus:quarkus-maven-plugin:3.2.1.Final:create -DplatformVersion=3.2.1.Final
 ```
 
 We need to specify the artifactId, extensions and code start. For groupId and version, simple press enter as it was done below:
@@ -1174,7 +1174,7 @@ As such, each part of the workshop remains independent and should be updated on 
 At first, identify the latest quarkus-platform recommended version and upgrade to it, e.g:
 
 ```
-find ./ -type f -exec sed -i 's/2.16.4.Final/3.0.0.Beta1/g' {} \;
+find ./ -type f -exec sed -i 's/3.0.0.CR1/3.2.1.Final/g' {} \;
 ```
 
 Then identify the camel-quarkus version brought by the platform. For instance, by building part-2 and checking logs.
