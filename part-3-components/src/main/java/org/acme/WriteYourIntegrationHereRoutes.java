@@ -12,7 +12,6 @@ import org.apache.camel.builder.RouteBuilder;
 public class WriteYourIntegrationHereRoutes extends RouteBuilder {
     @Override
     public void configure() {
-        from("file:target/in-orders-recursive/?recursive=true")
-                .to("activemq:out-orders");
+      // TODO: Write your route here
     }
 }
