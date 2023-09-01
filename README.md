@@ -492,43 +492,11 @@ At the end of the day, you should see back messages as below:
 Target system received a message via the Camel Quarkus FILE extension
 ```
 
-### Let's tune a component option
-
-Sometimes, setting a query parameter in a lot of `from` and `to` statements might be a bit cumbersome.
-It is a sign that we need something else, like a way to set an option at Camel component level.
-Such options would then apply each time the Camel component is used in any route within our application.
-The Camel documentation gives more information [here](https://camel.apache.org/components/latest/activemq-component.html#_configuring_component_options).
-
-This is exactly what we will focus on in the next exercise.
-And guess what, the target system changed its interface again.
-Now, they would like to receive messages on an ActiveMQ 5.0 broker.
-The broker URL is `tcp://localhost:61617` and messages should be sent to the queue named `out-orders`.
-However, the configuration is a bit trickier this time as the Camel default value for the broker URL does NOT match our case.
-We'll then need to tune it.
-
-Please read the documentation paragraph describing [How to tune a Camel component with the application.properties file](https://camel.apache.org/camel-quarkus/next/user-guide/configuration.html#_application_properties)
-
-![Extensions exercice 4](resources/extensions-exercice-4.png)
-
-Please amend the route in `src/main/java/org/acme/WriteYourIntegrationHereRoutes.java` in order to produce messages to this broker.
-Don't know where to start, questions below might help:
- + What Camel Quarkus extension do we need to send messages to an Apache ActiveMQ server?
- + What is the URI format?
- + Could we set the ActiveMQ broker URL in the Camel endpoint URI?
- + Do we have a component option that would allow to override the default broker URL ? What is the default TCP port used?
- + How do we actually tune a Camel component in Camel Quarkus? Maybe a documentation paragraph was mentioned?
-
-At the end of day, you should end up with messages as below:
-
-```
-Target system received a message via the Camel Quarkus ACTIVEMQ extension
-```
-
 And that's it.
 I hope we now have a better view of Camel Quarkus extensions.
 They actually wrap a Camel component to make it runnable with Quarkus.
-Common default values are provided off the shelf for component and endpoint options.
-If needed there are various ways to adjust the configuration of Camel endpoints and components.
+Common default values are provided off the shelf.
+If needed there are various ways to adjust the configuration of Camel endpoints.
 Of course, a lot of things happen under the hood thanks to Camel Quarkus extensions.
 When you have time, we encourage you to read the pages below:
  + [Create a new extension](https://camel.apache.org/camel-quarkus/latest/contributor-guide/create-new-extension.html)
