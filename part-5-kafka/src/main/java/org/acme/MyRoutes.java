@@ -17,7 +17,7 @@ public class MyRoutes extends RouteBuilder {
                 .unmarshal().json(Coffee.class)
                 .bean("myBean", "generateOrder")
                 .marshal().json()
-        /* TODO push the result to kafka*/;
+                /* TODO push the result to kafka*/;
 
         // This is the Kafka Consumer Route to implement
         from("kafka:orders")
@@ -41,7 +41,5 @@ public class MyRoutes extends RouteBuilder {
                 .routeId("order-api")
                 .log("Received a message in route order-api")
                 /*Complete the route to fetch order by id*/;
-        ;
-
     }
 }
