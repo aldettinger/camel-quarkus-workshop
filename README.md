@@ -383,6 +383,8 @@ But at this stage, let's simply remember the layout of a typical route and how t
 Of course, there are more bootstrap options possible.
 When you have time, we invite you to implement a route using the XML DSL helped with [this link](https://camel.apache.org/camel-quarkus/next/user-guide/defining-camel-routes.html#_xml_dsl).
 
+Congratulations on completing this section!
+
 ## Part 3 - Camel Components
 Estimate time : 40 minutes
 
@@ -501,6 +503,8 @@ Of course, a lot of things happen under the hood thanks to Camel Quarkus extensi
 When you have time, we encourage you to read the pages below:
  + [Create a new extension](https://camel.apache.org/camel-quarkus/latest/contributor-guide/create-new-extension.html)
  + [Promote a JVM extension to native](https://camel.apache.org/camel-quarkus/latest/contributor-guide/promote-jvm-to-native.html)
+
+Congratulations on completing this section!
 
 ## Part 4 - Enterprise Integration Patterns
 Estimate time : 30 minutes
@@ -627,6 +631,8 @@ When you have time, we invite you to take a look at:
  + [The content based router EIP](https://camel.apache.org/components/latest/eips/choice-eip.html)
  + [The dynamic router EIP](https://camel.apache.org/components/latest/eips/dynamicRouter-eip.html)
  + [The kamelet EIP](https://camel.apache.org/components/latest/eips/kamelet-eip.html)
+
+Congratulations on completing this section!
 
 ## Part 5 - Camel Quarkus and Kafka
 Estimate time : 25 minutes
