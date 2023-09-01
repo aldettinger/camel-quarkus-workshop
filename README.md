@@ -1135,6 +1135,3 @@ From there, the prerequisites section may need to be updated in few places:
  + There is a bullet showing the maven version
  + There is another bullet explaining that MAC and Windows users should install native-image
  + At the end of the prerequisites, there is a docker pull command where the graalvm version may need to be updated
-
-@TODO:
- + part-3 is broken activemq has been removed, should be re-enabled with CQ 3.0.0-RC2
