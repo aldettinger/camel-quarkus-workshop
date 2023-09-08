@@ -168,6 +168,7 @@ Would you like some code to start (yes), or just an empty Quarkus project (no): 
 
 If you have issues using the `quarkus-maven-plugin`, the fallback would be to generate the project graphically, as below:
  + Navigate to [code.quarkus.io](https://code.quarkus.io/)
+ + On the top of the page, select the right release stream `3.2`
  + Fill in the `Artifact` field with value `part-1-dev-mode`
  + In the `Filters` field, add the required extension `camel-quarkus-platform-http`
  + Check the box `Camel Platform HTTP`
@@ -1141,3 +1142,6 @@ From there, the prerequisites section may need to be updated in few places:
  + There is a bullet showing the maven version
  + There is another bullet explaining that MAC and Windows users should install native-image
  + At the end of the prerequisites, there is a docker pull command where the graalvm version may need to be updated
+
+And finally, in `part-1`, we need to update the `Create the project via code.quarkus.io` section.
+Indeed, we need to set the right release stream of `quarkus-platform` there in the second bullet.
