@@ -487,7 +487,7 @@ Questions below could help:
  + Is there a query parameter to read recursively in the documentation table?
  + What is the query parameter name ? and the default value?
  + How to append such a query parameter to the endpoint URI in the route?
- + Maybe there is section in the Camel documentation about reading files recursively from a directory?
+ + Maybe there is a section in the Camel documentation about reading files recursively from a directory?
 
 At the end of the day, you should see back messages as below:
 
