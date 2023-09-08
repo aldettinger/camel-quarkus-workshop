@@ -1043,8 +1043,9 @@ Hello Camel Quarkus in NATIVE mode from the workshop room !
 
 Reaching this point, we have scratched the surface of the JVM and native mode.
 Let's retain few lessons.
-The application behaves the same in JVM and native mode but the performance profile is not the same.
-The native mode and JVM mode are both great but adapted to distinct scenarios.
+The application behaves the same in JVM and native mode, except in few exceptional cases.
+However, the performance profile is clearly different between JVM and native mode.
+Actually, the native mode and JVM mode are both great but adapted to distinct scenarios.
 
 There are still a lot of things to know about the native mode.
 When you have time, we encourage you to have a look at the RSS memory used on startup.
