@@ -2,7 +2,7 @@
 
 ## About
 
-(Estimate time : 10 minutes)
+(Estimated time : 10 minutes)
 
 This repository contains several assignments that will help you get started with Integration using [Apache Camel](https://camel.apache.org/) and [Quarkus](https://quarkus.io/).
 
@@ -124,8 +124,8 @@ cd part-5-kafka
 mvn clean quarkus:dev
 ```
 
-The build could fail at this stage but the main idea is to pre-download as many maven dependencies as possible. 
-Interrupt the last command with CTRL+C.
+The build could fail at this stage but the main idea is to pre-download as many maven dependencies as possible.
+Interrupt the last command with CTRL+C or q.
 
 Finally, let's pre-pull the container images, like below:
 
@@ -184,7 +184,7 @@ If you have issues using the `quarkus-maven-plugin`, as a fallback you can also 
 
 ### Start the generated project
 
-Once the project is generated, let's start it up:
+Once the project is generated, so let's start it up:
 
 ```bash
 cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-1-dev-mode"
@@ -220,7 +220,7 @@ touch src/main/java/org/acme/MyRoutes.java
 ```
 
 Hey, wait, something has just happened in the quarkus *DEV terminal*.
-Indeed, Quarkus has detected a change in the application source code and automatically reloaded the project.
+Quarkus has detected a change in the application source code and automatically reloaded the project.
 
 Now let's implement our first camel route in `src/main/java/org/acme/MyRoutes.java`:
 
