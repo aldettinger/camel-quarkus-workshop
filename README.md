@@ -952,7 +952,7 @@ cd ${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop/part-7-native-mode
 mvn clean package -Dnative
 ```
 
-Alternatively if you did not / could not install GraalVM native image and required tools, then Quarkus can do the native build directly in a contianer. More information about this here: [creating a Linux executable without GraalVM installed](https://quarkus.io/guides/building-native-image#container-runtime).
+Alternatively if you did not / could not install GraalVM native image and required tools, then Quarkus can do the native build directly in a container. More information about this here: [creating a Linux executable without GraalVM installed](https://quarkus.io/guides/building-native-image#container-runtime).
 However, note that it will produce a native executable for Linux even when building on MAC and Windows so you will need to run the natively built application in a container as well.
 
 ---
