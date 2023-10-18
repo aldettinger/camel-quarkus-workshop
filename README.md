@@ -481,10 +481,10 @@ In the next section, we'll learn how to tune endpoint options.
 
 ### Let's specify an endpoint option with a query parameter
 
-The Camel Quarkus extensions could be tuned in a lot of fashion.
-There is always a good default value but often you would need to tweak it.
-One possible way of doing it is to use query parameters.
-Endpoint options are merely lower level tuning explained in the [Camel documentation](https://camel.apache.org/components/latest/file-component.html#_configuring_endpoint_options).
+Camel Quarkus extensions can be tuned in many ways.
+There is always a good default value but you'll find that you may need to tweak values to your needs.
+One possible way of doing this is to use query parameters.
+Endpoint options are merely lower level tuning values explained in the [Camel documentation](https://camel.apache.org/components/latest/file-component.html#_configuring_endpoint_options).
 
 As an exercise, please amend the route in order to read file messages from a new folder named `target/in-orders-recursive`.
 Doh! No logs are produced meaning that the destination system is not receiving anything.
