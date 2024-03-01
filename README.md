@@ -674,8 +674,8 @@ We will also experience the joy of using [dev services](https://quarkus.io/guide
 
 This example will illustrate an application that will receive and process coffee orders. The application is designed around Event Driven Architecture and uses Kafka to communicate with external systems. The orders are stored within a database. The delivery team is notified on slack to go check the order. The delivery team can access information about orders to deliver using an API.
 
-* insert the orders within a Database
-* notify the delivery company using a specific API (This one will be provided during the session)
+* Insert the orders within a Database
+* Notify the delivery company using a specific API (This one will be provided during the session)
 
 The application is designed around Event Driven Architecture and uses Kafka to handle those messages:
 
@@ -698,7 +698,10 @@ Start the app in dev mode. Notice that those 2 servers have been started.
 
 In this part we use a Camel Route to simulate the external app that generates some coffee orders. Those orders are pushed to the Kafka topic named `orders`.
 
-To achieve this, we will get random coffees from an [external API](https://random-data-api.com/api/coffee/random_coffee) that generates Random coffee. We use a timer to call the API every 1s.
+To achieve this, we will get random coffees from an [external API](https://random-data-api.com/api/coffee/random_coffee) that generates Random coffee.
+The external API returns HTTP status 429 when invoked too often.
+As such, we'll use a timer to call the API every 10s.
+This should prevent our application from reaching the external API rate limit.
 We use 2 extensions : [timer](https://camel.apache.org/camel-quarkus/latest/reference/extensions/timer.html) and [http](https://camel.apache.org/camel-quarkus/latest/reference/extensions/http.html), as described in [MyRoutes class](part-5-kafka/src/main/java/org/acme/MyRoutes.java):
 
 ```java
