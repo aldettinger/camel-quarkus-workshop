@@ -38,40 +38,40 @@ Make sure you have the following prerequisites installed on your machine:
 Please find below the list of tools needed for this workshop.
 It is strongly advised to install as much as possible prior to the workshop.
 
-* Git >= 2.31.1 advised
+* Git >= 2.43.2 advised
 * A Java IDE like Eclipse, IntelliJ or VS Code, or at least a text editor like Vim
 * JDK 21 installed, please ensure that JAVA_HOME is configured appropriately (otherwise it leads to various sort of issues)
 * Maven >= 3.9.6 advised
 * A favorite HTTP client like curl
-* [Podman](https://podman-desktop.io) or Docker >= 24.0.4 advised (if a container runtime is missing, no big deal, you only need it for part-7 and some concepts in part-5)
-* Windows and MAC users interested in native mode should install GraalVM native-image >= 23.0.1 and required tools (like Visual C++ Build Tools and so on)
+* [Podman](https://podman-desktop.io) or Docker >= 25.0.3 advised (if a container runtime is missing, no big deal, you only need it for part-7 and some concepts in part-5)
+* Windows and MAC users interested in native mode should install GraalVM native-image >= 21.0.2+13.1 and required tools (like Visual C++ Build Tools and so on)
 
 To check whether some prerequisites are already installed on your machine, you can perform the following commands:
 
 ```bash
 [dev@camel-quarkus-workshop]$ git --version
-git version 2.39.3
+git version 2.43.2
 
 [dev@camel-quarkus-workshop]$ vim --version
-VIM - Vi IMproved 8.0 (2016 Sep 12, compiled Jun 14 2022 02:52:30)
+VIM - Vi IMproved 9.1 (2024 Jan 02, compiled Feb 16 2024 00:00:00)
 
 [dev@camel-quarkus-workshop]$ java -version
-openjdk 17.0.5 2022-10-18
-OpenJDK Runtime Environment Temurin-17.0.5+8 (build 17.0.5+8)
-OpenJDK 64-Bit Server VM Temurin-17.0.5+8 (build 17.0.5+8, mixed mode, sharing)
+openjdk 21 2023-09-19 LTS
+OpenJDK Runtime Environment Temurin-21+35 (build 21+35-LTS)
+OpenJDK 64-Bit Server VM Temurin-21+35 (build 21+35-LTS, mixed mode, sharing)
 
 [dev@camel-quarkus-workshop]$ mvn --version
-Apache Maven 3.9.2 (c9616018c7a021c1c39be70fb2843d6f5f9b8a1c)
-Maven home: /home/agallice/dev/maven/apache-maven-3.9.2-upstream
-Java version: 17.0.5, vendor: Eclipse Adoptium, runtime: /home/agallice/.sdkman/candidates/java/17.0.5-tem
+Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+Maven home: /home/myname/dev/maven/apache-maven-3.9.6-upstream
+Java version: 21, vendor: Eclipse Adoptium, runtime: /home/myname/.sdkman/candidates/java/21-tem
 Default locale: en_US, platform encoding: UTF-8
-OS name: "linux", version: "4.18.0-477.15.1.el8_8.x86_64", arch: "amd64", family: "unix"
+OS name: "linux", version: "6.7.5-200.fc39.x86_64", arch: "amd64", family: "unix"
 
 [dev@camel-quarkus-workshop]$ curl --version
-curl 7.61.1 (x86_64-redhat-linux-gnu) libcurl/7.61.1 OpenSSL/1.1.1k zlib/1.2.11 brotli/1.0.6 libidn2/2.2.0 libpsl/0.20.2 (+libidn2/2.2.0) libssh/0.9.6/openssl/zlib nghttp2/1.33.0
+curl 8.2.1 (x86_64-redhat-linux-gnu) libcurl/8.2.1 OpenSSL/3.1.1 zlib/1.2.13 libidn2/2.3.7 nghttp2/1.55.1
 
 [dev@camel-quarkus-workshop]$ docker --version
-Docker version 24.0.4, build 3713ee1
+Docker version 25.0.3, build 4debf41
 ```
 
 Describing all the ways to install the prerequisites is beyond the scope of this workshop, but here are some useful links to get started:
