@@ -40,8 +40,8 @@ It is strongly advised to install as much as possible prior to the workshop.
 
 * Git >= 2.31.1 advised
 * A Java IDE like Eclipse, IntelliJ or VS Code, or at least a text editor like Vim
-* JDK 17 installed, please ensure that JAVA_HOME is configured appropriately (otherwise it leads to various sort of issues)
-* Maven >= 3.9.3 advised
+* JDK 21 installed, please ensure that JAVA_HOME is configured appropriately (otherwise it leads to various sort of issues)
+* Maven >= 3.9.6 advised
 * A favorite HTTP client like curl
 * [Podman](https://podman-desktop.io) or Docker >= 24.0.4 advised (if a container runtime is missing, no big deal, you only need it for part-7 and some concepts in part-5)
 * Windows and MAC users interested in native mode should install GraalVM native-image >= 23.0.1 and required tools (like Visual C++ Build Tools and so on)
@@ -130,7 +130,7 @@ Interrupt the last command with CTRL+C or q.
 Finally, let's pre-pull the container images, like below:
 
 ```bash
-docker pull quay.io/quarkus/ubi-quarkus-mandrel-builder-image:jdk-17
+docker pull quay.io/quarkus/ubi-quarkus-mandrel-builder-image:jdk-21
 ```
 
 Setting up the requirements should be done now: **Congratulations !**
@@ -156,7 +156,7 @@ In the *DEV terminal*, type the following commands:
 
 ```bash
 cd "${CQ_WORKSHOP_DIRECTORY}/camel-quarkus-workshop"
-mvn io.quarkus:quarkus-maven-plugin:3.2.6.Final:create -DplatformVersion=3.2.6.Final
+mvn io.quarkus:quarkus-maven-plugin:3.8.1:create -DplatformVersion=3.8.1
 ```
 
 We need to specify the artifactId, extensions and code start. For groupId and version, simple press enter as shown below:
@@ -174,7 +174,7 @@ Would you like some code to start (yes), or just an empty Quarkus project (no): 
 If you have issues using the `quarkus-maven-plugin`, as a fallback you can also generate the project graphically:
 
 * Navigate to [code.quarkus.io](https://code.quarkus.io/)
-* On the top of the page, select the right release stream `3.2`
+* On the top of the page, select the right release stream `3.8`
 * Fill in the `Artifact` field with value `part-1-dev-mode`
 * In the `Filters` field, add the required extension `camel-quarkus-platform-http`
 * Check the box `Camel Platform HTTP`
@@ -1137,7 +1137,7 @@ As such, each part of the workshop remains independent and should be updated on 
 At first, identify the latest quarkus-platform recommended version and upgrade to it, e.g:
 
 ```bash
-find ./ -type f -exec sed -i 's/3.0.0.CR1/3.2.6.Final/g' {} \;
+find ./ -type f -exec sed -i 's/3.0.0.CR1/3.8.1/g' {} \;
 ```
 
 Then identify the camel-quarkus version brought by the platform. For instance, by building part-2 and checking logs.
