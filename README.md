@@ -174,7 +174,7 @@ Would you like some code to start (yes), or just an empty Quarkus project (no): 
 If you have issues using the `quarkus-maven-plugin`, as a fallback you can also generate the project graphically:
 
 * Navigate to [code.quarkus.io](https://code.quarkus.io/)
-* On the top of the page, select the right release stream `3.8`
+* On the top of the page, select the right release stream `3.15`
 * Fill in the `Artifact` field with value `part-1-dev-mode`
 * In the `Filters` field, add the required extension `camel-quarkus-platform-http`
 * Check the box `Camel Platform HTTP`
