@@ -38,19 +38,19 @@ Make sure you have the following prerequisites installed on your machine:
 Please find below the list of tools needed for this workshop.
 It is strongly advised to install as much as possible prior to the workshop.
 
-* Git >= 2.43.2 advised
+* Git >= 2.46.2 advised
 * A Java IDE like Eclipse, IntelliJ or VS Code, or at least a text editor like Vim
 * JDK 21 installed, please ensure that JAVA_HOME is configured appropriately (otherwise it leads to various sort of issues)
-* Maven >= 3.9.6 advised
+* Maven >= 3.9.8 advised
 * A favorite HTTP client like curl
-* [Podman](https://podman-desktop.io) or Docker >= 25.0.3 advised (if a container runtime is missing, no big deal, you only need it for part-7 and some concepts in part-5)
+* [Podman](https://podman-desktop.io) or Docker >= 27.3.1 advised (if a container runtime is missing, no big deal, you only need it for part-7 and some concepts in part-5)
 * Windows and MAC users interested in native mode should install GraalVM native-image >= 21.0.2+13.1 and required tools (like Visual C++ Build Tools and so on)
 
 To check whether some prerequisites are already installed on your machine, you can perform the following commands:
 
 ```bash
 [dev@camel-quarkus-workshop]$ git --version
-git version 2.43.2
+git version 2.46.2
 
 [dev@camel-quarkus-workshop]$ vim --version
 VIM - Vi IMproved 9.1 (2024 Jan 02, compiled Feb 16 2024 00:00:00)
@@ -61,17 +61,17 @@ OpenJDK Runtime Environment Temurin-21+35 (build 21+35-LTS)
 OpenJDK 64-Bit Server VM Temurin-21+35 (build 21+35-LTS, mixed mode, sharing)
 
 [dev@camel-quarkus-workshop]$ mvn --version
-Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
-Maven home: /home/myname/dev/maven/apache-maven-3.9.6-upstream
+Apache Maven 3.9.8 (36645f6c9b5079805ea5009217e36f2cffd34256)
+Maven home: /home/myname/dev/maven/apache-maven-3.9.8-upstream
 Java version: 21, vendor: Eclipse Adoptium, runtime: /home/myname/.sdkman/candidates/java/21-tem
 Default locale: en_US, platform encoding: UTF-8
-OS name: "linux", version: "6.7.5-200.fc39.x86_64", arch: "amd64", family: "unix"
+OS name: "linux", version: "6.10.11-100.fc39.x86_64", arch: "amd64", family: "unix"
 
 [dev@camel-quarkus-workshop]$ curl --version
 curl 8.2.1 (x86_64-redhat-linux-gnu) libcurl/8.2.1 OpenSSL/3.1.1 zlib/1.2.13 libidn2/2.3.7 nghttp2/1.55.1
 
 [dev@camel-quarkus-workshop]$ docker --version
-Docker version 25.0.3, build 4debf41
+Docker version 27.3.1, build ce12230
 ```
 
 Describing all the ways to install the prerequisites is beyond the scope of this workshop, but here are some useful links to get started:
