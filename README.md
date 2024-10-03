@@ -906,8 +906,8 @@ java -jar target/quarkus-app/quarkus-run.jar
 At this stage, we'll record the startup times. Please locate the two lines that looks like below:
 
 ```bash
-2022-01-05 14:44:54,366 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 3.14.0 (camel-1) started in 52ms (build:0ms init:42ms start:10ms)
-2022-01-05 14:44:54,460 INFO  [io.quarkus] (main) part-6-jvm-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.0.0.Beta1) started in 0.855s. Listening on: http://0.0.0.0:8080
+2024-10-03 17:19:30,626 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (main) Apache Camel 4.8.0 (camel-1) started in 5ms (build:0ms init:0ms start:5ms)
+2024-10-03 17:19:30,684 INFO  [io.quarkus] (main) part-6-jvm-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.15.1) started in 0.527s. Listening on: http://0.0.0.0:8080
 ```
 
 Pay attention to the Camel start time and also to the Quarkus start time.
@@ -918,7 +918,6 @@ In the *USER terminal*, use you favorite HTTP client, for instance:
 
 ```bash
 curl localhost:8080/cq-http-endpoint
-
 ```
 
 We should have the same answer as in part 1:
