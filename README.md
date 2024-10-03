@@ -405,7 +405,7 @@ Some components are only able to produce or consume messages, while other compon
 
 Camel components can be used in routes that could be deployed in multiple flavors like an OSGi bundle, a Spring Boot uber jar or even a Quarkus fast-jar.
 In order to be usable in Camel Quarkus, a Camel component needs to be wrapped in what we call a Quarkus **extension**.
-There are currently around 200 Camel Quarkus extensions working both in JVM mode and native mode.
+There are currently more than 200 Camel Quarkus extensions working both in JVM mode and native mode.
 In addition, there are also about 100 additional Camel Quarkus extensions available in JVM mode only.
 
 ### Let's learn where to find what in the Camel documentation
