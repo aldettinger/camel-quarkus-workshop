@@ -193,19 +193,20 @@ mvn clean quarkus:dev
 
 Quarkus has just started in DEV mode and printed interesting logs like the Camel version, the Quarkus version, start time and so on:
 
-```bash
+```bash_  ____  __  _____   ___  __ ____  ______ 
  --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
  -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
 --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-2022-01-05 14:33:05,889 INFO  [org.apa.cam.qua.cor.CamelBootstrapRecorder] (Quarkus Main Thread) Bootstrap runtime: org.apache.camel.quarkus.main.CamelMainRuntime
+2024-10-03 14:58:28,597 INFO  [org.apa.cam.qua.cor.CamelBootstrapRecorder] (Quarkus Main Thread) Apache Camel Quarkus 3.15.0 is starting
 
-2022-01-05 14:33:05,977 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup (total:1 started:1)
-2022-01-05 14:33:05,978 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread)     Started route1 (platform-http:///cq-http-endpoint)
-2022-01-05 14:33:05,978 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Apache Camel 3.14.0 (camel-1) started in 36ms (build:0ms init:30ms start:6ms)
-2022-01-05 14:33:06,034 INFO  [io.quarkus] (Quarkus Main Thread) part-1-dev-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.0.0.Beta1) started in 1.481s. Listening on: http://localhost:8080
-2022-01-05 14:33:06,035 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
-2022-01-05 14:33:06,035 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [camel-attachments, camel-core, camel-platform-http, cdi, smallrye-context-propagation, vertx]
-
+2024-10-03 14:58:28,599 INFO  [org.apa.cam.mai.MainSupport] (Quarkus Main Thread) Apache Camel (Main) 4.8.0 is starting
+2024-10-03 14:58:28,603 INFO  [org.apa.cam.mai.ProfileConfigurer] (Quarkus Main Thread) The application is starting with profile: dev
+2024-10-03 14:58:28,628 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Apache Camel 4.8.0 (camel-1) is starting
+2024-10-03 14:58:28,632 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Routes startup (total:0)
+2024-10-03 14:58:28,632 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Quarkus Main Thread) Apache Camel 4.8.0 (camel-1) started in 2ms (build:0ms init:0ms start:2ms)
+2024-10-03 14:58:28,687 INFO  [io.quarkus] (Quarkus Main Thread) part-1-dev-mode 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.15.1) started in 1.317s. Listening on: http://localhost:8080
+2024-10-03 14:58:28,688 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2024-10-03 14:58:28,688 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [camel-attachments, camel-core, camel-http, camel-platform-http, cdi, smallrye-context-propagation, vertx]
 ```
 
 Now, let's create a second terminal, we'll call the *USER terminal*.
@@ -278,8 +279,8 @@ Now, let's stop the quarkus DEV mode by pressing `q` or `CTRL+C` in the *DEV ter
 We should see logs stating that the Camel routes are stopping:
 
 ```bash
-2022-01-05 14:34:34,412 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Routes stopped (stopped:1)
-2022-01-05 14:34:34,412 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread)     Stopped route2 (platform-http:///cq-http-endpoint)
+2024-10-03 15:02:20,101 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread) Routes stopped (total:1)
+2024-10-03 15:02:20,102 INFO  [org.apa.cam.imp.eng.AbstractCamelContext] (Shutdown thread)     Stopped route2 (platform-http:///cq-http-endpoint)
 ```
 
 That's it for our first contact with the Quarkus DEV mode.
