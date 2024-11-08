@@ -40,7 +40,7 @@ It is strongly advised to install as much as possible prior to the workshop.
 
 * Git >= 2.46.2 advised
 * A Java IDE like Eclipse, IntelliJ or VS Code, or at least a text editor like Vim
-* JDK 21 installed, please ensure that JAVA_HOME is configured appropriately (otherwise it leads to various sort of issues)
+* JDK 21 installed, please ensure that JAVA_HOME is configured appropriately and that the java compiler `javac` is accessible
 * Maven >= 3.9.8 advised
 * A favorite HTTP client like curl
 * [Podman](https://podman-desktop.io) or Docker >= 27.3.1 advised (if a container runtime is missing, no big deal, you only need it for part-7 and some concepts in part-5)
@@ -59,6 +59,9 @@ VIM - Vi IMproved 9.1 (2024 Jan 02, compiled Feb 16 2024 00:00:00)
 openjdk 21 2023-09-19 LTS
 OpenJDK Runtime Environment Temurin-21+35 (build 21+35-LTS)
 OpenJDK 64-Bit Server VM Temurin-21+35 (build 21+35-LTS, mixed mode, sharing)
+
+[dev@camel-quarkus-workshop]$ javac -version
+javac 21
 
 [dev@camel-quarkus-workshop]$ mvn --version
 Apache Maven 3.9.8 (36645f6c9b5079805ea5009217e36f2cffd34256)
